@@ -1,0 +1,17 @@
+#tb-thead {
+  background-color: #3c8dbc;
+  color: white;
+}
+
+.row {
+  margin-top: 10px;
+}
+
+.input-daterange {
+  width: 40%;
+}
+
+.panel select {
+  margin-top: 5px;
+}
+/*# sourceMappingURL=styles.css.map */
