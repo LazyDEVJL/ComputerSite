@@ -2,90 +2,166 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    /**
-     * Action để hiển thị tất cả các danh mục
-     */
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
+
     public function index()
     {
-        $categories = Category::all();
+        $keywords = Input::get('q');
 
-        return view('categories.index', ['categories' => $categories]);
+        if (isset($keywords)) {
+            $categories = DB::table('tbl_categories')
+
+               ->where('name', 'like', "%$keywords%")
+               ->paginate(10);
+        } else {
+            $categories = DB::table('tbl_categories')->paginate(10);
+        }
+        return view('admin.categories.index', ['categories' => $categories]);
     }
 
-    /**
-     * Action để thêm danh mục
-     */
     public function create()
     {
-        $categories = Category::all();
-        return view('categories.create', ['categories' => $categories]);    
+        $categories = DB::table('tbl_categories')->get();
+
+        return view('admin.categories.create', ['categories' => $categories]);
     }
 
-    /**
-     * Action để lưu danh mục mới thêm
-     */
-    public function createSave()
+    public function createSave(Request $rq)
     {
-        $name = $_POST['txt_name'];
-        $position = $_POST['txt_position'];
-        $active = $_POST['rd_active'];
-        $slug = $_POST['txt_slug'];
-        $parentID = $_POST['sl_parent_id'];
+//       dd($rq->toArray());
 
-        $category = new Category();
-        $category->name = $name;
-        $category->position = $position;
-        $category->active = $active;
-        $category->slug = $slug;
-        $category->parent_id = $parentID;
-        $category->save();
+        $rules = [
+            'txt_name'=>'required',
+            'txt_slug'=>'required',
+            'txt_position'=>'required',
+            'sl_active'=>'required|integer',
+            'sl_parent_id'=>'required'
+        ];
+        
+        $messages = [
+            'txt_name.required'=>'Category\'s name is required',
+            'txt_slug.required'=>'Category\'s slug is required',
+            'txt_position.required'=>'Category\'s position is required',
+            'sl_active.required'=>'Category\'s active state is not chosen',
+            'sl_active.integer'=>'Category\'s active state is not chosen',
+            'sl_parent_id.required'=>'Category\'s parent category is not chosen',
+        ];
 
-        return redirect('categories');
+        $validator = Validator::make($rq->all(), $rules, $messages);
+
+        if($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        } else {
+            $name = $rq->post('txt_name');
+            $slug = $rq->post('txt_slug');
+            $position = $rq->post('txt_position');
+            $active = $rq->post('sl_active');
+            $parentId = $rq->post('sl_parent_id');
+
+            $category = new Category();
+            $category->name = $name;
+            $category->slug = $slug;
+            $category->position = $position;
+            $category->active = $active;
+            $category->parent_id = $parentId;
+            $check = $category->save();
+
+            if ($check) {
+                Session::flash('success', 'New category\'s been successfully added');
+                return redirect('admin/categories');
+            } else {
+                Session::flash('error', 'Failed to add new category');
+                return redirect()->back()->withInput();
+            }
+        }
     }
 
-    /**
-     * Action để sửa danh mục
-     */
     public function edit($id)
     {
-        $editCategory = Category::find($id);
-        $categories = Category::all();
-        return view('categories.edit', ['editCategory' => $editCategory], ['categories' => $categories]);
+        $categories = DB::table('tbl_categories')->get();
+        $currentCategory = DB::table('tbl_categories')
+           ->where('id', $id)
+           ->get();
+
+        return view('admin.categories.edit', [
+            'categories' => $categories,
+            'currentCategory' => $currentCategory->first(),
+        ]);
     }
 
-    /**
-     * Action để lưu danh mục mới sửa
-     */
-    public function editSave()
+    public function editSave(Request $rq)
     {
-        $id = $_POST['txt_id'];
+        $id = $rq->post('txt_id');
         $editCategory = Category::find($id);
 
-        $editCategory->name = $_POST['txt_name'];
-        $editCategory->position = $_POST['txt_position'];
-        $editCategory->active = $_POST['rd_active'];
-        $editCategory->slug = $_POST['txt_slug'];
-        $editCategory->parent_id = $_POST['sl_parent_id'];
+        $rules = [
+            'txt_name'=>'required',
+            'txt_slug'=>'required',
+            'txt_position'=>'required',
+            'sl_active'=>'required|integer',
+            'sl_parent_id'=>'required'
+        ];
+        
+        $messages = [
+            'txt_name.required'=>'Category\'s name is required',
+            'txt_slug.required'=>'Category\'s slug is required',
+            'txt_position.required'=>'Category\'s position is required',
+            'sl_active.required'=>'Category\'s active state is not chosen',
+            'sl_active.integer'=>'Category\'s active state is not chosen',
+            'sl_parent_id.required'=>'Category\'s parent category is not chosen',
+        ];
 
-        $editCategory->save();
+        $validator = Validator::make($rq->all(), $rules, $messages);
 
-        return redirect('categories');
+        if($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        } else {
+            $name = $rq->post('txt_name');
+            $slug = $rq->post('txt_slug');
+            $position = $rq->post('txt_position');
+            $active = $rq->post('sl_active');
+            $parentId = $rq->post('sl_parent_id');
+    
+            $editCategory->name = $name;
+            $editCategory->slug = $slug;
+            $editCategory->position = $position;
+            $editCategory->active = $active;
+            $editCategory->parent_id = $parentId;
+    
+            $check = $editCategory->save();
+
+            if($check) {
+                Session::flash('success', 'Category\'s been successfully edited');
+                return redirect('admin/categories');
+            } else {
+                Session::flash('error', 'Failed to edit category');
+                return redirect()->back()->withInput();
+            }
+        }
     }
 
-    /**
-     * Action để xoá danh mục
-     */
     public function destroy($id)
     {
         $deleteCategory = Category::find($id);
-        $deleteCategory->delete();
-
-        return redirect('categories');
+        $check = $deleteCategory->delete();
+        if($check) {
+            Session::flash('success', 'Category\'s been successfully deleted');
+            return redirect('admin/categories');
+        } else {
+            Session::flash('error', 'Failed to delete category');
+            return redirect('admin/categories');
+        }
     }
 }
