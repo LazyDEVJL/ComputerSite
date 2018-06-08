@@ -35,6 +35,11 @@
 
    class ProductController extends Controller
    {
+      public function __construct()
+      {
+         $this->middleware('auth.admin');
+      }
+
       /**
        * Method to show all products
        */
