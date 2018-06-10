@@ -63,7 +63,7 @@
               <tr>
                 <td>{{$product->id}}</td>
                 <td>{{str_limit($product->name, 50)}}</td>
-                <td><img src="{{$product->image}}" alt="" width="100"></td>
+                <td><img src="{{asset($product->image)}}" alt="" width="100"></td>
                 <td>{{number_format($product->price, "0", "0", ".")." đ"}}</td>
                 <td>{{$product->discount}}</td>
                 <td>{{number_format($product->discounted_price, "0", "0", ".")." đ"}}</td>

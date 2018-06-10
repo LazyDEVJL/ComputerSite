@@ -8,5 +8,5 @@ class ProductProperty extends Model
 {
     protected $table = 'tbl_product_properties';
 
-    public $timestamp = false;
+    public $timestamps = false;
 }
