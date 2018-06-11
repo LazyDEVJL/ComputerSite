@@ -273,7 +273,7 @@
                                        <option value="">-- Choose type of chipset</option>
                                        @foreach($mbchipsets as $mbchipset)
                                           <option
-                                                value="{{$mbchipset->id}}" {{old('sl_mbchipset_id', getCurrentProductProperties($currentId, 'mainboard')['mb_chipset_id']) == $mbchipset->id ? 'selected' : ''}}>
+                                                value="{{$mbchipset->id}}" {{old('sl_mbchipset_id') == $mbchipset->id ? 'selected' : ''}}>
                                              {{ $mbchipset->mb_chipset}}
                                           </option>
                                        @endforeach
@@ -289,7 +289,7 @@
                                        <option value="">-- Choose mainboard size</option>
                                        @foreach($mbsizes as $mbsize)
                                           <option
-                                                value="{{$mbsize->id}}" {{old('sl_mbsize_id', $currentProductProperties->mb_size_id) == $mbsize->id ? 'selected' : ''}}>
+                                                value="{{$mbsize->id}}" {{old('sl_mbsize_id') == $mbsize->id ? 'selected' : ''}}>
                                              {{ $mbsize->mb_size}}
                                           </option>
                                        @endforeach
@@ -305,7 +305,7 @@
                                        <option value="">-- Choose socket type</option>
                                        @foreach($sockets as $socket)
                                           <option
-                                                value="{{$socket->id}}" {{old('sl_mb_socket_id', $currentProductProperties->socket_id) == $socket->id ? 'selected' : ''}}>
+                                                value="{{$socket->id}}" {{old('sl_mb_socket_id') == $socket->id ? 'selected' : ''}}>
                                              {{ $socket->socket_type}}
                                           </option>
                                        @endforeach
@@ -324,7 +324,7 @@
                                        <option value="">-- Choose CPU serie</option>
                                        @foreach($cpuseries as $cpuserie)
                                           <option
-                                                value="{{ $cpuserie->id }}" {{old('sl_cpuserie_id', $currentProductProperties->cpu_serie_id) == $cpuserie->id ? 'selected' : ''}}>
+                                                value="{{ $cpuserie->id }}" {{old('sl_cpuserie_id', $currentCPU->cpu_serie_id) == $cpuserie->id ? 'selected' : ''}}>
                                              {{ $cpuserie->cpuserie }}
                                           </option>
                                        @endforeach;
@@ -340,7 +340,7 @@
                                        <option value="">-- Choose socket type</option>
                                        @foreach($sockets as $socket)
                                           <option
-                                                value="{{ $socket->id }}" {{old('sl_cpu_socket_id', $currentProductProperties->socket_id) == $socket->id ? 'selected' : ''}}>
+                                                value="{{ $socket->id }}" {{old('sl_cpu_socket_id', $currentCPU->cpu_serie_id) == $socket->id ? 'selected' : ''}}>
                                              {{ $socket->socket_type }}
                                           </option>
                                        @endforeach
@@ -360,7 +360,6 @@
                                        @foreach($ramcapacities as $ramcapacity)
                                           <option
                                                 value="{{$ramcapacity->id }}" {{old('sl_ramcapacity_id') == $ramcapacity->id ? 'selected' : ''}}>
-                                             {{ $socket->socket_type }}>
                                              {{ $ramcapacity->ram_capacity }}
                                           </option>
                                        @endforeach

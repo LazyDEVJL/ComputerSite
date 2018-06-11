@@ -592,6 +592,11 @@
                break;
 
             case 'cpu':
+               $data = [
+                  'cpu_serie_id' => $currentProductProperties->cpu_serie_id,
+                  'socket_id' => $currentProductProperties->socket_id
+               ];
+               dd($data);
                return [
                   'cpu_serie_id' => $currentProductProperties->cpu_serie_id,
                   'socket_id' => $currentProductProperties->socket_id

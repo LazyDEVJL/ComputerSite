@@ -675,13 +675,54 @@
          $discountFrom = $currentProduct->discount_from;
          $discountTo = $currentProduct->discount_to;
 
-         if($discountFrom != '' && $discountTo != '') {
-            $currentProductDiscountRange = $discountFrom.' - '.$discountTo;
+         if ($discountFrom != '' && $discountTo != '') {
+            $currentProductDiscountRange = $discountFrom . ' - ' . $discountTo;
          } else {
             $currentProductDiscountRange = '';
          }
 
          $currentProductCategories = getCurrentProductCategories($id);
+
+         $currentCase = [];
+         $currentCPU = [];
+         $currentHDD = [];
+         $currentMainboard = [];
+         $currentMonitor = [];
+         $currentPSU = [];
+         $currentRAM = [];
+         $currentSSD = [];
+         $currentVGA = [];
+         dd(getParentCategory($id));
+         switch (getParentCategory($currentProduct->id)) {
+            case 'Case':
+               $currentCase = getCurrentProductProperties($id, 'case');
+               break;
+            case 'CPU':
+               $currentCPU = getCurrentProductProperties($id, 'CPU');
+               break;
+            case 'HDD':
+               $currentHDD = getCurrentProductProperties($id, 'HDD');
+               break;
+            case 'Mainboard':
+               $currentMainboard = getCurrentProductProperties($id, 'mainboard');
+               break;
+            case 'Monitor':
+               $currentMonitor = getCurrentProductProperties($id, 'monitor');
+               break;
+            case 'PSU':
+               $currentPSU = getCurrentProductProperties($id, 'PSU');
+               break;
+            case 'RAM':
+               $currentRAM = getCurrentProductProperties($id, 'RAM');
+               break;
+            case 'SSD':
+               $currentSSD = getCurrentProductProperties($id, 'SSD');
+               break;
+            case 'VGA':
+               $currentVGA = getCurrentProductProperties($id, 'VGA');
+               break;
+         }
+         dd($currentCPU);
 
          $currentId = $id;
 
@@ -715,7 +756,16 @@
             'currentProduct' => $currentProduct,
             'currentProductCategories' => $currentProductCategories,
             'currentId' => $currentId,
-            'currentProductDiscountRange' => $currentProductDiscountRange
+            'currentProductDiscountRange' => $currentProductDiscountRange,
+            'currentCase' => $currentCase,
+            'currentCPU' => $currentCPU,
+            'currentHDD' => $currentHDD,
+            'currentMainboard' => $currentMainboard,
+            'currentMonitor' => $currentMonitor,
+            'currentPSU' => $currentPSU,
+            'currentRAM' => $currentRAM,
+            'currentSSD' => $currentSSD,
+            'currentVGA' => $currentVGA,
          ]);
       }
 
