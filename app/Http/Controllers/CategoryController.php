@@ -41,22 +41,8 @@
       {
 //       dd($rq->toArray());
 
-         $rules = [
-            'txt_name' => 'required',
-            'txt_slug' => 'required',
-            'txt_position' => 'required',
-            'sl_active' => 'required|integer',
-            'sl_parent_id' => 'required'
-         ];
-
-         $messages = [
-            'txt_name.required' => 'Category\'s name is required',
-            'txt_slug.required' => 'Category\'s slug is required',
-            'txt_position.required' => 'Category\'s position is required',
-            'sl_active.required' => 'Category\'s active state is not chosen',
-            'sl_active.integer' => 'Category\'s active state is not chosen',
-            'sl_parent_id.required' => 'Category\'s parent category is not chosen',
-         ];
+         $rules = validationRules('create-category');
+         $messages = validationMessages('create-category');
 
          $validator = Validator::make($rq->all(), $rules, $messages);
 
@@ -105,22 +91,8 @@
          $id = $rq->post('txt_id');
          $editCategory = Category::find($id);
 
-         $rules = [
-            'txt_name' => 'required',
-            'txt_slug' => 'required',
-            'txt_position' => 'required',
-            'sl_active' => 'required|integer',
-            'sl_parent_id' => 'required'
-         ];
-
-         $messages = [
-            'txt_name.required' => 'Category\'s name is required',
-            'txt_slug.required' => 'Category\'s slug is required',
-            'txt_position.required' => 'Category\'s position is required',
-            'sl_active.required' => 'Category\'s active state is not chosen',
-            'sl_active.integer' => 'Category\'s active state is not chosen',
-            'sl_parent_id.required' => 'Category\'s parent category is not chosen',
-         ];
+         $rules = validationRules('edit-category');
+         $messages = validationMessages('edit-category');
 
          $validator = Validator::make($rq->all(), $rules, $messages);
 
