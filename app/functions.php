@@ -4,8 +4,10 @@
    use App\Manufacture;
    use App\Product;
    use App\ProductCategory;
+   use App\ProductImage;
    use App\ProductProperty;
    use Illuminate\Support\Facades\DB;
+   use Illuminate\Support\Facades\File;
 
    if (!function_exists('getParentCategory')) {
 
@@ -37,95 +39,109 @@
    }
 
    if (!function_exists('insertImage')) {
-      function insertImage($rq)
+      function insertImage($rq, $key)
       {
-         $file = $rq->product_image;
+         switch ($key) {
+            case 'thumbnail':
+               $file = $rq->product_thumbnail;
+               break;
+
+            case 'img1':
+               $file = $rq->product_img_1;
+               break;
+
+            case 'img2':
+               $file = $rq->product_img_2;
+               break;
+
+            case 'img3':
+               $file = $rq->product_img_3;
+               break;
+         }
 
          $fileName = $file->getClientOriginalName();
 
-         $file->move(base_path('public/backend/products/images'), $fileName);
-         $thumbnail = 'backend/products/images/' . $fileName;
-         return $thumbnail;
+         $file->move(base_path('public/backend/products/images/'), $fileName);
+         $img = 'backend/products/images/' . $fileName;
+         return $img;
+      }
+   }
+
+   if (!function_exists('insertProductImages')) {
+      function insertProductImages($img1, $img2, $img3)
+      {
+         $productId = DB::table('tbl_products')
+            ->select('id')
+            ->orderBy('id', 'desc')
+            ->first()
+            ->id;
+
+         $data = array(
+            array('product_id' => $productId, 'link' => $img1),
+            array('product_id' => $productId, 'link' => $img2),
+            array('product_id' => $productId, 'link' => $img3)
+         );
+
+         $check = ProductImage::insert($data);
+
+         return $check;
       }
    }
 
    if (!function_exists('editImage')) {
-      function editImage($filePath, $rq)
+      function editImage($rq, $filePath, $key)
       {
-         $link = is_file(base_path($filePath));
+         $link = is_file(base_path('public/' . $filePath));
+
          if ($link) {
-            unlink(base_path($filePath));
-            $thumbnail = insertImage($rq);
+            unlink(base_path('public/' . $filePath));
+            $thumbnail = insertImage($rq, $key);
          } else {
-            $thumbnail = insertImage($rq);
+            $thumbnail = insertImage($rq, $key);
          }
 
          return $thumbnail;
       }
+   }
 
+   if (!function_exists('hasNewImage')) {
+      function hasNewImage($rq, $newImg, $currentImg, $key)
+      {
+         if (!isset($newImg)) {
+            $img = $currentImg;
+         } else {
+            $editFilePath = $currentImg;
+            switch ($key) {
+               case 'thumbnail':
+                  $img = editImage($rq, $editFilePath, 'thumbnail');
+                  break;
+
+               case 'img1':
+                  $img = editImage($rq, $editFilePath, 'img1');
+                  break;
+
+               case 'img2':
+                  $img = editImage($rq, $editFilePath, 'img2');
+                  break;
+
+               case 'img3':
+                  $img = editImage($rq, $editFilePath, 'img3');
+                  break;
+            }
+         }
+         return $img;
+      }
    }
 
    if (!function_exists('deleteImage')) {
       function deleteImage($filePath)
       {
-         $link = is_file(base_path('public/'.$filePath));
+
+         $link = is_file(base_path('public/' . $filePath));
          if ($link) {
-            $check = unlink(base_path('public/'.$filePath));
+            $check = unlink(base_path('public/' . $filePath));
             return $check;
          }
-      }
-   }
-
-   if (!function_exists('getIconByCategorySlug')) {
-      function getIconBySlug($slug)
-      {
-         $class = '';
-         switch ($slug) {
-            case 'mobile':
-               $class = 'fa-mobile-alt';
-               break;
-
-            case 'cong-nghe-thong-tin':
-               $class = 'fa-code';
-               break;
-
-            case 'internet':
-               $class = 'fa-laptop';
-               break;
-
-            case 'kham-pha':
-               $class = 'fa-search';
-               break;
-         }
-
-         return $class;
-      }
-   }
-
-   if (!function_exists('getThumbnailByCategorySlug')) {
-      function getThumbnailByCategorySlug($slug)
-      {
-         $parallax = 'parallax';
-         $class = '';
-         switch ($slug) {
-            case 'mobile':
-               $class = $parallax . '-mobile';
-               break;
-
-            case 'cong-nghe-thong-tin':
-               $class = $parallax . '-cntt';
-               break;
-
-            case 'internet':
-               $class = $parallax . '-internet';
-               break;
-
-            case 'kham-pha':
-               $class = $parallax . '-khampha';
-               break;
-         }
-
-         return $class;
       }
    }
 
@@ -173,7 +189,23 @@
                   'sl_manufacture_id' => 'required|integer',
                   'txt_quantity' => 'required|integer',
                   'sl_active' => 'required|integer',
-                  'product_image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                  'product_thumbnail' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                  'product_img_1' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                  'product_img_2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                  'product_img_3' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                  'sl_mainCategory' => 'required|integer',
+                  'sl_subCategory' => 'required|integer',
+               ];
+               break;
+
+            case 'general-edit':
+               return $rules = [
+                  'txt_name' => 'required',
+                  'txt_price' => 'required|gt:0',
+                  'txt_slug' => 'required',
+                  'sl_manufacture_id' => 'required|integer',
+                  'txt_quantity' => 'required|integer',
+                  'sl_active' => 'required|integer',
                   'sl_mainCategory' => 'required|integer',
                   'sl_subCategory' => 'required|integer',
                ];
@@ -286,9 +318,36 @@
                   'txt_quantity.required' => 'Product\'s quantity is required',
                   'sl_active.required' => 'Product\'s state is not chosen',
                   'sl_active.integer' => 'Product\'s state is not chosen',
-                  'product_image.required' => 'Product\'s image is required',
-                  'product_image.image' => 'Product\'s image must be an image',
-                  'product_image.max' => 'Product\'s image must be smaller than 2MB',
+                  'product_thumbnail.required' => 'Product\'s thumbnail is required',
+                  'product_thumbnail.image' => 'Product\'s thumbnail must be an image',
+                  'product_thumbnail.max' => 'Product\'s thumbnail must be smaller than 2MB',
+                  'product_img_1.required' => 'Product\'s first image is required',
+                  'product_img_1.image' => 'Product\'s first image must be an image',
+                  'product_img_1.max' => 'Product\'s first image must be smaller than 2MB',
+                  'product_img_2.required' => 'Product\'s second image is required',
+                  'product_img_2.image' => 'Product\'s second image must be an image',
+                  'product_img_2.max' => 'Product\'s second image must be smaller than 2MB',
+                  'product_img_3.required' => 'Product\'s third image is required',
+                  'product_img_3.image' => 'Product\'s third image must be an image',
+                  'product_img_3.max' => 'Product\'s third image must be smaller than 2MB',
+                  'sl_mainCategory.required' => 'Product\'s main category are not chosen',
+                  'sl_mainCategory.integer' => 'Product\'s main category are not chosen',
+                  'sl_subCategory.required' => 'Product\'s sub category are not chosen',
+                  'sl_subCategory.integer' => 'Product\'s sub category are not chosen',
+               ];
+               break;
+
+            case 'general-edit':
+               return $messages = [
+                  'txt_name.required' => 'Product\'s name is required',
+                  'txt_price.required' => 'Product\'s price is required',
+                  'txt_price.gt' => 'Product\'s price must be greater than 0đ',
+                  'txt_slug.required' => 'Product\'s slug is required',
+                  'sl_manufacture_id.required' => 'Product\'s manufacture is not chosen',
+                  'sl_manufacture_id.integer' => 'Product\'s manufacture is not chosen',
+                  'txt_quantity.required' => 'Product\'s quantity is required',
+                  'sl_active.required' => 'Product\'s state is not chosen',
+                  'sl_active.integer' => 'Product\'s state is not chosen',
                   'sl_mainCategory.required' => 'Product\'s main category are not chosen',
                   'sl_mainCategory.integer' => 'Product\'s main category are not chosen',
                   'sl_subCategory.required' => 'Product\'s sub category are not chosen',
@@ -444,6 +503,20 @@
       }
    }
 
+   if (!function_exists('updateRAM')) {
+      function updateRAM($ramCapacityId, $ramSpeedId, $ramTypeId, $id)
+      {
+         $updateRAM = ProductProperty::find($id);
+         $updateRAM->ram_capacity_id = $ramCapacityId;
+         $updateRAM->ram_speed_id = $ramSpeedId;
+         $updateRAM->ram_type_id = $ramTypeId;
+
+         $check = $updateRAM->save();
+
+         return $check;
+      }
+   }
+
    if (!function_exists('insertHDD')) {
       function insertHDD($HDDCapacityId)
       {
@@ -564,7 +637,8 @@
    }
 
    if (!function_exists('getCurrentProductCategories')) {
-      function getCurrentProductCategories($id) {
+      function getCurrentProductCategories($id)
+      {
          $sql = DB::table('tbl_product_categories')
             ->select('category_id')
             ->where('product_id', $id)
@@ -575,54 +649,42 @@
       }
    }
 
-   if (!function_exists('getCurrentProductProperties')) {
-      function getCurrentProductProperties($id, $key) {
-         $currentProductPropertyId = DB::table('tbl_products')
-            ->where('id', $id)
-            ->first()
-            ->product_property_id;
-         $currentProductProperties = DB::table('tbl_product_properties')
-            ->where('id', $currentProductPropertyId)
-            ->first();
+   if (!function_exists('updateProduct')) {
+      function updateProduct($rq, $name, $price, $image, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId, $currentProduct, $key)
+      {
 
-         switch ($key)
-         {
-            case 'case':
-               return $currentProductProperties->case_type_id;
-               break;
+         /*$currentProduct->update(['case_type_id' => null, 'cpu_serie_id' => null, 'drive_capacity_id' => null, 'mb_chipset_id' => null, 'mb_size_id' => null, 'mnt_refresh_rate_id' => null, 'mnt_response_time_id' => null, 'mnt_resolution_id' => null, 'mnt_screen_size_id' => null, 'mnt_type_id' => null, 'psu_ee_id' => null, 'psu_power_id' => null, 'ram_capacity_id' => null, 'ram_speed_id' => null, 'ram_type_id' => null, 'vga_gpu_id' => null, 'vga_mem_size_id' => null, 'ssd_form_factor_id' => null, 'ssd_interface_id' => null, 'socket_id' => null,
+         ]);*/
 
-            case 'cpu':
-               $data = [
-                  'cpu_serie_id' => $currentProductProperties->cpu_serie_id,
-                  'socket_id' => $currentProductProperties->socket_id
-               ];
-               dd($data);
-               return [
-                  'cpu_serie_id' => $currentProductProperties->cpu_serie_id,
-                  'socket_id' => $currentProductProperties->socket_id
-               ];
-               break;
+         $base = ['p.name' => $name, 'p.price' => $price, 'p.image' => $image, 'p.slug' => $slug, 'p.active' => $active, 'p.quantity' => $quantity, 'p.discount' => $discount, 'p.discount_from' => $discountFrom, 'p.discount_to' => $discountTo, 'p.discounted_price' => $discountedPrice, 'p.manufacture_id' => $manufactureId];
 
-            case 'HDD':
-               break;
+         $check = $currentProduct->update($base);
 
-            case 'mainboard':
-               break;
-
-            case 'monitor':
-               break;
-
-            case 'PSU':
-               break;
-
-            case 'RAM':
-               break;
-
-            case 'SSD':
-               break;
-
-            case 'VGA':
-               break;
+         if ($check) {
+            switch ($key) {
+               case 'Case':
+                  break;
+               case 'CPU':
+                  break;
+               case 'HDD':
+                  break;
+               case 'Mainboard':
+                  break;
+               case 'Monitor':
+                  break;
+               case 'PSU':
+                  break;
+               case 'RAM':
+                  $ramCapacityId = $rq->post('sl_ramcapacity_id');
+                  $ramSpeedId = $rq->post('sl_ramspeed_id');
+                  $ramTypeId = $rq->post('sl_ramtype_id');
+                  $currentProduct->update(['pp.ram_capacity_id' => $ramCapacityId, 'pp.ram_speed_id' => $ramSpeedId, 'pp.ram_type_id' => $ramTypeId]);
+                  break;
+               case 'SSD':
+                  break;
+               case 'VGA':
+                  break;
+            }
          }
       }
    }

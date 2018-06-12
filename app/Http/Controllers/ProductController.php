@@ -6,32 +6,13 @@
    use Illuminate\Http\Request;
    use App\Category;
    use App\Product;
-   use App\Manufacture;
    use App\ProductProperty;
    use App\ProductCategory;
-   use App\CaseType;
-   use App\CPUSerie;
-   use App\DriverCapacity;
-   use App\MbChipset;
-   use App\MbSize;
-   use App\MntRefreshRate;
-   use App\MntResolution;
-   use App\MntResponseTime;
-   use App\MntScreenSize;
-   use App\MntType;
-   use App\PSUEE;
-   use App\PSUPower;
-   use App\RamCapacity;
-   use App\RamSpeed;
-   use App\RamType;
-   use App\Socket;
-   use App\SSDFormFactor;
-   use App\SSDInterface;
-   use App\VGAGPU;
-   use App\VGAMemSize;
    use Illuminate\Support\Facades\DB;
+   use Illuminate\Support\Facades\File;
    use Illuminate\Support\Facades\Input;
    use Illuminate\Support\Facades\Session;
+   use Illuminate\Support\Facades\Storage;
    use Illuminate\Support\Facades\Validator;
 
 
@@ -52,9 +33,14 @@
          $keywords = Input::get('q');
 
          if (isset($keywords)) {
-            $products = DB::table('tbl_products')->where('name', 'like', "%$keywords%")->paginate(10);
+            $products = DB::table('tbl_products')
+               ->where('name', 'like', "%$keywords%")
+               ->orderBy('id', 'desc')
+               ->paginate(10);
          } else {
-            $products = DB::table('tbl_products')->paginate(10);
+            $products = DB::table('tbl_products')
+               ->orderBy('id', 'desc')
+               ->paginate(10);
          }
 
          return view('admin.products.index', [
@@ -168,7 +154,7 @@
        */
       public function createSave(Request $rq)
       {
-//      dd($rq->toArray());
+//         dd($rq->toArray());
          $generalRules = validationRules('general');
          $generalMessages = validationMessages('general');
 
@@ -180,7 +166,10 @@
                   'sl_manufacture_id',
                   'txt_quantity',
                   'sl_active',
-                  'product_image',
+                  'product_thumbnail',
+                  'product_img_1',
+                  'product_img_2',
+                  'product_img_3',
                   'sl_mainCategory',
                   'sl_subCategory',
                ]), $generalRules, $generalMessages
@@ -198,7 +187,7 @@
             $quantity = $rq->post('txt_quantity');
             $active = $rq->post('sl_active');
             $discount = $rq->post('txt_discount');
-            if (!isset($discount)) {
+            if (!isset($discount) || $discount == 0) {
                $discountedPrice = $price;
                $discountFrom = '';
                $discountTo = '';
@@ -242,10 +231,14 @@
                   $check = insertCase($caseTypeId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -282,10 +275,14 @@
                   $check = insertCPU($cpuSerieId, $cpuSocketId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -323,10 +320,14 @@
                   $check = insertMainboard($mbChipsetId, $mbSizeId, $mbSocketId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -364,10 +365,14 @@
                   $check = insertRAM($ramCapacityId, $ramSpeedId, $ramTypeId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -403,10 +408,14 @@
                   $check = insertHDD($HDDCapacityId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -444,10 +453,14 @@
                   $check = insertSSD($SSDCapacityId, $SSDFormFactorId, $SSDInterfaceId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -484,10 +497,14 @@
                   $check = insertVGA($VGAGPUId, $VGAMemSizeId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -524,10 +541,14 @@
                   $check = insertPSU($PSUEEId, $PSUPowerId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -573,10 +594,14 @@
                   $check = insertMonitor($mntRefreshRateId, $mntResponseTimeId, $mntResolutionId, $mntScreenSizeId, $mntTypeId);
 
                   if ($check) {
-                     $image = insertImage($rq);
-                     $check = insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
 
-                     if ($check) {
+                     if ($check == true && $check1 == true) {
                         $check = insertProductCategories($mainCategoryId, $subCategoryId);
 
                         if ($check) {
@@ -683,46 +708,13 @@
 
          $currentProductCategories = getCurrentProductCategories($id);
 
-         $currentCase = [];
-         $currentCPU = [];
-         $currentHDD = [];
-         $currentMainboard = [];
-         $currentMonitor = [];
-         $currentPSU = [];
-         $currentRAM = [];
-         $currentSSD = [];
-         $currentVGA = [];
-         dd(getParentCategory($id));
-         switch (getParentCategory($currentProduct->id)) {
-            case 'Case':
-               $currentCase = getCurrentProductProperties($id, 'case');
-               break;
-            case 'CPU':
-               $currentCPU = getCurrentProductProperties($id, 'CPU');
-               break;
-            case 'HDD':
-               $currentHDD = getCurrentProductProperties($id, 'HDD');
-               break;
-            case 'Mainboard':
-               $currentMainboard = getCurrentProductProperties($id, 'mainboard');
-               break;
-            case 'Monitor':
-               $currentMonitor = getCurrentProductProperties($id, 'monitor');
-               break;
-            case 'PSU':
-               $currentPSU = getCurrentProductProperties($id, 'PSU');
-               break;
-            case 'RAM':
-               $currentRAM = getCurrentProductProperties($id, 'RAM');
-               break;
-            case 'SSD':
-               $currentSSD = getCurrentProductProperties($id, 'SSD');
-               break;
-            case 'VGA':
-               $currentVGA = getCurrentProductProperties($id, 'VGA');
-               break;
-         }
-         dd($currentCPU);
+         $currentProductProperties = DB::table('tbl_product_properties')
+            ->where('id', $currentProduct->product_property_id)
+            ->first();
+
+         $currentProductImages = DB::table('tbl_product_images')
+            ->where('product_id', $id)
+            ->get();
 
          $currentId = $id;
 
@@ -757,24 +749,491 @@
             'currentProductCategories' => $currentProductCategories,
             'currentId' => $currentId,
             'currentProductDiscountRange' => $currentProductDiscountRange,
-            'currentCase' => $currentCase,
-            'currentCPU' => $currentCPU,
-            'currentHDD' => $currentHDD,
-            'currentMainboard' => $currentMainboard,
-            'currentMonitor' => $currentMonitor,
-            'currentPSU' => $currentPSU,
-            'currentRAM' => $currentRAM,
-            'currentSSD' => $currentSSD,
-            'currentVGA' => $currentVGA,
+            'currentProductProperties' => $currentProductProperties,
+            'currentProductImages' => $currentProductImages
          ]);
       }
 
       /**
        * Method to save an edited product
        */
-      public function editSave($id)
+      public function editSave(Request $rq)
       {
+//         dd($rq->toArray());
+         $generalRules = validationRules('general-edit');
+         $generalMessages = validationMessages('general-edit');
 
+         $generalValidator = Validator::make(
+            $rq->only(
+               ['txt_name',
+                  'txt_price',
+                  'txt_slug',
+                  'sl_manufacture_id',
+                  'txt_quantity',
+                  'sl_active',
+                  'sl_mainCategory',
+                  'sl_subCategory',
+               ]), $generalRules, $generalMessages
+         );
+         //endregion
+
+         if ($generalValidator->fails()) {
+            return redirect()->back()->withInput()->withErrors($generalValidator);
+         } else {
+            $curentProductId = $rq->post('txt_id');
+            $currentProduct = Product::find($curentProductId);
+            $currentProductName = $currentProduct->name;
+            $currentProductImages = DB::table('tbl_product_images')
+               ->select('link')
+               ->where('product_id', $curentProductId)
+               ->get();
+
+            $currentThumbnail = $currentProduct->image;
+            $currentImg1 = $currentProductImages[0]->link;
+            $currentImg2 = $currentProductImages[1]->link;
+            $currentImg3 = $currentProductImages[2]->link;
+
+            $newThumbnail = $rq->product_thumbnail;
+            $newImg1 = $rq->post('product_img_1');
+            $newImg2 = $rq->post('product_img_2');
+            $newImg3 = $rq->post('product_img_3');
+
+            $name = $rq->post('txt_name');
+            $price = $rq->post('txt_price');
+            $slug = $rq->post('txt_slug');
+            $manufactureId = $rq->post('sl_manufacture_id');
+            $quantity = $rq->post('txt_quantity');
+            $active = $rq->post('sl_active');
+            $discount = $rq->post('txt_discount');
+            if (!isset($discount)) {
+               $discountedPrice = $price;
+               $discountFrom = null;
+               $discountTo = null;
+            } else {
+               $rule = [
+                  'discount_range' => 'required'
+               ];
+               $message = [
+                  'discount_range.required' => 'Discount range is required'
+               ];
+               $validator = Validator::make(
+                  $rq->only('discount_range'), $rule, $message
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $discountedPrice = $price - $price * $discount / 100;
+                  $discountRange = explode('-', $rq->post('discount_range'));
+                  $discountFrom = date_format(Carbon::parse($discountRange['0']), 'Y-m-d');
+                  $discountTo = date_format(Carbon::parse($discountRange['1']), 'Y-m-d');
+               }
+            }
+         }
+
+         $mainCategoryId = $rq->post('sl_mainCategory');
+         $mainCategoryName = DB::table('tbl_categories')->find($mainCategoryId)->name;
+         $subCategoryId = $rq->post('sl_subCategory');
+
+         $thumbnail = hasNewImage($rq, $newThumbnail, $currentThumbnail, 'thumbnail');
+         $img1 = hasNewImage($rq, $newImg1, $currentImg1, 'img1');
+         $img2 = hasNewImage($rq, $newImg2, $currentImg2, 'img2');
+         $img3 = hasNewImage($rq, $newImg3, $currentImg3, 'img3');
+
+         switch ($mainCategoryName) {
+            case 'Case':
+               $rules = validationRules('case');
+               $messages = validationMessages('case');
+
+               $validator = Validator::make($rq->only('sl_casetype_id'), $rules, $messages);
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $caseTypeId = $rq->post('sl_casetype_id');
+                  $check = insertCase($caseTypeId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New case\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'CPU':
+               $rules = validationRules('cpu');
+               $messages = validationMessages('cpu');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_cpuserie_id', 'sl_cpu_socket_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $cpuSerieId = $rq->post('sl_cpuserie_id');
+                  $cpuSocketId = $rq->post('sl_cpu_socket_id');
+                  $check = insertCPU($cpuSerieId, $cpuSocketId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New CPU\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'Mainboard':
+               $rules = validationRules('mainboard');
+               $messages = validationMessages('mainboard');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_mbchipset_id', 'sl_mbsize_id', 'sl_mb_socket_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $mbChipsetId = $rq->post('sl_mbchipset_id');
+                  $mbSizeId = $rq->post('sl_mbsize_id');
+                  $mbSocketId = $rq->post('sl_mb_socket_id');
+                  $check = insertMainboard($mbChipsetId, $mbSizeId, $mbSocketId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New Mainboard\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'RAM':
+               $rules = validationRules('RAM');
+               $messages = validationMessages('RAM');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_ramcapacity_id', 'sl_ramspeed_id', 'sl_ramtype_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $currentRAM = DB::table('tbl_products AS p')->where('p.id', $curentProductId)
+                     ->join('tbl_product_properties AS pp', 'p.product_property_id', '=', 'pp.id');
+
+                  updateProduct($rq, $name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentRAM, 'RAM');
+
+                  $check = DB::table('tbl_product_categories')->where('product_id', $curentProductId)->delete();
+                  if ($check) {
+                     $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                     if ($check) {
+                        Session::flash('success', $currentProductName . '\'s been successfully edited');
+                        return redirect('admin/products');
+                     } else {
+                        Session::flash('error', 'There was an error while trying to edit ' . $currentProductName);
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'HDD':
+               $rules = validationRules('HDD');
+               $messages = validationMessages('HDD');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_HDDdrivercapacity_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $HDDCapacityId = $rq->post('sl_HDDdrivercapacity_id');
+                  $check = insertHDD($HDDCapacityId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New HDD\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'SSD':
+               $rules = validationRules('SSD');
+               $messages = validationMessages('SSD');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_SSDdrivercapacity_id', 'sl_SSDformfactor_id', 'sl_SSDinterface_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $SSDCapacityId = $rq->post('sl_SSDdrivercapacity_id');
+                  $SSDFormFactorId = $rq->post('sl_SSDformfactor_id');
+                  $SSDInterfaceId = $rq->post('sl_SSDinterface_id');
+                  $check = insertSSD($SSDCapacityId, $SSDFormFactorId, $SSDInterfaceId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New SSD\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'VGA':
+               $rules = validationRules('VGA');
+               $messages = validationMessages('VGA');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_vgagpu_id', 'sl_vgamemsize_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $VGAGPUId = $rq->post('sl_vgagpu_id');
+                  $VGAMemSizeId = $rq->post('sl_vgamemsize_id');
+                  $check = insertVGA($VGAGPUId, $VGAMemSizeId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New VGA\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'PSU':
+               $rules = validationRules('PSU');
+               $messages = validationMessages('PSU');
+
+               $validator = Validator::make(
+                  $rq->only(['sl_psuee_id', 'sl_psupower_id']), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $PSUEEId = $rq->post('sl_psuee_id');
+                  $PSUPowerId = $rq->post('sl_psupower_id');
+                  $check = insertPSU($PSUEEId, $PSUPowerId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New PSU\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+
+            case 'Monitor':
+               $rules = validationRules('monitor');
+               $messages = validationMessages('monitor');
+
+               $validator = Validator::make(
+                  $rq->only([
+                     'sl_mnt_refreshrate_id',
+                     'sl_mnt_response_time_id',
+                     'sl_mnt_resolution_id',
+                     'sl_mnt_screensize_id',
+                     'sl_mnt_type_id'
+                  ]), $rules, $messages
+               );
+
+               if ($validator->fails()) {
+                  return redirect()->back()->withInput()->withErrors($validator);
+               } else {
+                  $mntRefreshRateId = $rq->post('sl_mnt_refreshrate_id');
+                  $mntResponseTimeId = $rq->post('sl_mnt_response_time_id');
+                  $mntResolutionId = $rq->post('sl_mnt_resolution_id');
+                  $mntScreenSizeId = $rq->post('sl_mnt_screensize_id');
+                  $mntTypeId = $rq->post('sl_mnt_type_id');
+                  $check = insertMonitor($mntRefreshRateId, $mntResponseTimeId, $mntResolutionId, $mntScreenSizeId, $mntTypeId);
+
+                  if ($check) {
+                     $thumbnail = insertImage($rq, 'thumbnail');
+                     $img1 = insertImage($rq, 'img1');
+                     $img2 = insertImage($rq, 'img2');
+                     $img3 = insertImage($rq, 'img3');
+                     $check = insertGeneral($name, $price, $thumbnail, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                     $check1 = insertProductImages($img1, $img2, $img3);
+
+                     if ($check == true && $check1 == true) {
+                        $check = insertProductCategories($mainCategoryId, $subCategoryId);
+
+                        if ($check) {
+                           Session::flash('success', 'New Monitor\'s been successfully added');
+                           return redirect('admin/products');
+                        } else {
+                           Session::flash('error', 'There was an error while trying to add product');
+                           return redirect()->back()->withInput();
+                        }
+                     } else {
+                        Session::flash('error', 'There was an error while trying to add product');
+                        return redirect()->back()->withInput();
+                     }
+                  } else {
+                     Session::flash('error', 'There was an error while trying to upload product\'s thumbnail');
+                     return redirect()->back()->withInput();
+                  }
+               }
+               break;
+         }
       }
 
       /**
@@ -784,28 +1243,42 @@
       {
          $check = ProductCategory::where('product_id', '=', $id)->delete();
          if ($check) {
-            $deleteProductImage = DB::table('tbl_products')
+            $deleteProductThumbnail = DB::table('tbl_products')
                ->select('image')
                ->where('id', $id)
                ->first()
                ->image;
 
-            $check = deleteImage($deleteProductImage);
+            $check = deleteImage($deleteProductThumbnail);
 
-            if ($check) {
-               $deleteProductPropertyId = DB::table('tbl_products')
-                  ->select('product_property_id')
-                  ->where('id', $id)
-                  ->first()
-                  ->product_property_id;
+            $deleteProductImages = DB::table('tbl_product_images')
+               ->select('link')
+               ->where('product_id', $id);
 
-               $check = ProductProperty::find($deleteProductPropertyId)->delete();
+            $check1 = deleteImage($deleteProductImages->get()[0]->link);
+            $check2 = deleteImage($deleteProductImages->get()[1]->link);
+            $check3 = deleteImage($deleteProductImages->get()[2]->link);
 
+            if ($check == true && $check1 == true && $check2 == true && $check3 == true) {
+               $check = $deleteProductImages->delete();
                if ($check) {
-                  Session::flash('success', 'Product\'s been successfully deleted');
-                  return redirect('admin/products');
+                  $deleteProductPropertyId = DB::table('tbl_products')
+                     ->select('product_property_id')
+                     ->where('id', $id)
+                     ->first()
+                     ->product_property_id;
+
+                  $check = ProductProperty::find($deleteProductPropertyId)->delete();
+
+                  if ($check) {
+                     Session::flash('success', 'Product\'s been successfully deleted');
+                     return redirect('admin/products');
+                  } else {
+                     Session::flash('error', 'There was an error while trying to delete from table tbl_product_properties');
+                     return redirect()->back()->withInput();
+                  }
                } else {
-                  Session::flash('error', 'There was an error while trying to delete from table tbl_product_properties');
+                  Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
                   return redirect()->back()->withInput();
                }
             } else {

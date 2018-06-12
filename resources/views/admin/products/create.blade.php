@@ -172,7 +172,7 @@
                      </div>
                   </div>
                   <div class="form-row">
-                     <div class="form-group col-lg-4">
+                     <div class="form-group col-lg-2">
                         <label>Product's Thumbnail</label>
                         <div class="input-group">
                            <div class="input-group-prepend">
@@ -182,19 +182,87 @@
                            </div>
                            <div class="custom-file" id="p_image">
                               <input type="file"
-                                     class="custom-file-input {{ $errors->has('product_image') ? ' is-invalid' : '' }}"
-                                     name="product_image" id="product_image"
-                                     value="{{old('product_image')}}">
-                              <label class="custom-file-label" for="product_image">Choose file</label>
+                                     class="custom-file-input {{ $errors->has('product_thumbnail') ? ' is-invalid' : '' }}"
+                                     name="product_thumbnail" id="product_thumbnail"
+                                     value="{{old('product_thumbnail')}}">
+                              <label class="custom-file-label" for="product_thumbnail">Choose file</label>
                            </div>
-                           @if ($errors->has('product_image'))
+                           @if ($errors->has('product_thumbnail'))
                               <span class="invalid-feedback d-block">
-                               <p class="font-italic font-weight-bold">{{ $errors->first('product_image') }}</p>
+                               <p class="font-italic font-weight-bold">{{ $errors->first('product_thumbnail') }}</p>
                            </span>
                            @endif
                         </div>
                      </div>
-                     <div class="form-group col-lg-4">
+                     <div class="col-lg-6">
+                        <label for="">Product's Images (All three required)</label>
+                        <div class="row">
+                           <div class="form-group col-lg-4 pr-lg-1">
+                              <div class="input-group">
+                                 <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                       <i class="fa fa-file-image"></i>
+                                    </span>
+                                 </div>
+                                 <div class="custom-file" id="p_image">
+                                    <input type="file"
+                                           class="custom-file-input {{ $errors->has('product_img_1') ? ' is-invalid' : '' }}"
+                                           name="product_img_1" id="product_img_1"
+                                           value="{{old('product_img_1')}}">
+                                    <label class="custom-file-label" for="product_img_1">Choose file</label>
+                                 </div>
+                                 @if ($errors->has('product_img_1'))
+                                    <span class="invalid-feedback d-block">
+                               <p class="font-italic font-weight-bold">{{ $errors->first('product_img_1') }}</p>
+                           </span>
+                                 @endif
+                              </div>
+                           </div>
+                           <div class="form-group col-lg-4 pl-lg-2 pr-lg-2">
+                              <div class="input-group">
+                                 <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                       <i class="fa fa-file-image"></i>
+                                    </span>
+                                 </div>
+                                 <div class="custom-file" id="p_image">
+                                    <input type="file"
+                                           class="custom-file-input {{ $errors->has('product_img_2') ? ' is-invalid' : '' }}"
+                                           name="product_img_2" id="product_img_2"
+                                           value="{{old('product_img_2')}}">
+                                    <label class="custom-file-label" for="product_img_2">Choose file</label>
+                                 </div>
+                                 @if ($errors->has('product_img_2'))
+                                    <span class="invalid-feedback d-block">
+                               <p class="font-italic font-weight-bold">{{ $errors->first('product_img_2') }}</p>
+                           </span>
+                                 @endif
+                              </div>
+                           </div>
+                           <div class="form-group col-lg-4 pl-lg-1">
+                              <div class="input-group">
+                                 <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                       <i class="fa fa-file-image"></i>
+                                    </span>
+                                 </div>
+                                 <div class="custom-file" id="p_image">
+                                    <input type="file"
+                                           class="custom-file-input {{ $errors->has('product_img_3') ? ' is-invalid' : '' }}"
+                                           name="product_img_3" id="product_img_3"
+                                           value="{{old('product_img_3')}}">
+                                    <label class="custom-file-label" for="product_img_3">Choose file</label>
+                                 </div>
+                                 @if ($errors->has('product_img_3'))
+                                    <span class="invalid-feedback d-block">
+                               <p class="font-italic font-weight-bold">{{ $errors->first('product_img_3') }}</p>
+                           </span>
+                                 @endif
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group col-lg-2">
                         <label for="">Main Categories</label>
                         <select id="sl_mainCategory"
                                 class="form-control {{ $errors->has('sl_mainCategory') ? ' is-invalid' : '' }}"
@@ -212,7 +280,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form group col-lg-4">
+                     <div class="form group col-lg-2">
                         <label for="">Sub Categories</label>
                         <select id="sl_subCategory"
                                 class="form-control {{ $errors->has('sl_subCategory') ? ' is-invalid' : '' }}"
@@ -241,7 +309,7 @@
                         <!-- Custom Tabs -->
                         <div class="card">
                            <div class="card-header d-flex p-0">
-                              <ul class="nav nav-pills mr-auto p-2">
+                              <ul class="nav nav-pills mr-auto p-2" id="properties-nav">
                                  @foreach($mainCategories as $mainCategory)
                                     <li class="nav-item" id="{{$mainCategory->name}}-tab">
                                        <a class="nav-link" href="#{{$mainCategory->name}}"
@@ -251,7 +319,7 @@
                               </ul>
                            </div><!-- /.card-header -->
                            <div class="card-body">
-                              <div class="tab-content">
+                              <div class="tab-content" id="properties-tabs">
                                  <div class="tab-pane" id="Mainboard">
                                     <select
                                           class="form-control mb-2 {{ $errors->has('sl_mbchipset_id') ? ' is-invalid' : '' }}"
@@ -346,7 +414,6 @@
                                        @foreach($ramcapacities as $ramcapacity)
                                           <option
                                                 value="{{$ramcapacity->id }}" {{old('sl_ramcapacity_id') == $ramcapacity->id ? 'selected' : ''}}>
-                                             {{ $socket->socket_type }}>
                                              {{ $ramcapacity->ram_capacity }}
                                           </option>
                                        @endforeach
