@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,8 +8,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <base href="http://localhost/PHP/ComputerSite/">
    <!-- Font Awesome -->
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/solid.css" integrity="sha384-Rw5qeepMFvJVEZdSo1nDQD5B6wX0m7c5Z/pLNvjkB14W6Yki1hKbSEQaX9ffUbWe" crossorigin="anonymous">
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/fontawesome.css" integrity="sha384-GVa9GOgVQgOk+TNYXu7S/InPTfSDTtBalSgkgqQ7sCik56N9ztlkoTr2f/T44oKV" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
    <!-- Ionicons -->
    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
    <!-- Theme style -->
@@ -19,9 +19,6 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
    <!-- Bootstrap Daterangepicker -->
    <link rel="stylesheet" href="{{asset('backend/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
-   <!-- Owl Carousel -->
-   <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.carousel.css')}}">
-   <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.theme.default.css')}}">
 
    <link rel="icon" href="{{asset('backend/dist/img/AdminLTELogo.png')}}">
 
@@ -37,6 +34,32 @@
 </head>
 
 @yield('content')
+<div class="row">
+    <div class="col-lg-6">
+        @yield('create-href')
+    </div>
+</div>
+<div class="card">
+    <div class="card-header row">
+        <h3 class="card-title col-lg-6 my-auto">@yield('title')</h3>
+        <div class="card-tools">
+            <form action="" method="get">
+                <div class="input-group input-group-sm" style="width:200px">
+                    <input type="text" name="q-case" placeholder="Search by case name" class="form-control">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="card-body p-0 table-responsive">
+        @yield('table')
+    </div>
+</div>
+</div>
 
 <!-- jQuery -->
 <script src="{{ asset('backend/bower_components/jquery/dist/jquery.min.js') }}"></script>
@@ -55,8 +78,6 @@
 <!-- Bootstrap Daterangepicker -->
 <script src="{{ asset('backend/bower_components/moment/moment.js') }}"></script>
 <script src="{{ asset('backend/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
-<!-- Owl Carousel -->
-<script src="{{asset('owlcarousel/dist/owl.carousel.js')}}"></script>
 <!-- User Script -->
 <script type="module" src="{{ asset('backend/js/user.js') }}"></script>
 </body>

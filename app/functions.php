@@ -653,8 +653,6 @@
          return array_map('current', $sql);
       }
    }
-
-
    //endregion
 
    //region Update Region
@@ -745,54 +743,52 @@
       }
    }
 
-if(!function_exists('getProperties')){
-    function getProperties($key,$table,$column){
-        if(isset($key)){
-            $record=DB::table($table)->where($column,'like',"%$key%")->paginate(10);
-        }else{
-            $record=DB::table($table)->paginate(10);
-        }
-        return $record;
-    }
-}
 
-if(!function_exists('getPropertiesWithOr')){
-    function getPropertiesWithOr($key,$table,$column,$column2){
-        if(isset($key)){
-            $record=DB::table($table)->where($column,'like',"%$key%")->orWhere($column2,'like',"%$key%")->paginate(10);
-        }else{
-            $record=DB::table($table)->paginate(10);
-        }
-        return $record;
-    }
-}
-
-if(!function_exists('PropertiesRules')){
-    function PropertiesRules($request,$input,$required){
-        $rules=[
-            $input=>'required',
-        ];
-
-        $messages=[
-            $input.'.required'=>$required.' is required',
-        ];
-
-        return Validator::make($request->all(), $rules, $messages);
-    }
-}
-
-if(!function_exists('PropertiesMultipleRules')){
-    function PropertiesMultipleRules($rq,$input1,$input2,$required1,$required2){
-        $rules=[
-            $input1=>'required',
-            $input2=>'required'
-        ];
-
-        $messages=[
-            $input1.'.required'=>$required1.' is required',
-            $input2.'.required'=>$required2.' is required'
-        ];
-
-        return Validator::make($rq->all(), $rules, $messages);
-    }
-}
+   if (!function_exists('getProperties')) {
+      function getProperties($key, $table, $column)
+      {
+         if (isset($key)) {
+            $record = DB::table($table)->where($column, 'like', "%$key%")->paginate(10);
+         } else {
+            $record = DB::table($table)->paginate(10);
+         }
+         return $record;
+      }
+   }
+   if (!function_exists('getPropertiesWithOr')) {
+      function getPropertiesWithOr($key, $table, $column, $column2)
+      {
+         if (isset($key)) {
+            $record = DB::table($table)->where($column, 'like', "%$key%")->orWhere($column2, 'like', "%$key%")->paginate(10);
+         } else {
+            $record = DB::table($table)->paginate(10);
+         }
+         return $record;
+      }
+   }
+   if (!function_exists('PropertiesRules')) {
+      function PropertiesRules($request, $input, $required)
+      {
+         $rules = [
+            $input => 'required',
+         ];
+         $messages = [
+            $input . '.required' => $required . ' is required',
+         ];
+         return Validator::make($request->all(), $rules, $messages);
+      }
+   }
+   if (!function_exists('PropertiesMultipleRules')) {
+      function PropertiesMultipleRules($rq, $input1, $input2, $required1, $required2)
+      {
+         $rules = [
+            $input1 => 'required',
+            $input2 => 'required'
+         ];
+         $messages = [
+            $input1 . '.required' => $required1 . ' is required',
+            $input2 . '.required' => $required2 . ' is required'
+         ];
+         return Validator::make($rq->all(), $rules, $messages);
+      }
+   }

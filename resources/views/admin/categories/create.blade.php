@@ -11,7 +11,7 @@
                <div class="col-sm-6">
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item"><a href="{{ action('CategoryController@index') }}">Categories</a></li>
-                     <li class="breadcrumb-item active">Create new Category</li>
+                     <li class="breadcrumb-item active">Create new Cateogory</li>
                   </ol>
                </div>
             </div>
