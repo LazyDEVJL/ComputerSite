@@ -193,3 +193,27 @@ $(".custom-file-input").on('change', function () {
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
 });
 //endregion
+
+// keep tab active 
+// $(function() {
+//     $('a[data-toggle="tab"]').on('click', function(e) {
+//         window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+//     });
+//     var activeTab = window.localStorage.getItem('activeTab');
+//     if (activeTab) {
+//         $('#myTab a[href="' + activeTab + '"]').tab('show');
+//         window.localStorage.removeItem("activeTab");
+//     }
+// });
+
+
+        $(document).ready(function () {
+            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+            var activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('#myTab a[href="' + activeTab + '"]').tab('show');
+            }
+        });
+  

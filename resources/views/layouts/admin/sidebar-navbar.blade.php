@@ -13,6 +13,9 @@
             <li class="nav-item d-none d-sm-inline-block">
             <a href="{{route('products')}}" class="nav-link">Products</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{route('properties')}}" class="nav-link">Properties</a>
+            </li>
         </ul>
         {{--<span class="ml-auto mr-3">Hello, {{ Auth::user()->name }}!</span>--}}
     </nav>
