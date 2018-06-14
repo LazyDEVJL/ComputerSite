@@ -18,6 +18,9 @@
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
    <!-- Bootstrap Daterangepicker -->
    <link rel="stylesheet" href="{{asset('backend/bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+   <!-- Owl Carousel -->
+   <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.carousel.css')}}">
+   <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.theme.default.css')}}">
 
    <link rel="icon" href="{{asset('backend/dist/img/AdminLTELogo.png')}}">
 
@@ -51,6 +54,8 @@
 <!-- Bootstrap Daterangepicker -->
 <script src="{{ asset('backend/bower_components/moment/moment.js') }}"></script>
 <script src="{{ asset('backend/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+<!-- Owl Carousel -->
+<script src="{{asset('owlcarousel/dist/owl.carousel.js')}}"></script>
 <!-- User Script -->
 <script type="module" src="{{ asset('backend/js/user.js') }}"></script>
 </body>

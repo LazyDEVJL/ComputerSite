@@ -59,14 +59,9 @@ $('input[name="discount_range"]').on('cancel.daterangepicker', function (ev, pic
 
 //region Show Product Properties Tab
 let subs = $("#sl_subCategory").children('option');
-subs.hide();
 
-function showhideSubCategory(val) {
+function filterSubCategory(val) {
     subs.hide();
-    subs.prop('selected', function () {
-        return this.defaultSelected;
-    });
-
     subs.each(function (i, el) {
         if ($(el).attr('data-type') === val) {
             $(el).show();
@@ -81,49 +76,51 @@ $("#sl_mainCategory").change(function () {
     switch (filterValue) {
         case 'Choose..':
             subs.show();
+            $("#properties-nav").children().removeClass('active').children('a').removeClass('active show');
+            $("#properties-tabs").children().removeClass('active show');
             break;
         case 'Mainboard':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#Mainboard-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#Mainboard").addClass("active show").siblings().removeClass("active show");
             break;
         case 'CPU':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#CPU-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#CPU").addClass("active show").siblings().removeClass("active show");
             break;
         case 'RAM':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#RAM-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#RAM").addClass("active show").siblings().removeClass("active show");
             break;
         case 'HDD':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#HDD-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#HDD").addClass("active show").siblings().removeClass("active show");
             break;
         case 'SSD':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#SSD-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#SSD").addClass("active show").siblings().removeClass("active show");
             break;
         case 'VGA':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#VGA-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#VGA").addClass("active show").siblings().removeClass("active show");
             break;
         case 'Case':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#Case-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#Case").addClass("active show").siblings().removeClass("active show");
             break;
         case 'PSU':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#PSU-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#PSU").addClass("active show").siblings().removeClass("active show");
             break;
         case 'Monitor':
-            showhideSubCategory(filterValue);
+            filterSubCategory(filterValue);
             $("#Monitor-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
             $("#Monitor").addClass("active show").siblings().removeClass("active show");
             break;
@@ -136,49 +133,51 @@ let filterValue = $('option:selected', '#sl_mainCategory').text();
 switch (filterValue) {
     case 'Choose..':
         subs.show();
+        $("#properties-nav").children().removeClass('active').children('a').removeClass('active show');
+        $("#properties-tabs").children().removeClass('active show');
         break;
     case 'Mainboard':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#Mainboard-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#Mainboard").addClass("active show").siblings().removeClass("active show");
         break;
     case 'CPU':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#CPU-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#CPU").addClass("active show").siblings().removeClass("active show");
         break;
     case 'RAM':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#RAM-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#RAM").addClass("active show").siblings().removeClass("active show");
         break;
     case 'HDD':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#HDD-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#HDD").addClass("active show").siblings().removeClass("active show");
         break;
     case 'SSD':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#SSD-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#SSD").addClass("active show").siblings().removeClass("active show");
         break;
     case 'VGA':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#VGA-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#VGA").addClass("active show").siblings().removeClass("active show");
         break;
     case 'Case':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#Case-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#Case").addClass("active show").siblings().removeClass("active show");
         break;
     case 'PSU':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#PSU-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#PSU").addClass("active show").siblings().removeClass("active show");
         break;
     case 'Monitor':
-        showhideSubCategory(filterValue);
+        filterSubCategory(filterValue);
         $("#Monitor-tab a").addClass("active show").parent().siblings().children().removeClass("active show");
         $("#Monitor").addClass("active show").siblings().removeClass("active show");
         break;
@@ -188,11 +187,13 @@ switch (filterValue) {
 
 //region Show file name after selecting image to upload
 
-$(".custom-file-input").on('change', function () {
+$("#product_thumbnail, #product_img_1, #product_img_2, #product_img_3").change(function () {
     let fileName = $(this).val().split('\\').pop();
+    fileName.length > 20 ? fileName = fileName.substr(0, 15) + '..' : fileName;
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
 });
 //endregion
+
 
 // keep tab active 
 // $(function() {
@@ -207,13 +208,36 @@ $(".custom-file-input").on('change', function () {
 // });
 
 
-        $(document).ready(function () {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            var activeTab = localStorage.getItem('activeTab');
-            if (activeTab) {
-                $('#myTab a[href="' + activeTab + '"]').tab('show');
-            }
-        });
+        
   
+
+//region Owl Carousel
+$("#current-product-images").owlCarousel({
+    loop:true,
+    margin:10,
+    items:1,
+    autoplay:true
+});
+//endregion
+
+//region CKEditor
+ClassicEditor
+    .create( document.querySelector( '#product_description' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
+//endregion
+
+// nduy13696 region 
+$(document).ready(function () {
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+    var activeTab = localStorage.getItem('activeTab');
+    if (activeTab) {
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+    }
+});
