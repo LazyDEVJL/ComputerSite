@@ -7,7 +7,7 @@
    use Illuminate\Support\Facades\Auth;
    use Illuminate\Support\Facades\Hash;
    use Illuminate\Support\Facades\Validator;
-   use Session;
+   use Illuminate\Support\Facades\Session;
 
    class AdminController extends Controller
    {
@@ -93,12 +93,12 @@
          }
       }
 
-//      public function logout()
-//      {
-//         Auth::guard('admin')->logout();
-//
-//         Session::flash('success', 'You have been successfully loged out');
-//         return redirect('admin/login');
-//
-//      }
+      public function logout()
+      {
+         Auth::guard('admin')->logout();
+
+         Session::flash('success', 'You have been successfully loged out');
+         return redirect('admin/login');
+
+      }
    }
