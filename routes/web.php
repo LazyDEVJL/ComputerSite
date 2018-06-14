@@ -15,10 +15,8 @@
    use Illuminate\Support\Facades\Route;
 
    /**
-    * Danh sách các route cho danh mục
+    * Route lists for Categories Management
     */
-
-
    Route::get('/admin/categories', 'CategoryController@index')->name('categories');
    Route::get('/admin/categories/create', 'CategoryController@create');
    Route::post('/admin/categories', 'CategoryController@createSave');
@@ -27,7 +25,7 @@
    Route::get('/admin/categories/destroy/{id}', 'CategoryController@destroy');
 
    /**
-    * Danh sách các route cho sản phẩm
+    * Route lists for Products Management
     */
    Route::get('/admin/products', 'ProductController@index')->name('products');
    Route::get('/admin/products/create', 'ProductController@create');
@@ -54,7 +52,17 @@
    Route::post('/admin/customers/edit-save', 'CustomerController@editSave');
    Route::get('/admin/customers/destroy/{id}', 'CustomerController@destroy');
 
-   // Danh sach cac Properties
+   /**
+    * Route lists for Orders Management
+    */
+   Route::get('/admin/orders', 'OrderController@index')->name('orders');
+   Route::get('/admin/orders/create', 'OrderController@create');
+   Route::post('/admin/orders', 'OrderController@createSave');
+   Route::get('/admin/orders/edit/{id}', 'OrderController@edit');
+   Route::post('/admin/orders/edit-save', 'OrderController@editSave');
+   Route::get('/admin/orders/destroy/{id}', 'OrderController@destroy');
+
+   // Route lists for Properties Management
    Route::get('/admin/properties', 'PropertiesController@index')->name('properties');
    Route::get('/admin/properties/create', 'PropertiesController@create');
    Route::post('/admin/properties/create', 'PropertiesController@saveCase');

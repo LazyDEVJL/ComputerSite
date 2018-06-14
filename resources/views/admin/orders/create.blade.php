@@ -103,30 +103,30 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-6">
-                        <label for="parent_category">Parent Category</label>
-                        <select
-                           id="parent_category"
-                           class="form-control {{ $errors->has('sl_parent_id') ? ' is-invalid' : '' }}"
-                           name="sl_parent_id">
-                           <option value="">Choose..</option>
-                           <option value="0">
-                              Highest Grade
-                           </option>
-                           @foreach($categories as $category)
-                              <option
-                                 value="{{ $category->id }}" {{old('sl_parent_id') == $category->id ? 'selected' : ''}}>
-                                 {{ $category->name }}
-                              </option>
-                           @endforeach
-                        </select>
+                     {{--<div class="form-group col-lg-6">--}}
+                        {{--<label for="parent_category">Parent Category</label>--}}
+                        {{--<select--}}
+                           {{--id="parent_category"--}}
+                           {{--class="form-control {{ $errors->has('sl_parent_id') ? ' is-invalid' : '' }}"--}}
+                           {{--name="sl_parent_id">--}}
+                           {{--<option value="">Choose..</option>--}}
+                           {{--<option value="0">--}}
+                              {{--Highest Grade--}}
+                           {{--</option>--}}
+                           {{--@foreach($categories as $category)--}}
+                              {{--<option--}}
+                                 {{--value="{{ $category->id }}" {{old('sl_parent_id') == $category->id ? 'selected' : ''}}>--}}
+                                 {{--{{ $category->name }}--}}
+                              {{--</option>--}}
+                           {{--@endforeach--}}
+                        {{--</select>--}}
 
-                        @if ($errors->has('sl_parent_id'))
-                           <span class="invalid-feedback">
-                               <p class="font-italic font-weight-bold">{{ $errors->first('sl_parent_id') }}</p>
-                           </span>
-                        @endif
-                     </div>
+                        {{--@if ($errors->has('sl_parent_id'))--}}
+                           {{--<span class="invalid-feedback">--}}
+                               {{--<p class="font-italic font-weight-bold">{{ $errors->first('sl_parent_id') }}</p>--}}
+                           {{--</span>--}}
+                        {{--@endif--}}
+                     {{--</div>--}}
                   </div>
                </div>
                <div class="card-footer row">
@@ -134,8 +134,8 @@
                      <input type="submit" value="Create" class="btn btn-primary">
                      <input type="reset" value="Reset" class="btn btn-default ml-2">
                   </div>
-                  <div class="col-lg-6" align="right">
-                     <a href="{{ action('CategoryController@index') }}" class="btn btn-secondary">
+                  <div class="col-lg-6 pr-0" align="right">
+                     <a href="{{ route('orders') }}" class="btn btn-secondary">
                         <i class="fa fa-arrow-alt-circle-left"></i>&nbsp;&nbsp; Back
                      </a>
                   </div>

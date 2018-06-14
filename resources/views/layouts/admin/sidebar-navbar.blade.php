@@ -19,6 +19,9 @@
          <li class="nav-item d-none d-sm-inline-block">
             <a href="{{route('customers')}}" class="nav-link">Customers</a>
          </li>
+         <li class="nav-item d-none d-sm-inline-block">
+            <a href="{{route('orders')}}" class="nav-link">Orders</a>
+         </li>
       </ul>
       <span class="ml-auto mr-3">Hello, {{ \Illuminate\Support\Facades\Auth::guard('admin')->user()->username }}</span>
    </nav>
@@ -58,7 +61,7 @@
                      </li>
                      <li class="nav-item">
                         <a href="{{ route('products') }}" class="nav-link">
-                           <i class="fas fa-shopping-bag nav-icon" style="font-size: 12px;"></i>
+                           <i class="fas fa-archive nav-icon" style="font-size: 12px;"></i>
                            <p>Products</p>
                         </a>
                      </li>
@@ -66,6 +69,12 @@
                         <a href="{{ route('customers') }}" class="nav-link">
                            <i class="fas fa-users nav-icon" style="font-size: 12px;"></i>
                            <p>Customers</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="{{ route('orders') }}" class="nav-link">
+                           <i class="fas fa-shopping-cart nav-icon" style="font-size: 12px;"></i>
+                           <p>Orders</p>
                         </a>
                      </li>
                   </ul>
@@ -95,6 +104,12 @@
                         <a href="{{ action('PropertiesController@create') }}" class="nav-link">
                            <i class="fas fa-plus nav-icon" style="font-size: 12px;"></i>
                            <p>Add new Property</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="{{ action('OrderController@create') }}" class="nav-link">
+                           <i class="fas fa-plus nav-icon" style="font-size: 12px;"></i>
+                           <p>Add new Order</p>
                         </a>
                      </li>
                   </ul>
