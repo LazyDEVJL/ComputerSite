@@ -45,15 +45,15 @@
                      <div class="form-group col-lg-2">
                         <label for="price">Price</label>
                         <div class="input-group">
-                           <input type="number" name="txt_price" id="price"
-                                  class="form-control {{ $errors->has('txt_price') ? ' is-invalid' : '' }}"
-                                  value="{{old('txt_price')}}">
-                           <div class="input-group-append">
+                           <div class="input-group-prepend">
                               <div class="input-group-text">
-                                 <span>đ</span>
+                                 <span>$</span>
                               </div>
                            </div>
-
+                           <input type="number" name="txt_price" id="price"
+                                  class="form-control {{ $errors->has('txt_price') ? ' is-invalid' : '' }}"
+                                  value="{{old('txt_price')}}"
+                                  step="0.01">
                            @if ($errors->has('txt_price'))
                               <span class="invalid-feedback d-block">
                                <p class="font-italic font-weight-bold">{{ $errors->first('txt_price') }}</p>
@@ -74,7 +74,7 @@
                         @endif
                      </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form-row mt-2">
                      <div class="form-group col-lg-2">
                         <label for="manufacture">Manufacture</label>
                         <select class="form-control {{ $errors->has('sl_manufacture_id') ? ' is-invalid' : '' }}"
@@ -171,7 +171,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form-row mt-2">
                      <div class="form-group col-lg-2">
                         <label>Product's Thumbnail</label>
                         <div class="input-group">
@@ -195,7 +195,7 @@
                         </div>
                      </div>
                      <div class="col-lg-6">
-                        <label for="">Product's Images (All three required)</label>
+                        <label for="">Product's Images (all three are required)</label>
                         <div class="row">
                            <div class="form-group col-lg-4 pr-lg-1">
                               <div class="input-group">
@@ -227,16 +227,10 @@
                                  </div>
                                  <div class="custom-file" id="p_image">
                                     <input type="file"
-                                           class="custom-file-input {{ $errors->has('product_img_2') ? ' is-invalid' : '' }}"
-                                           name="product_img_2" id="product_img_2"
-                                           value="{{old('product_img_2')}}">
+                                           class="custom-file-input"
+                                           name="product_img_2" id="product_img_2">
                                     <label class="custom-file-label" for="product_img_2">Choose file</label>
                                  </div>
-                                 @if ($errors->has('product_img_2'))
-                                    <span class="invalid-feedback d-block">
-                               <p class="font-italic font-weight-bold">{{ $errors->first('product_img_2') }}</p>
-                           </span>
-                                 @endif
                               </div>
                            </div>
                            <div class="form-group col-lg-4 pl-lg-1">
@@ -248,16 +242,10 @@
                                  </div>
                                  <div class="custom-file" id="p_image">
                                     <input type="file"
-                                           class="custom-file-input {{ $errors->has('product_img_3') ? ' is-invalid' : '' }}"
-                                           name="product_img_3" id="product_img_3"
-                                           value="{{old('product_img_3')}}">
+                                           class="custom-file-input"
+                                           name="product_img_3" id="product_img_3">
                                     <label class="custom-file-label" for="product_img_3">Choose file</label>
                                  </div>
-                                 @if ($errors->has('product_img_3'))
-                                    <span class="invalid-feedback d-block">
-                               <p class="font-italic font-weight-bold">{{ $errors->first('product_img_3') }}</p>
-                           </span>
-                                 @endif
                               </div>
                            </div>
                         </div>
@@ -303,7 +291,7 @@
                      </div>
                   </div>
 
-                  <label class="mt-3">Product Properties</label>
+                  <label class="mt-2">Product Properties</label>
                   <div class="row">
                      <div class="col-lg-12">
                         <!-- Custom Tabs -->
@@ -707,6 +695,12 @@
                         <!-- ./card -->
                      </div>
                      <!-- /.col -->
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-lg-12">
+                        <label>Product's description</label>
+                        <textarea name="txt_description" id="product_description" cols="30" rows="10">{{old('txt_description')}}</textarea>
+                     </div>
                   </div>
                </div>
                <div class="card-footer row">

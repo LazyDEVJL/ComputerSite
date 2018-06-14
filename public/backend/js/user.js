@@ -187,9 +187,9 @@ switch (filterValue) {
 
 //region Show file name after selecting image to upload
 
-$("#product_thumbnail, #product_img_1, #product_img_2, #product_img_3").on('change', function () {
+$("#product_thumbnail, #product_img_1, #product_img_2, #product_img_3").change(function () {
     let fileName = $(this).val().split('\\').pop();
-    fileName.length > 30 ? fileName = fileName.substr(0, 10) + '..' : fileName;
+    fileName.length > 20 ? fileName = fileName.substr(0, 15) + '..' : fileName;
     $(this).next('.custom-file-label').addClass("selected").html(fileName);
 });
 //endregion
@@ -201,4 +201,15 @@ $("#current-product-images").owlCarousel({
     items:1,
     autoplay:true
 });
+//endregion
+
+//region CKEditor
+ClassicEditor
+    .create( document.querySelector( '#product_description' ) )
+    .then( editor => {
+        console.log( editor );
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
 //endregion

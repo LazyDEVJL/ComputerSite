@@ -45,15 +45,15 @@
                      <div class="form-group col-lg-2">
                         <label for="price">Price</label>
                         <div class="input-group">
-                           <input type="number" name="txt_price" id="price"
-                                  class="form-control {{ $errors->has('txt_price') ? ' is-invalid' : '' }}"
-                                  value="{{old('txt_price', $currentProduct->price)}}">
-                           <div class="input-group-append">
+                           <div class="input-group-prepend">
                               <div class="input-group-text">
-                                 <span>đ</span>
+                                 <span>$</span>
                               </div>
                            </div>
-
+                           <input type="number" name="txt_price" id="price"
+                                  class="form-control {{ $errors->has('txt_price') ? ' is-invalid' : '' }}"
+                                  value="{{old('txt_price', $currentProduct->price)}}"
+                                  step="0.01">
                            @if ($errors->has('txt_price'))
                               <span class="invalid-feedback d-block">
                                <p class="font-italic font-weight-bold">{{ $errors->first('txt_price') }}</p>
@@ -74,7 +74,7 @@
                         @endif
                      </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form-row mt2">
                      <div class="form-group col-lg-2">
                         <label for="manufacture">Manufacture</label>
                         <select class="form-control {{ $errors->has('sl_manufacture_id') ? ' is-invalid' : '' }}"
@@ -173,7 +173,7 @@
                         </div>
                      </div>
                   </div>
-                  <div class="form-row">
+                  <div class="form-row mt2">
                      <div class="form-group col-lg-2">
                         <label>Product's Thumbnail</label>
                         <div class="input-group">
@@ -310,11 +310,11 @@
                         @endif
                      </div>
                   </div>
-                  <div class="row">
+                  <div class="row mt2">
                      <div class="col-lg-2">
                         <label for="current-product-thumbnail">Product's current thumbnail</label>
                         <div id="current-product-thumbnail">
-                           <img src="{{asset($currentProduct->image)}}" alt="{{$currentProduct->name}}" width="200px">
+                           <img src="{{asset($currentProduct->image)}}" alt="{{$currentProduct->name}}" width="250px">
                         </div>
                      </div>
                      <div class="col-lg-2">
@@ -360,8 +360,8 @@
                                     </select>
                                     @if ($errors->has('sl_mbchipset_id'))
                                        <span class="invalid-feedback d-block">
-                            <p class="font-italic font-weight-bold">{{ $errors->first('sl_mbchipset_id') }}</p>
-                         </span>
+                                           <p class="font-italic font-weight-bold">{{ $errors->first('sl_mbchipset_id') }}</p>
+                                       </span>
                                     @endif
                                     <select
                                           class="form-control mb-2 {{ $errors->has('sl_mbsize_id', $currentProductProperties->mb_size_id) ? ' is-invalid' : '' }}"
@@ -650,7 +650,7 @@
                                     @endif
                                  </div>
                                  <!-- /.tab-pane -->
-                                 <div class="tab-pane {{getParentCategory($currentProductCategories[0]) == 'Mainboard' ? 'Monitor' : ''}}"
+                                 <div class="tab-pane {{getParentCategory($currentProductCategories[0]) == 'Monitor' ? 'active' : ''}}"
                                       id="Monitor">
                                     <select
                                           class="form-control mb-2 {{ $errors->has('sl_mnt_refreshrate_id') ? ' is-invalid' : '' }}"
@@ -741,6 +741,13 @@
                         <!-- ./card -->
                      </div>
                      <!-- /.col -->
+                  </div>
+                  <div class="row mt-2">
+                     <div class="col-lg-12">
+                        <label>Product's description</label>
+                        <textarea name="txt_description" id="product_description" cols="30"
+                                  rows="10">{{$currentProduct->description}}</textarea>
+                     </div>
                   </div>
                </div>
                <div class="card-footer row">

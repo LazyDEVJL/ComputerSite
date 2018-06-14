@@ -64,9 +64,9 @@
                         <td>{{$product->id}}</td>
                         <td>{{str_limit($product->name, 50)}}</td>
                         <td><img src="{{asset($product->image)}}" alt="{{$product->name}}" width="100"></td>
-                        <td>{{number_format($product->price, "0", "0", ".")." VND"}}</td>
-                        <td>{{$product->discount}}</td>
-                        <td>{{number_format($product->discounted_price, "0", "0", ".")." VND"}}</td>
+                        <td>{{'$'.number_format($product->price, "2", ".", ",")}}</td>
+                        <td>{{$product->discount == 0 ? '0%' : $product->discount.'%'}}</td>
+                        <td>{{'$'.number_format($product->discounted_price, "2", ".", ",")}}</td>
                         <td>{{$product->quantity}}</td>
                         <td>{{$product->active == 1 ? 'Show' : 'Hide'}}</td>
                         <td>{{str_limit($product->slug, 50)}}</td>
@@ -74,7 +74,7 @@
                         <td>
                            <a href="{{action('ProductController@edit', ['id' => $product->id])}}"
                               class="btn btn-default"><i class="fa fa-edit"></i></a>
-                           <a onclick="return confirm('Bạn có chắc chắn muốn xoá không?');"
+                           <a onclick="return confirm('Are you sure?');"
                               href="{{action('ProductController@destroy', ['id' => $product->id])}}"
                               class="btn btn-danger"><i class="fa fa-trash"></i></a>
                         </td>

@@ -18,5 +18,9 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "vue": "^2.5.7"
+    },
+    "dependencies": {
+        "@ckeditor/ckeditor5-build-classic": "^10.0.1",
+        "@ckeditor/ckeditor5-image": "^10.0.0"
     }
 }

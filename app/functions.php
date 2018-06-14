@@ -38,113 +38,6 @@
       }
    }
 
-   if (!function_exists('insertImage')) {
-      function insertImage($rq, $key)
-      {
-         switch ($key) {
-            case 'thumbnail':
-               $file = $rq->product_thumbnail;
-               break;
-
-            case 'img1':
-               $file = $rq->product_img_1;
-               break;
-
-            case 'img2':
-               $file = $rq->product_img_2;
-               break;
-
-            case 'img3':
-               $file = $rq->product_img_3;
-               break;
-         }
-
-         $fileName = $file->getClientOriginalName();
-
-         $file->move(base_path('public/backend/products/images/'), $fileName);
-         $img = 'backend/products/images/' . $fileName;
-         return $img;
-      }
-   }
-
-   if (!function_exists('insertProductImages')) {
-      function insertProductImages($img1, $img2, $img3)
-      {
-         $productId = DB::table('tbl_products')
-            ->select('id')
-            ->orderBy('id', 'desc')
-            ->first()
-            ->id;
-
-         $data = array(
-            array('product_id' => $productId, 'link' => $img1),
-            array('product_id' => $productId, 'link' => $img2),
-            array('product_id' => $productId, 'link' => $img3)
-         );
-
-         $check = ProductImage::insert($data);
-
-         return $check;
-      }
-   }
-
-   if (!function_exists('editImage')) {
-      function editImage($rq, $filePath, $key)
-      {
-         $link = is_file(base_path('public/' . $filePath));
-
-         if ($link) {
-            unlink(base_path('public/' . $filePath));
-            $thumbnail = insertImage($rq, $key);
-         } else {
-            $thumbnail = insertImage($rq, $key);
-         }
-
-         return $thumbnail;
-      }
-   }
-
-   if (!function_exists('hasNewImage')) {
-      function hasNewImage($rq, $newImg, $currentImg, $key)
-      {
-         if (!isset($newImg)) {
-            $img = $currentImg;
-         } else {
-            $editFilePath = $currentImg;
-            switch ($key) {
-               case 'thumbnail':
-                  $img = editImage($rq, $editFilePath, 'thumbnail');
-                  break;
-
-               case 'img1':
-                  $img = editImage($rq, $editFilePath, 'img1');
-                  break;
-
-               case 'img2':
-                  $img = editImage($rq, $editFilePath, 'img2');
-                  break;
-
-               case 'img3':
-                  $img = editImage($rq, $editFilePath, 'img3');
-                  break;
-            }
-         }
-         return $img;
-      }
-   }
-
-   if (!function_exists('deleteImage')) {
-      function deleteImage($filePath)
-      {
-
-         $link = is_file(base_path('public/' . $filePath));
-         if ($link) {
-            $check = unlink(base_path('public/' . $filePath));
-            return $check;
-         }
-      }
-   }
-
    if (!function_exists('getManufacture')) {
 
       function getManufacture($id)
@@ -324,12 +217,12 @@
                   'product_img_1.required' => 'Product\'s first image is required',
                   'product_img_1.image' => 'Product\'s first image must be an image',
                   'product_img_1.max' => 'Product\'s first image must be smaller than 2MB',
-                  'product_img_2.required' => 'Product\'s second image is required',
-                  'product_img_2.image' => 'Product\'s second image must be an image',
-                  'product_img_2.max' => 'Product\'s second image must be smaller than 2MB',
-                  'product_img_3.required' => 'Product\'s third image is required',
-                  'product_img_3.image' => 'Product\'s third image must be an image',
-                  'product_img_3.max' => 'Product\'s third image must be smaller than 2MB',
+                  'product_img_2.required' => 'Product\'s first image is required',
+                  'product_img_2.image' => 'Product\'s first image must be an image',
+                  'product_img_2.max' => 'Product\'s first image must be smaller than 2MB',
+                  'product_img_3.required' => 'Product\'s first image is required',
+                  'product_img_3.image' => 'Product\'s first image must be an image',
+                  'product_img_3.max' => 'Product\'s first image must be smaller than 2MB',
                   'sl_mainCategory.required' => 'Product\'s main category are not chosen',
                   'sl_mainCategory.integer' => 'Product\'s main category are not chosen',
                   'sl_subCategory.required' => 'Product\'s sub category are not chosen',
@@ -449,6 +342,130 @@
 
 //endregion
 
+//region Images
+   if (!function_exists('insertImage')) {
+      function insertImage($rq, $key)
+      {
+         switch ($key) {
+            case 'thumbnail':
+               $file = $rq->product_thumbnail;
+               break;
+
+            case 'img1':
+               $file = $rq->product_img_1;
+               break;
+
+            case 'img2':
+               $file = $rq->product_img_2;
+               break;
+
+            case 'img3':
+               $file = $rq->product_img_3;
+               break;
+         }
+
+         $fileName = $file->getClientOriginalName();
+
+         $file->move(base_path('public/backend/products/images/'), $fileName);
+         $img = 'backend/products/images/' . $fileName;
+         return $img;
+      }
+   }
+
+   if (!function_exists('insertProductImages')) {
+      function insertProductImages($img1, $img2, $img3)
+      {
+         $productId = DB::table('tbl_products')
+            ->select('id')
+            ->orderBy('id', 'desc')
+            ->first()
+            ->id;
+
+         $data = array(
+            array('product_id' => $productId, 'link' => $img1),
+            array('product_id' => $productId, 'link' => $img2),
+            array('product_id' => $productId, 'link' => $img3)
+         );
+
+         $check = ProductImage::insert($data);
+
+         return $check;
+      }
+   }
+
+   if (!function_exists('updateProductImages')) {
+      function updateProductImages($img1, $img2, $img3, $currentProductId)
+      {
+         $data = array(
+            array('product_id' => $currentProductId, 'link' => $img1),
+            array('product_id' => $currentProductId, 'link' => $img2),
+            array('product_id' => $currentProductId, 'link' => $img3)
+         );
+
+         $check = ProductImage::insert($data);
+
+         return $check;
+      }
+   }
+
+   if (!function_exists('editImage')) {
+      function editImage($rq, $filePath, $key)
+      {
+         $link = is_file(base_path('public/' . $filePath));
+
+         if ($link) {
+            unlink(base_path('public/' . $filePath));
+            $thumbnail = insertImage($rq, $key);
+         } else {
+            $thumbnail = insertImage($rq, $key);
+         }
+
+         return $thumbnail;
+      }
+   }
+
+   if (!function_exists('hasNewImage')) {
+      function hasNewImage($rq, $newImg, $currentImg, $key)
+      {
+         if (!isset($newImg)) {
+            $img = $currentImg;
+         } else {
+            $editFilePath = $currentImg;
+            switch ($key) {
+               case 'thumbnail':
+                  $img = editImage($rq, $editFilePath, 'thumbnail');
+                  break;
+
+               case 'img1':
+                  $img = editImage($rq, $editFilePath, 'img1');
+                  break;
+
+               case 'img2':
+                  $img = editImage($rq, $editFilePath, 'img2');
+                  break;
+
+               case 'img3':
+                  $img = editImage($rq, $editFilePath, 'img3');
+                  break;
+            }
+         }
+         return $img;
+      }
+   }
+
+   if (!function_exists('deleteImage')) {
+      function deleteImage($filePath)
+      {
+
+         $link = is_file(base_path('public/' . $filePath));
+         if ($link) {
+            $check = unlink(base_path('public/' . $filePath));
+            return $check;
+         }
+      }
+   }
+//endregion
+
 //region Insert Region
    if (!function_exists('insertCase')) {
 
@@ -498,20 +515,6 @@
          $newRAM->ram_type_id = $ramTypeId;
 
          $check = $newRAM->save();
-
-         return $check;
-      }
-   }
-
-   if (!function_exists('updateRAM')) {
-      function updateRAM($ramCapacityId, $ramSpeedId, $ramTypeId, $id)
-      {
-         $updateRAM = ProductProperty::find($id);
-         $updateRAM->ram_capacity_id = $ramCapacityId;
-         $updateRAM->ram_speed_id = $ramSpeedId;
-         $updateRAM->ram_type_id = $ramTypeId;
-
-         $check = $updateRAM->save();
 
          return $check;
       }
@@ -584,9 +587,10 @@
          return $check;
       }
    }
+
    if (!function_exists('insertGeneral')) {
 
-      function insertGeneral($name, $price, $image, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId)
+      function insertGeneral($name, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId)
       {
          $lastInsertID = DB::table('tbl_product_properties')
             ->select('id')
@@ -598,6 +602,7 @@
          $newProduct->name = $name;
          $newProduct->price = $price;
          $newProduct->image = $image;
+         $newProduct->description = $description;
          $newProduct->slug = $slug;
          $newProduct->active = $active;
          $newProduct->quantity = $quantity;
@@ -649,43 +654,93 @@
       }
    }
 
+
+   //endregion
+
+   //region Update Region
+   if (!function_exists('updateProductCategories')) {
+      function updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId)
+      {
+         $data = array(
+            array('category_id' => $mainCategoryId, 'product_id' => $currentProductId),
+            array('category_id' => $subCategoryId, 'product_id' => $currentProductId)
+         );
+
+         $check = ProductCategory::insert($data);
+
+         return $check;
+      }
+   }
+
    if (!function_exists('updateProduct')) {
-      function updateProduct($rq, $name, $price, $image, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId, $currentProduct, $key)
+      function updateProduct($rq, $name, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId, $currentProduct, $key)
       {
 
-         /*$currentProduct->update(['case_type_id' => null, 'cpu_serie_id' => null, 'drive_capacity_id' => null, 'mb_chipset_id' => null, 'mb_size_id' => null, 'mnt_refresh_rate_id' => null, 'mnt_response_time_id' => null, 'mnt_resolution_id' => null, 'mnt_screen_size_id' => null, 'mnt_type_id' => null, 'psu_ee_id' => null, 'psu_power_id' => null, 'ram_capacity_id' => null, 'ram_speed_id' => null, 'ram_type_id' => null, 'vga_gpu_id' => null, 'vga_mem_size_id' => null, 'ssd_form_factor_id' => null, 'ssd_interface_id' => null, 'socket_id' => null,
-         ]);*/
+         $currentProduct->update(['case_type_id' => null, 'cpu_serie_id' => null, 'drive_capacity_id' => null, 'mb_chipset_id' => null, 'mb_size_id' => null, 'mnt_refresh_rate_id' => null, 'mnt_response_time_id' => null, 'mnt_resolution_id' => null, 'mnt_screen_size_id' => null, 'mnt_type_id' => null, 'psu_ee_id' => null, 'psu_power_id' => null, 'ram_capacity_id' => null, 'ram_speed_id' => null, 'ram_type_id' => null, 'vga_gpu_id' => null, 'vga_mem_size_id' => null, 'ssd_form_factor_id' => null, 'ssd_interface_id' => null, 'socket_id' => null,
+         ]);
 
-         $base = ['p.name' => $name, 'p.price' => $price, 'p.image' => $image, 'p.slug' => $slug, 'p.active' => $active, 'p.quantity' => $quantity, 'p.discount' => $discount, 'p.discount_from' => $discountFrom, 'p.discount_to' => $discountTo, 'p.discounted_price' => $discountedPrice, 'p.manufacture_id' => $manufactureId];
+         $base = ['p.name' => $name, 'p.price' => $price, 'p.image' => $image, 'p.description' => $description, 'p.slug' => $slug, 'p.active' => $active, 'p.quantity' => $quantity, 'p.discount' => $discount, 'p.discount_from' => $discountFrom, 'p.discount_to' => $discountTo, 'p.discounted_price' => $discountedPrice, 'p.manufacture_id' => $manufactureId];
 
-         $check = $currentProduct->update($base);
+         $currentProduct->update($base);
 
-         if ($check) {
-            switch ($key) {
-               case 'Case':
-                  break;
-               case 'CPU':
-                  break;
-               case 'HDD':
-                  break;
-               case 'Mainboard':
-                  break;
-               case 'Monitor':
-                  break;
-               case 'PSU':
-                  break;
-               case 'RAM':
-                  $ramCapacityId = $rq->post('sl_ramcapacity_id');
-                  $ramSpeedId = $rq->post('sl_ramspeed_id');
-                  $ramTypeId = $rq->post('sl_ramtype_id');
-                  $currentProduct->update(['pp.ram_capacity_id' => $ramCapacityId, 'pp.ram_speed_id' => $ramSpeedId, 'pp.ram_type_id' => $ramTypeId]);
-                  break;
-               case 'SSD':
-                  break;
-               case 'VGA':
-                  break;
-            }
+         switch ($key) {
+            case 'Case':
+               $caseTypeId = $rq->post('sl_casetype_id');
+               $currentProduct->update(['pp.case_type_id' => $caseTypeId]);
+               break;
+            case 'CPU':
+               $cpuSerieId = $rq->post('sl_cpuserie_id');
+               $cpuSocketId = $rq->post('sl_cpu_socket_id');
+               $currentProduct->update(['pp.cpu_serie_id' => $cpuSerieId, 'pp.socket_id' => $cpuSocketId]);
+               break;
+            case 'HDD':
+               $HDDCapacityId = $rq->post('sl_HDDdrivercapacity_id');
+               $currentProduct->update(['pp.drive_capacity_id' => $HDDCapacityId]);
+               break;
+            case 'Mainboard':
+               $mbChipsetId = $rq->post('sl_mbchipset_id');
+               $mbSizeId = $rq->post('sl_mbsize_id');
+               $mbSocketId = $rq->post('sl_mb_socket_id');
+               $currentProduct->update(['pp.mb_chipset_id' => $mbChipsetId, 'pp.mb_size_id' => $mbSizeId, 'pp.socket_id' => $mbSocketId]);
+               break;
+            case 'Monitor':
+               $mntRefreshRateId = $rq->post('sl_mnt_refreshrate_id');
+               $mntResponseTimeId = $rq->post('sl_mnt_response_time_id');
+               $mntResolutionId = $rq->post('sl_mnt_resolution_id');
+               $mntScreenSizeId = $rq->post('sl_mnt_screensize_id');
+               $mntTypeId = $rq->post('sl_mnt_type_id');
+               $currentProduct->update(['pp.mnt_refresh_rate_id' => $mntRefreshRateId, 'pp.mnt_response_time_id' => $mntResponseTimeId, 'pp.mnt_resolution_id' => $mntResolutionId, 'pp.mnt_screen_size_id' => $mntScreenSizeId, 'pp.mnt_type_id' => $mntTypeId]);
+               break;
+            case 'PSU':
+               $PSUEEId = $rq->post('sl_psuee_id');
+               $PSUPowerId = $rq->post('sl_psupower_id');
+               $currentProduct->update(['pp.psu_ee_id' => $PSUEEId, 'pp.psu_power_id' => $PSUPowerId]);
+               break;
+            case 'RAM':
+               $ramCapacityId = $rq->post('sl_ramcapacity_id');
+               $ramSpeedId = $rq->post('sl_ramspeed_id');
+               $ramTypeId = $rq->post('sl_ramtype_id');
+               $currentProduct->update(['pp.ram_capacity_id' => $ramCapacityId, 'pp.ram_speed_id' => $ramSpeedId, 'pp.ram_type_id' => $ramTypeId]);
+               break;
+            case 'SSD':
+               $SSDCapacityId = $rq->post('sl_SSDdrivercapacity_id');
+               $SSDFormFactorId = $rq->post('sl_SSDformfactor_id');
+               $SSDInterfaceId = $rq->post('sl_SSDinterface_id');
+               $currentProduct->update(['pp.drive_capacity_id' => $SSDCapacityId, 'pp.ssd_form_factor_id' => $SSDFormFactorId, 'pp.ssd_interface_id' => $SSDInterfaceId]);
+               break;
+            case 'VGA':
+               $VGAGPUId = $rq->post('sl_vgagpu_id');
+               $VGAMemSizeId = $rq->post('sl_vgamemsize_id');
+               $currentProduct->update(['pp.vga_gpu_id' => $VGAGPUId, 'pp.vga_mem_size_id' => $VGAMemSizeId]);
+               break;
          }
       }
    }
    //endregion
+
+   if (!function_exists('dateFormat')) {
+      function dateFormat($date)
+      {
+         return date_format(date_create($date), "m/d/Y");
+      }
+   }
