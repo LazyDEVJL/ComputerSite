@@ -1,5 +1,5 @@
-@extends('layouts.frontend.master')
-@section('content')
+<!-- @extends('layouts.frontend.master')
+@section('content') -->
 <section class="padding-top-100 padding-bottom-100">
       <div class="container"> 
         
@@ -13,27 +13,24 @@
               <!-- Images Slider -->
               <div class="images-slider">
                 <ul class="slides">
-                  <li data-thumb="images/large-img-1.jpg"> <img class="img-responsive" src="images/large-img-1.jpg"  alt=""> </li>
-                  <li data-thumb="images/large-img-2.jpg"> <img class="img-responsive" src="images/large-img-2.jpg"  alt=""> </li>
-                  <li data-thumb="images/large-img-3.jpg"> <img class="img-responsive" src="images/large-img-3.jpg"  alt=""> </li>
+                  @foreach($Allimages as $image)
+                  <li data-thumb="{{asset($image->link)}}"> <img class="img-responsive" src="{{asset($image->link)}}"  alt=""> </li>
+                  @endforeach
                 </ul>
               </div>
             </div>
             
             <!-- COntent -->
             <div class="col-md-5">
-              <h4>{{$CurrentProduct[0]->name}}</h4>
-              <span class="price"><small>$</small>{{$CurrentProduct[0]->price}}</span> 
+              <h4>{{$CurrentProduct->name}}</h4>
+              <span class="price"><small>$</small>{{$CurrentProduct->price}}</span> 
               
               <!-- Sale Tags -->
               <div class="on-sale"> 10% <span>OFF</span> </div>
               <ul class="item-owner">
                 <li>Category :<span> {{getParentCategory($currentCategoryId)}}</span></li>
-                <li>Manufacture:<span> {{getManufacture($CurrentProduct[0]->manufacture_id)}}</span></li>
+                <li>Manufacture:<span> {{getManufacture($CurrentProduct->manufacture_id)}}</span></li>
               </ul>
-              
-              <!-- Item Detail -->
-              <div>{!!$CurrentProduct[0]->description!!}</div>
               
               <!-- Short By -->
               <div class="some-info">
@@ -89,30 +86,7 @@
           <div class="tab-content animate fadeInUp" data-wow-delay="0.4s"> 
             <!-- DESCRIPTION -->
             <div role="tabpanel" class="tab-pane fade in active" id="descr">
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed lectus id nisi interdum mollis. Nam congue tellus quis elit mattis congue. Aenean eu massa sed mauris hendrerit ornare sed eget ante. 
-                Vestibulum id eros quam. Nunc volutpat at magna gravida eleifend. Phasellus sit amet nisi tempus, tincidunt elit ac, tempor metus. <br>
-              </p>
-              <h6>THE SIMPLE FACTS</h6>
-              <ul>
-                <li>
-                  <p>Praesent faucibus, leo vitae maximus dictum,</p>
-                </li>
-                <li>
-                  <p> Donec porta ut lectus </p>
-                </li>
-                <li>
-                  <p> Phasellus maximus velit id nisl</p>
-                </li>
-                <li>
-                  <p> Quisque a tellus et sapien aliquam sus</p>
-                </li>
-                <li>
-                  <p> Donec porta ut lectus </p>
-                </li>
-                <li>
-                  <p> Phasellus maximus velit id nisl</p>
-                </li>
-              </ul>
+              <div>{!!$CurrentProduct->description!!}</div>
             </div>
             
             <!-- REVIEW -->
@@ -272,4 +246,4 @@
         </div>
       </div>
     </section>
-@stop
+<!-- @stop -->

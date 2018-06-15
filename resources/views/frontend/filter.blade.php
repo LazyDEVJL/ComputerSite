@@ -34,7 +34,7 @@
                     <li><a href="{{action('FrontendController@getFilter',['slug'=>$slug,'filter'=>$rec3->id])}}">{{$rec3->mnt_refresh_rate}}</a></li>
                     @endforeach
                 </ul>
-              @elseif ($slug=='cpu')
+                @elseif ($slug=='cpu')
                 <h5 class="shop-tittle margin-bottom-30">Cpu Series</h5>
                 <ul class="shop-cate">
                     @foreach($record[0] as $rec0)

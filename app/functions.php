@@ -817,7 +817,10 @@
                   break;
 
                   case 'cpu':
-                  return $cpu=DB::table('tbl_cpu_series')->get(); 
+                  return [
+                        $cpu=DB::table('tbl_cpu_series')->get(),
+                        $cpu=DB::table('tbl_sockets')->get()
+                  ];
                   break;
 
                   case 'hdd':
@@ -864,7 +867,7 @@
             switch($slug){
                   case 'cpu':
                   return
-                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_poperty','=','pp.id')->where('cpu_serie_id','=',$filter);
+                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where('cpu_serie_id','=',$id)->get();
                   break;
             }
          }

@@ -63,17 +63,11 @@
            <!-- NAV -->
           <div class="collapse navbar-collapse" id="nav-open-btn">
             <ul class="nav">
-              <li class="dropdown active"> <a href="computerstores.local" class="dropdown-toggle" data-toggle="dropdown">Home</a>
-                <ul class="dropdown-menu">
-                  <li> <a href="index.html">Index Default</a> </li>
-                  <li> <a href="index-1.html">Index 2</a> </li>
-                  <li> <a href="index-2.html">Index 3</a></li>
-                  <li> <a href="index-header-1.html">Index Header 1</a></li>
-                  <li> <a href="index-header-2.html">Index Header 2</a></li>
-                  <li> <a href="index-header-3.html">Index Header 3</a></li>
-                  <li> <a href="index-header-4.html">Index Header 4</a></li>
-                </ul>
-              </li>
+              
+                
+                  <li> <a href="{{action('FrontendController@index')}}">Home</a> </li>
+                
+              
               <li class="dropdown"> <a href="#." class="dropdown-toggle" data-toggle="dropdown">Categories</a>
                 <ul class="dropdown-menu">
                   @foreach($Categories as $category)  
@@ -188,7 +182,7 @@
             <ul class="navbar-right">
               
               <!-- USER INFO -->
-              <li class="dropdown user-acc"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" ><i class="icon-user"></i> </a>
+              <li class="dropdown user-acc"> <a href="{{action('FrontendController@register')}}" class="dropdown-toggle" data-toggle="dropdown" role="button" ><i class="icon-user"></i> </a>
                 <ul class="dropdown-menu">
                   <li>
                     <h6>HELLO! Jhon Smith</h6>
@@ -200,7 +194,8 @@
               </li>
               
               <!-- USER BASKET -->
-              <li class="dropdown user-basket"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><i class="icon-basket-loaded"></i> </a>
+              <li class="dropdown user-basket"> <a href="{{action('FrontendController@register')}}">Register</a></li>
+              <!-- <li class="dropdown user-basket"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><i class="icon-basket-loaded"></i> </a>
                 <ul class="dropdown-menu">
                   <li>
                     <div class="media-left">
@@ -228,7 +223,7 @@
                     </div>
                   </li>
                 </ul>
-              </li>
+              </li> -->
               
               <!-- SEARCH BAR -->
               <li class="dropdown"> <a href="javascript:void(0);" class="search-open"><i class=" icon-magnifier"></i></a>

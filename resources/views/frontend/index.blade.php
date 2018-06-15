@@ -21,7 +21,7 @@
           <!-- Overlay  -->
           <div class="overlay"> 
             <!-- Price --> 
-            <span class="price"><small>đ</small>{{$product->price}}</span>
+            <span class="price"><small>$</small>{{$product->price}}</span>
             <div class="position-center-center"> <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a> </div>
           </div>
           <!-- Item Name -->
@@ -61,7 +61,7 @@
               <p>Lorem ipsum dolor sit amet</p>
             </div>
             <!-- Price --> 
-            <span class="price"><small>đ</small>{{$product->price}}</span> </div>
+            <span class="price"><small>$</small>{{$product->price}}</span> </div>
           @endforeach
         </div>
       </div>
