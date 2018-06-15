@@ -64,6 +64,17 @@
                ];
                break;
 
+            case 'create-order':
+               return $rules = [
+                  'txt_name' => 'required',
+                  'txt_email' => 'required',
+                  'txt_phone' => 'required',
+                  'txt_address' => 'required',
+                  'txt_quantity' => 'required',
+                  'sl_products' => 'required'
+               ];
+               break;
+
             case 'edit-category':
                return $rules = [
                   'txt_name' => 'required',
@@ -186,6 +197,17 @@
                   'sl_active.required' => 'Category\'s active state is not chosen',
                   'sl_active.integer' => 'Category\'s active state is not chosen',
                   'sl_parent_id.required' => 'Category\'s parent category is not chosen',
+               ];
+               break;
+
+            case 'create-order':
+               return $messages = [
+                  'txt_name.required' => 'Customer\'s name is required',
+                  'txt_email.required' => 'Customer\'s email is required',
+                  'txt_phone.required' => 'Customer\'s phone is required',
+                  'txt_address.required' => 'Customer\'s address is required',
+                  'txt_quantity.required' => 'Product\'s quantity is required',
+                  'sl_products.required' => 'Product\'s name is required'
                ];
                break;
 
@@ -790,5 +812,21 @@
             $input2 . '.required' => $required2 . ' is required'
          ];
          return Validator::make($rq->all(), $rules, $messages);
+      }
+   }
+
+   if (!function_exists('getProductInfo')) {
+
+      function getProductInfo($id, $key)
+      {
+         $product = Product::find($id);
+         switch ($key) {
+            case 'price':
+               return $product['price'];
+               break;
+            case 'name':
+               return $product['name'];
+               break;
+         }
       }
    }

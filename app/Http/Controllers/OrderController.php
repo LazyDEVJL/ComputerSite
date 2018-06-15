@@ -49,42 +49,83 @@
 
          return view('admin.orders.create', ['products' => $products]);
       }
-//
-//      public function createSave(Request $rq)
-//      {
-////       dd($rq->toArray());
-//
-//         $rules = validationRules('create-category');
-//         $messages = validationMessages('create-category');
-//
-//         $validator = Validator::make($rq->all(), $rules, $messages);
-//
-//         if ($validator->fails()) {
-//            return redirect()->back()->withInput()->withErrors($validator);
-//         } else {
-//            $name = $rq->post('txt_name');
-//            $slug = $rq->post('txt_slug');
-//            $position = $rq->post('txt_position');
-//            $active = $rq->post('sl_active');
-//            $parentId = $rq->post('sl_parent_id');
-//
-//            $category = new Category();
-//            $category->name = $name;
-//            $category->slug = $slug;
-//            $category->position = $position;
-//            $category->active = $active;
-//            $category->parent_id = $parentId;
-//            $check = $category->save();
-//
-//            if ($check) {
-//               Session::flash('success', 'New category\'s been successfully added');
-//               return redirect('admin/categories');
-//            } else {
-//               Session::flash('error', 'Failed to add new category');
-//               return redirect()->back()->withInput();
-//            }
-//         }
-//      }
+
+      public function createSave(Request $rq)
+      {
+         $rules = validationRules('create-order');
+         $messages = validationMessages('create-order');
+
+         $validator = Validator::make($rq->all(), $rules, $messages);
+
+         if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+         } else {
+            $name = $rq->post('txt_name');
+            $email = $rq->post('txt_email');
+            $phone = $rq->post('txt_phone');
+            $address = $rq->post('txt_address');
+            $productIDs = $rq->post('sl_products');
+            $quantities = $rq->post('txt_quantity');
+            $total = 0;
+
+            $data = array();
+            foreach ($productIDs as $pKey => $productID) {
+               foreach ($quantities as $qKey => $quantity) {
+                  if ($pKey == $qKey) {
+                     $data['product_id'] = $productID;
+                     $data['quantity'] = $quantity;
+                     $data['price'] = getProductInfo($productID, 'price');
+                  }
+               }
+            }
+
+            dd($data);
+
+            $check = DB::table('tbl_customers')->insert([
+               'name' => $name,
+               'email' => $email,
+               'phone' => $phone,
+               'address' => $address
+            ]);
+
+            if ($check) {
+               $customerId = DB::table('tbl_customers')
+                  ->orderBy('id', 'desc')
+                  ->first()
+                  ->id;
+
+               $check = DB::table('tbl_orders')->insert([
+                  'customer_id' => $customerId,
+                  'total' => $total
+               ]);
+
+               if ($check) {
+                  $orderId = DB::table('tbl_orders')
+                     ->orderBy('id', 'desc')
+                     ->first()
+                     ->id;
+
+                  $check = DB::table('tbl_product_orders')->insert([
+                     ''
+                  ]);
+               } else {
+                  Session::flash('error', 'Failed to insert into table tbl_orders');
+                  return redirect()->back()->withInput();
+               }
+            } else {
+               Session::flash('error', 'Failed to insert into table tbl_customers');
+               return redirect()->back()->withInput();
+            }
+
+            if ($check) {
+               Session::flash('success', 'New order\'s been successfully added');
+               return redirect('admin/orders');
+            } else {
+               Session::flash('error', 'Failed to add new order');
+               return redirect()->back()->withInput();
+            }
+         }
+      }
 //
 //      public function edit($id)
 //      {

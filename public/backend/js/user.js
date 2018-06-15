@@ -196,20 +196,20 @@ $("#product_thumbnail, #product_img_1, #product_img_2, #product_img_3").change(f
 
 //region Owl Carousel
 $("#current-product-images").owlCarousel({
-    loop:true,
-    margin:10,
-    items:1,
-    autoplay:true
+    loop: true,
+    margin: 10,
+    items: 1,
+    autoplay: true
 });
 //endregion
 
 //region CKEditor
 ClassicEditor
-    .create( document.querySelector( '#product_description' ) )
-    .then( editor => {
-        console.log( editor );
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
+    .create(document.querySelector('#product_description'))
+    .then(editor => {
+        console.log(editor);
+    })
+    .catch(error => {
+        console.error(error);
+    });
 //endregion
