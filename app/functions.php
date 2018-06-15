@@ -792,3 +792,82 @@
          return Validator::make($rq->all(), $rules, $messages);
       }
    }
+
+   if(!function_exists('PropertiesBySlug')){
+         function PropertiesBySlug($slug){
+            switch($slug){
+                  case 'mainboard':
+                  return[
+                        $MBchipset=DB::table('tbl_mb_chipsets')->get(),
+                        $MBsize=DB::table('tbl_mb_sizes')->get(),
+                        $MBsocket=DB::table('tbl_sockets')->get()
+                  ];
+                  break;
+
+                  case 'vga':
+                  return[
+                        $vgaGPU=DB::table('tbl_vga_gpus')->get(),
+                        $vgaMem=DB::table('tbl_vga_mem_sizes')->get()
+                  ];
+                  break;
+
+                  case 'case':
+                  return
+                        $caseType=DB::table('tbl_case_types')->get();
+                  break;
+
+                  case 'cpu':
+                  return $cpu=DB::table('tbl_cpu_series')->get(); 
+                  break;
+
+                  case 'hdd':
+                  return 
+                        $hdd=DB::table('tbl_drive_capacities')->get();
+                  break;
+
+                  case 'ssd':
+                  return [
+                        $ssdFormfactor=DB::table('tbl_ssd_form_factors')->get(),
+                        $ssdInterface=DB::table('tbl_ssd_interfaces')->get()
+                  ];
+                  break;
+
+                  case 'monitor':
+                  return [
+                        $record=DB::table('tbl_mnt_resolutions')->get(),
+                        $record2=DB::table('tbl_mnt_response_times')->get(),
+                        $record3=DB::table('tbl_mnt_screen_sizes')->get(),
+                        $record4=DB::table('tbl_mnt_refresh_rates')->get()
+                        ];
+                  break;
+
+                  case 'psu':
+                  return [
+                        $psuEE=DB::table('tbl_psu_ees')->get(),
+                        $psuPW=DB::table('tbl_psu_powers')->get()
+                        ];
+                  break;
+
+                  case 'ram':
+                  return [
+                        $ramCP=DB::table('tbl_ram_capacities')->get(),
+                        $ramMem=DB::table('tbl_ram_speeds')->get()
+                        ];
+                  break;
+
+            }
+         }
+   }
+
+   if(!function_exists('filterProductbyID')){
+         function filterProductbySlugandID($slug,$id){
+            switch($slug){
+                  case 'cpu':
+                  return
+                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_poperty','=','pp.id')->where('cpu_serie_id','=',$filter);
+                  break;
+            }
+         }
+   }
+
+
