@@ -154,3 +154,11 @@
    Route::get('/admin/properties/vga-mem/edit/{id}', 'PropertiesController@editVGA_mem');
    Route::post('/admin/properties/vga-mem/save/', 'PropertiesController@editSaveVGA_mem');
    Route::get('/admin/properties/vga-mem/delete/{id}', 'PropertiesController@delVGA_mem');
+  //  Route Frontend
+   Route::get('/','FrontendController@index')->name('index');
+   Route::get('/category','FrontendController@category')->name('category');
+   Route::get('/category/product/{slug}','FrontendController@getCategory');
+   Route::get('/details/{slug}','FrontendController@details')->name('details');
+   Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
+   Route::get('register','FrontendController@register');
+   Route::post('register','FrontendController@register');
