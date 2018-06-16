@@ -9,91 +9,61 @@
           <!-- SHOPPING INFORMATION -->
           <div class="cart-ship-info register">
             <div class="row"> 
-              
               <!-- ESTIMATE SHIPPING & TAX -->
               <div class="col-sm-12">
                 <h6>REGISTER</h6>
-                <form>
-                  <ul class="row">
+                <form action="{{action('FrontendController@saveRegister')}}" method='post'>
+                @csrf
+                  <div class="row">
                     
-                    <!-- Name -->
-                    <li class="col-md-6">
-                      <label> *FIRST NAME
-                        <input type="text" name="first-name" value="" placeholder="">
+                    <!-- UseName -->
+                    <div class="col-md-6">
+                      <label> *USENAME
+                        <input type="text" name="username" value="{{old('username')}}" placeholder="">
                       </label>
-                    </li>
-                    <!-- LAST NAME -->
-                    <li class="col-md-6">
-                      <label> *LAST NAME
-                        <input type="text" name="last-name" value="" placeholder="">
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('username') }}</p>
+                    <!-- PASSWORD -->
+                      <label> *PASSWORD
+                        <input type="password" name="txt_pass" value="{{old('txt_pass')}}" placeholder="">
                       </label>
-                    </li>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_pass') }}</p>
+                    <!-- retype PASSWORD -->
+                      <label> *RETYPE PASSWORD
+                        <input type="password" name="txt_pass_confirm" value="" placeholder="">
+                      </label>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_pass_confirm') }}</p>
+                    <!-- EMAIL -->
+                      <label> *EMAIL
+                        <input type="email" name="txt_email" value="{{old('txt_email')}}" placeholder="">
+                      </label>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_email') }}</p>
+                    </div>
+                    <div class="col-md-6">
+                    <!-- NAME -->
+                      <label> *NAME
+                        <input type="text" name="txt_name" value="{{old('txt_name')}}" placeholder="">
+                      </label>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_name') }}</p>
                     
-                    <!-- EMAIL ADDRESS -->
-                    <li class="col-md-6">
-                      <label> *EMAIL ADDRESS
-                        <input type="text" name="contry-state" value="" placeholder="">
-                      </label>
-                    </li>
                     <!-- PHONE -->
-                    <li class="col-md-6">
                       <label> *PHONE
-                        <input type="text" name="postal-code" value="" placeholder="">
+                        <input type="text" name="txt_phone" value="{{old('txt_phone')}}" placeholder="">
                       </label>
-                    </li>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_phone') }}</p>
                     
-                    <!-- LAST NAME -->
-                    <li class="col-md-6">
-                      <label> *PASSWORD
-                        <input type="password" name="last-name" value="" placeholder="">
-                      </label>
-                    </li>
                     
-                    <!-- LAST NAME -->
-                    <li class="col-md-6">
-                      <label> *PASSWORD
-                        <input type="password" name="last-name" value="" placeholder="">
+                    <!-- ADDRESS -->
+                      <label> *ADDRESS
+                        <input type="text" name="txt_address" value="{{old('txt_address')}}" placeholder="">
                       </label>
-                    </li>
-                    <li class="col-md-6"> 
-                      <!-- ADDRESS -->
-                      <label>*ADDRESS
-                        <input type="text" name="address" value="" placeholder="">
-                      </label>
-                    </li>
-                    <li class="col-md-6"> 
-                      <!-- ADDRESS -->
-                      <label>*ADDRESS
-                        <input type="text" name="address" value="" placeholder="">
-                      </label>
-                    </li>
-                    
-                    <!-- COUNTRY -->
-                    <li class="col-md-6">
-                      <label> COUNTRY
-                        <select class="selectpicker" name="contry-state">
-                          <option>COUNTRY</option>
-                          <option>Country 2</option>
-                          <option>Country 3</option>
-                        </select>
-                      </label>
-                    </li>
-                    
-                    <!-- TOWN/CITY -->
-                    <li class="col-md-6">
-                      <label>*TOWN/CITY
-                        <input type="text" name="town" value="" placeholder="">
-                      </label>
-                    </li>
-                    
-                    <!-- PHONE -->
-                    <li class="col-md-6">
-                      <button type="submit" class="btn">REGISTER NOW</button>
-                    </li>
-                  </ul>
-                </form>
+                      <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('txt_address') }}</p>
+                  </div>
+                  
+                
               </div>
             </div>
+            <button type="submit" class="btn">REGISTER NOW</button>
+            </form>
           </div>
         </div>
       </div>

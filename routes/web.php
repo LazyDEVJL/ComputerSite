@@ -11,6 +11,7 @@
    |
    */
 
+  
    use Illuminate\Support\Facades\Auth;
    use Illuminate\Support\Facades\Route;
 
@@ -161,4 +162,6 @@
    Route::get('/details/{slug}','FrontendController@details')->name('details');
    Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
    Route::get('register','FrontendController@register');
-   Route::post('register','FrontendController@register');
+   Route::post('register','FrontendController@saveRegister');
+   Route::get('logout','FrontendController@logout');
+   Route::post('login','FrontendController@login');
