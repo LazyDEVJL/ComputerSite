@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Product;
+// use Request;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CustomersRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\DB;
+use App\Customer;
 
 
 class FrontendController extends Controller
@@ -67,5 +73,47 @@ class FrontendController extends Controller
         return view('frontend/register',[
             'Categories'=>$categories,
         ]);
+    }
+
+    public function saveRegister(CustomersRequest $rq){
+        $usename=$rq->username;
+        $name=$rq->txt_name;
+        $pass=$rq->txt_pass;
+        $phone=$rq->txt_phone;
+        $email=$rq->txt_email;
+        $address=$rq->txt_address;
+        $customer=new Customer();
+        $customer->name=$name;
+        $customer->email=$email;
+        $customer->phone=$phone;
+        $customer->address=$address;
+        $customer->username=$usename;
+        $customer->password=$pass;
+        $check=$customer->save();
+        if ($check){
+            $rq->session()->put('login',true);
+            $rq->session()->put('name',$name);
+            return redirect('/');
+        }else{
+            return redirect('register');
+        }
+    }
+
+    public function logout(Request $rq){
+        $rq->session()->flush();
+        return redirect('/');
+    }
+
+    public function login(LoginRequest $rq){
+        $usename=$rq->user;
+        $password=$rq->password;
+        $customer=DB::table('tbl_customers')->where([['username','=',$usename],['password','=',$password]])->get();
+        if(count($customer)==1){
+            $rq->session()->put('login',true);
+            $rq->session()->put('name',$usename);
+            return redirect('/');
+        }else{
+            return redirect('/');
+        }
     }
 }
