@@ -212,7 +212,7 @@
                      <tr>
                         <td>{{$mb->id}}</td>
                         <td>{{$mb->mb_chipset}}</td>
-                        <td>{{$mb->chipset_manufactur}}</td>
+                        <td>{{$mb->chipset_manufacture}}</td>
                         <td>
                            <a href="{{action('PropertiesController@editMb',['id'=>$mb->id])}}" class="btn btn-default">
                               <i class="fa fa-edit"></i> &nbsp;&nbsp;Edit</a>

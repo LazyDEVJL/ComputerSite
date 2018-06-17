@@ -11,7 +11,7 @@
             <a href="{{route('categories')}}" class="nav-link">Categories</a>
          </li>
          <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{route('products')}}" class="nav-link">Products</a>
+            <a href="{{route('admin.products')}}" class="nav-link">Products</a>
          </li>
          <li class="nav-item d-none d-sm-inline-block">
             <a href="{{route('properties')}}" class="nav-link">Properties</a>
@@ -60,7 +60,7 @@
                         </a>
                      </li>
                      <li class="nav-item">
-                        <a href="{{ route('products') }}" class="nav-link">
+                        <a href="{{ route('admin.products') }}" class="nav-link">
                            <i class="fas fa-archive nav-icon" style="font-size: 12px;"></i>
                            <p>Products</p>
                         </a>

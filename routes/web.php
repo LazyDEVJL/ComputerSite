@@ -28,7 +28,7 @@
    /**
     * Route lists for Products Management
     */
-   Route::get('/admin/products', 'ProductController@index')->name('products');
+   Route::get('/admin/products', 'ProductController@index')->name('admin.products');
    Route::get('/admin/products/create', 'ProductController@create');
    Route::post('/admin/products', 'ProductController@createSave');
    Route::get('/admin/products/edit/{id}', 'ProductController@edit');
