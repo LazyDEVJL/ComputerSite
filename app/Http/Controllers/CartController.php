@@ -112,9 +112,6 @@
 
       public function checkoutSave(Request $rq)
       {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-
          $rules = validationRules('checkout');
          $messages = validationMessages('checkout');
 
@@ -126,6 +123,9 @@
             $username = $rq->post('username');
             $password = $rq->post('password');
             $customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
+
+            $carts = getCart()['carts'];
+            $total = getCart()['total-cost'];
 
             if (count($customer) == 1) {
                $check = DB::table('tbl_orders')->insert([
@@ -147,15 +147,14 @@
                         'quantity' => $cart['qty'],
                         'price' => $cart['product']->price
                      ]);
-
-                     if ($check) {
-                        Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
-                        session()->forget('cart');
-                        return redirect()->route('cart');
-                     } else {
-                        Session::flash('error', 'Failed to place order!');
-                        return redirect()->back()->withInput();
-                     }
+                  }
+                  if ($check) {
+                     Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
+                     session()->forget('cart');
+                     return redirect()->route('cart');
+                  } else {
+                     Session::flash('error', 'Failed to place order!');
+                     return redirect()->back()->withInput();
                   }
                } else {
                   Session::flash('error', 'Failed to place order!');
@@ -200,15 +199,14 @@
                            'quantity' => $cart['qty'],
                            'price' => $cart['product']->price
                         ]);
-
-                        if ($check) {
-                           Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
-                           session()->forget('cart');
-                           return redirect()->route('cart');
-                        } else {
-                           Session::flash('error', 'Failed to place order!');
-                           return redirect()->back()->withInput();
-                        }
+                     }
+                     if ($check) {
+                        Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
+                        session()->forget('cart');
+                        return redirect()->route('cart');
+                     } else {
+                        Session::flash('error', 'Failed to place order!');
+                        return redirect()->back()->withInput();
                      }
                   } else {
                      Session::flash('error', 'Failed to place order!');

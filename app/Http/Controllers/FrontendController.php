@@ -173,7 +173,7 @@
 
       public function logout(Request $rq)
       {
-         $rq->session()->flush();
+         $rq->session()->forget(['login', 'username', 'password', 'name', 'phone', 'email', 'address']);
          return redirect('/');
       }
 
