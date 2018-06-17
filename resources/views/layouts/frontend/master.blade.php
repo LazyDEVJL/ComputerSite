@@ -131,7 +131,7 @@
                               <li class="margin-0">
                                  <div class="row">
                                     <div class="col-xs-6"><a href="/cart" class="btn">VIEW CART</a></div>
-                                    <div class="col-xs-6 "><a href="checkout.html" class="btn">CHECK OUT</a></div>
+                                    <div class="col-xs-6 "><a href="/checkout" class="btn">CHECK OUT</a></div>
                                  </div>
                               </li>
                            </ul>

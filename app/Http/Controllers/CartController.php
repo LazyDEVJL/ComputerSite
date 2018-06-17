@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -87,7 +89,7 @@ class CartController extends Controller
       return response()->json(['success'=>true]);
    }
 
-   public function checkout(Request $rq) {
+   public function checkout() {
       $categories = DB::table('tbl_categories')->where('parent_id', '=', '0')->get();
 
       $carts = getCart()['carts'];
@@ -100,5 +102,33 @@ class CartController extends Controller
          'totalPrice' => $total,
          'totalQty' => $qty
       ]);
+   }
+
+   public function checkoutSave(Request $rq)
+   {
+      $rules = validationRules('checkout');
+      $messages = validationMessages('checkout');
+
+      $validator = Validator::make($rq->all(), $rules, $messages);
+
+      if ($validator->fails()) {
+         return redirect()->back()->withInput()->withErrors($validator);
+      } else {
+         $username = $rq->post('username');
+         $password = $rq->post('password');
+         $customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
+
+         if (count($customer) == 1) {
+
+         }
+
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+
+         $name = $rq->post('txt_name');
+         $phone = $rq->post('txt_phone');
+         $email = $rq->post('txt_email');
+         $address = $rq->post('txt_address');
+      }
    }
 }

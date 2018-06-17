@@ -123,6 +123,8 @@
          if ($check) {
             session([
                'login' => true,
+               'username' => $username,
+               'password' => $pass,
                'name' => $name,
                'phone' => $phone,
                'email' => $email,
@@ -150,9 +152,12 @@
          $email = $customer[0]->email;
          $phone = $customer[0]->phone;
          $address = $customer[0]->address;
+
          if (count($customer) == 1) {
             session([
                'login' => true,
+               'username' => $username,
+               'password' => $password,
                'name' => $name,
                'phone' => $phone,
                'email' => $email,

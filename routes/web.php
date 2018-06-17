@@ -169,6 +169,7 @@
    Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
    Route::get('/cart', 'CartController@showCart')->name('cart');
    Route::get('/checkout', 'CartController@checkout')->name('checkout');
+   Route::post('/checkout', 'CartController@checkoutSave')->name('checkout-save');
    Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
    Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
 

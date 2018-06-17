@@ -181,6 +181,14 @@
                   'sl_mnt_type_id' => 'required|integer',
                ];
                break;
+            case 'checkout':
+               return $rules = [
+                 'txt_name' => 'required',
+                 'txt_phone' => 'required',
+                 'txt_email' => 'required',
+                 'txt_address' => 'required',
+               ];
+               break;
          }
       }
    }

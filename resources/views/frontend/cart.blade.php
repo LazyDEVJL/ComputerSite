@@ -1,7 +1,5 @@
 @extends('layouts.frontend.master')
 @section('content')
-   {{--<form action="" method="post">--}}
-   {{--@csrf--}}
    <section class="padding-top-100 padding-bottom-100 pages-in chart-page">
       <div class="container">
          <!-- Payments Steps -->
@@ -138,28 +136,27 @@
          </div>
       </div>
    </section>
-   {{--</form>--}}
 @endsection
 
 @section('extra-js')
-<script src="{{asset('js/app.js')}}"></script>
-<script>
-   const classname = document.querySelectorAll(".quantity");
+   <script src="{{asset('js/app.js')}}"></script>
+   <script>
+       const classname = document.querySelectorAll(".quantity");
 
-   Array.from(classname).forEach(function(element) {
-      element.addEventListener('change', function() {
-          const id = element.getAttribute('data-id');
-          axios.patch(`cart/${id}`, {
-              quantity: this.value
-          })
-              .then(function (response) {
-                  // console.log(response);
-                  window.location.href = '{{route('cart')}}'
-              })
-              .catch(function (error) {
-                  console.log(error);
-              })
-      })
-   });
-</script>
+       Array.from(classname).forEach(function (element) {
+           element.addEventListener('change', function () {
+               const id = element.getAttribute('data-id');
+               axios.patch(`cart/${id}`, {
+                   quantity: this.value
+               })
+                   .then(function (response) {
+                       // console.log(response);
+                       window.location.href = '{{route('cart')}}'
+                   })
+                   .catch(function (error) {
+                       console.log(error);
+                   })
+           })
+       });
+   </script>
 @endsection
