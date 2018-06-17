@@ -910,3 +910,34 @@
          }
       }
    }
+
+   if (!function_exists('getCart')) {
+      function getCart()
+      {
+         $cart = session('cart', []);
+
+         $carts = [];
+
+         foreach($cart as $productId => $qty)
+         {
+            $product = Product::find($productId);
+
+            $temp = [
+               'product' => $product,
+               'qty' => $qty
+            ];
+
+            $carts[] = $temp;
+         }
+
+         $totalCost = 0;
+         $totalQty = 0;
+         foreach($carts as $cart)
+         {
+            $totalQty += $cart['qty'];
+            $totalCost += $cart['product']->price * $cart['qty'];
+         }
+
+         return ['carts' => $carts, 'total-cost' => $totalCost, 'total-qty' => $totalQty];
+      }
+   }

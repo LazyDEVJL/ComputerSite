@@ -161,7 +161,17 @@
    Route::get('/category/product/{slug}','FrontendController@getCategory');
    Route::get('/details/{slug}','FrontendController@details')->name('details');
    Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
-   Route::get('register','FrontendController@register');
-   Route::post('register','FrontendController@saveRegister');
-   Route::get('logout','FrontendController@logout');
-   Route::post('login','FrontendController@login');
+   Route::get('/register','FrontendController@register');
+   Route::post('/register','FrontendController@saveRegister');
+   Route::get('/logout','FrontendController@logout');
+   Route::post('/login','FrontendController@login');
+   //Route Cart
+   Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
+   Route::get('/cart', 'CartController@showCart')->name('cart');
+   Route::get('/checkout', 'CartController@checkout')->name('checkout');
+   Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
+   Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
+
+   Route::get('/clear-cart', function (){
+      session()->forget('cart');
+   });

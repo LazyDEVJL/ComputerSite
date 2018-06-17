@@ -18,7 +18,7 @@
                     
                     <!-- UseName -->
                     <div class="col-md-6">
-                      <label> *USENAME
+                      <label> *USERNAME
                         <input type="text" name="username" value="{{old('username')}}" placeholder="">
                       </label>
                       <p class="font-italic font-weight-bold text-center" style='color:red'>{{ $errors->first('username') }}</p>
