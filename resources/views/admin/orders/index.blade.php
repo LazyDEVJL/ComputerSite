@@ -66,7 +66,7 @@
                         <td>{{ Carbon\Carbon::parse($order->order_day)->format('h:i A - F jS, Y') }}</td>
                         <td>
                            @foreach(getProductByOrderId($order->orderID) as $product)
-                              {{$product->name.' (x'.$product->quantity.')'}} <br>
+                              {{$product->name}} <br>
                            @endforeach
                         </td>
                         <td>{{ '$'.$order->total }}</td>

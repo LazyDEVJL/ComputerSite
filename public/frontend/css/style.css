@@ -1456,9 +1456,10 @@ header .is-sticky .sticky .user-basket .dropdown-menu {
 
 .arrival-block .item {
    position: relative;
+   display: flex;
+   overflow: hidden;
    width: 25%;
    float: left;
-   overflow: hidden;
    border-right: 1px solid #d1d5db;
    border-bottom: 1px solid #d1d5db;
 }
@@ -1524,6 +1525,8 @@ header .is-sticky .sticky .user-basket .dropdown-menu {
 }
 
 .arrival-block .item img {
+   flex-grow: 1;
+   object-fit: scale-down;
    width: 100%;
    margin-top: 0px;
    top: 0px;
@@ -1795,6 +1798,8 @@ header .is-sticky .sticky .user-basket .dropdown-menu {
 
 .papular-block .item-img {
    margin-bottom: 30px;
+   display: flex;
+   overflow: hidden;
 }
 
 .papular-block .overlay .inn {
@@ -1861,6 +1866,8 @@ header .is-sticky .sticky .user-basket .dropdown-menu {
 }
 
 .papular-block .item img {
+   flex-grow: 1;
+   object-fit: scale-down;
    width: 100%;
    margin-top: 0px;
    top: 0px;
@@ -2196,6 +2203,17 @@ header .is-sticky .sticky .user-basket .dropdown-menu {
 .images-slider .slides {
    display: inline-block;
    width: 100%;
+}
+
+.images-slider .slides ul li {
+   display: flex;
+   overflow: hidden;
+   height: 710px;
+}
+
+.images-slider .slides img {
+   flex-grow: 1;
+   object-fit: cover;
 }
 
 /*=======================================================

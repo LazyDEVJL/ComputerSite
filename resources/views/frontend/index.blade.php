@@ -55,8 +55,7 @@
                      </div>
                   </div>
                   <!-- Item Name -->
-                  <div class="item-name"> <a href="{{action('FrontendController@details',['slug'=>$product->slug])}}">({{str_limit($product->name,25)}}</a>
-                     <p>Lorem ipsum dolor sit amet</p>
+                  <div class="item-name"> <a href="{{action('FrontendController@details',['slug'=>$product->slug])}}" style="font-size: 14px!important;">{{str_limit($product->name,25)}}</a>
                   </div>
                   <!-- Price -->
                   <span class="price"><small>$</small>{{$product->price}}</span> </div>
