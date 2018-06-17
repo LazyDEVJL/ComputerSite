@@ -4,13 +4,7 @@
       <div class="container">
          <!-- Payments Steps -->
          <div class="shopping-cart text-center">
-            @if(Session::has('success'))
-               <div class="alert alert-success alert-dismissible">
-                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <h5><i class="icon fa fa-check"></i> Success!</h5>
-                  {{ Session::get('success') }}
-               </div>
-            @endif
+            @include('admin.messages')
             @if(count($carts) > 0)
                <h5 style="margin-bottom: 50px;">{{$totalQty}} item(s) in your cart</h5>
                <div class="cart-head">
@@ -128,7 +122,7 @@
                </div>
                <div class="col-sm-12">
                   <div class="coupn-btn">
-                     <a href="{{route('index')}}" class="btn">continue shopping</a>
+                     <a href="{{route('products')}}" class="btn">continue shopping</a>
                      <a href="{{route('checkout')}}" class="btn">check out</a>
                   </div>
                </div>

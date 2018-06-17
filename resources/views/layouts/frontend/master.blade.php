@@ -1,4 +1,3 @@
-{{--@dd(session('cart'))--}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +34,11 @@
    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
    <![endif]-->
-
+   <style>
+      .product-box {
+         height: 500px;
+      }
+   </style>
 </head>
 <body>
 
@@ -72,22 +75,22 @@
                      <li><a href="{{action('FrontendController@index')}}">Home</a></li>
 
 
-                     <li class="dropdown"><a href="#." class="dropdown-toggle" data-toggle="dropdown">Categories</a>
-                        <ul class="dropdown-menu">
-                           @foreach($Categories as $category)
-                              <li>
-                                 <a href="{{action('FrontendController@getCategory',['slug'=>$category->slug])}}">{{$category->name}} </a>
-                              </li>
-                           @endforeach
-                        </ul>
+                     <li class="dropdown"><a href="{{action('FrontendController@allProduct')}}">Categories</a>
+
+                        @include('frontend.menuCate')
                      </li>
-                     <li><a href="about-us_01.html">About </a></li>
+                     <li><a href="#">About </a></li>
+
+
+                     <li><a href="contact.html"> contact</a></li>
                   </ul>
                </div>
 
                <!-- Nav Right -->
                <div class="nav-right">
                   <ul class="navbar-right">
+
+
                   @if (session()->has('login'))
                      <!-- USER INFO -->
                         <li class="dropdown user-acc"><a href="{{action('FrontendController@register')}}"
@@ -102,7 +105,6 @@
                                  </h6>
                               </li>
                               <li><a href="/cart">MY CART</a></li>
-                              <li><a href="#">ACCOUNT INFO</a></li>
                               <li><a href="{{action('FrontendController@logout')}}">LOG OUT</a></li>
                            </ul>
                         </li>
@@ -113,25 +115,29 @@
                               @foreach($carts as $cart)
                                  <li>
                                     <div class="media-left">
-                                       <div class="cart-img"><a href="{{$cart['product']->slug}}"> <img
-                                                   class="media-object img-responsive"
-                                                   src="{{asset($cart['product']->image)}}"
-                                                   alt="{{$cart['product']->name}}"> </a>
+                                       <div class="cart-img">
+                                          <a href="{{$cart['product']->slug}}">
+                                             <img class="media-object img-responsive"
+                                                  src="{{asset($cart['product']->image)}}"
+                                                  alt="{{$cart['product']->name}}">
+                                          </a>
                                        </div>
                                     </div>
                                     <div class="media-body">
                                        <h6 class="media-heading">{{$cart['product']->name}}</h6>
                                        <span class="price">{{$cart['product']->price}} USD</span> <span
-                                             class="qty">QTY: {{$cart['qty']}}</span></div>
+                                             class="qty">QTY: {{$cart['qty'] < 10 ? '0' : ''}}{{$cart['qty']}}</span>
+                                    </div>
                                  </li>
                               @endforeach
                               <li>
-                                 <h5 class="text-center">SUBTOTAL: ${{$totalPrice}}</h5>
+                                 <h5 class="text-center">SUBTOTAL: {{$totalPrice}} USD</h5>
                               </li>
                               <li class="margin-0">
                                  <div class="row">
                                     <div class="col-xs-6"><a href="/cart" class="btn">VIEW CART</a></div>
-                                    <div class="col-xs-6 "><a href="/checkout" class="btn">CHECK OUT</a></div>
+                                    <div class="col-xs-6 "><a href="{{route('checkout')}}" class="btn">CHECK OUT</a>
+                                    </div>
                                  </div>
                               </li>
                            </ul>
@@ -299,6 +305,7 @@
 <!-- SLIDER REVOLUTION 4.x SCRIPTS  -->
 <script type="text/javascript" src="{{asset('frontend/rs-plugin/js/jquery.tp.t.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('frontend/rs-plugin/js/jquery.tp.min.js')}}"></script>
+<script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
 </body>
 </html>

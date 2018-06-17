@@ -155,16 +155,6 @@
    Route::get('/admin/properties/vga-mem/edit/{id}', 'PropertiesController@editVGA_mem');
    Route::post('/admin/properties/vga-mem/save/', 'PropertiesController@editSaveVGA_mem');
    Route::get('/admin/properties/vga-mem/delete/{id}', 'PropertiesController@delVGA_mem');
-  //  Route Frontend
-   Route::get('/','FrontendController@index')->name('index');
-   Route::get('/category','FrontendController@category')->name('category');
-   Route::get('/category/product/{slug}','FrontendController@getCategory');
-   Route::get('/details/{slug}','FrontendController@details')->name('details');
-   Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
-   Route::get('/register','FrontendController@register');
-   Route::post('/register','FrontendController@saveRegister');
-   Route::get('/logout','FrontendController@logout');
-   Route::post('/login','FrontendController@login');
    //Route Cart
    Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
    Route::get('/cart', 'CartController@showCart')->name('cart');
@@ -172,7 +162,38 @@
    Route::post('/checkout', 'CartController@checkoutSave')->name('checkout-save');
    Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
    Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
+  //  Route Frontend
+   Route::get('/','FrontendController@index')->name('index');
+   Route::get('/products','FrontendController@allProduct')->name('products');
+   Route::get('/brand/{id}','FrontendController@ProductbyBrand');
+   Route::get('/brand/{slug}/{id}','FrontendController@ProductbyoneBrand');
+   Route::get('/{slug}','FrontendController@getCategory')->name('get-category');
+   Route::get('/details/{slug}','FrontendController@details')->name('details');
+   Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
+   Route::get('register','FrontendController@register');
+   Route::post('register','FrontendController@saveRegister');
+   Route::get('logout','FrontendController@logout');
+   Route::post('login','FrontendController@login');
 
-   Route::get('/clear-cart', function (){
-      session()->forget('cart');
-   });
+   //    route frontend filter
+   Route::get('/filter/mnt_res/{slug}/{filter}','FrontendController@getFilterMntRes');
+   Route::get('/filter/mnt_time/{slug}/{filter}','FrontendController@getFilterMntTime');
+   Route::get('/filter/mnt_rate/{slug}/{filter}','FrontendController@getFilterMntRate');
+   Route::get('/filter/mnt_size/{slug}/{filter}','FrontendController@getFilterMntSize');
+   Route::get('/filter/cpu-serie/{slug}/{filter}','FrontendController@getFilterCpuSeries');
+   Route::get('/filter/cpu-sk/{slug}/{filter}','FrontendController@getFilterCpuSk');
+   Route::get('/filter/case/{slug}/{filter}','FrontendController@getFilterCase');
+   Route::get('/filter/hdd/{slug}/{filter}','FrontendController@getFilterHDD');
+   Route::get('/filter/vga-gpu/{slug}/{filter}','FrontendController@getFilterVgaGpu');
+   Route::get('/filter/vga-mem/{slug}/{filter}','FrontendController@getFilterVgaMem');
+   Route::get('/filter/ssd-ff/{slug}/{filter}','FrontendController@getFilterSsdFF');
+   Route::get('/filter/ssd-if/{slug}/{filter}','FrontendController@getFilterSsdIF');
+   Route::get('/filter/ram-ca/{slug}/{filter}','FrontendController@getFilterRamCa');
+   Route::get('/filter/ram-sp/{slug}/{filter}','FrontendController@getFilterRamSp');
+   Route::get('/filter/psu-ee/{slug}/{filter}','FrontendController@getFilterPsuEE');
+   Route::get('/filter/psu-pw/{slug}/{filter}','FrontendController@getFilterPsuPW');
+
+   Route::get('/filter/mainboard-chipset/{slug}/{filter}','FrontendController@getFilterMbChip');
+   Route::get('/filter/mainboard-size/{slug}/{filter}','FrontendController@getFilterMbSize');
+
+

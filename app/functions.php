@@ -366,6 +366,15 @@
                   'sl_mnt_type_id.integer' => 'Monitor\'s type is not chosen',
                ];
                break;
+
+            case 'checkout':
+               return $messages = [
+                  'txt_name.required' => 'You have not filled in your name',
+                  'txt_phone.required' => 'You have not filled in your phone number',
+                  'txt_email.required' => 'You have not filled in your email address',
+                  'txt_address.required' => 'You have not filled in your address',
+               ];
+               break;
          }
       }
    }
@@ -893,18 +902,17 @@
    }
 
    if(!function_exists('filterProductbyID')){
-         function filterProductbySlugandID($slug,$id){
-            switch($slug){
-                  case 'cpu':
-                  return
+      function filterProductbySlugandID($slug,$id){
+         switch($slug){
+            case 'cpu':
+               return
                   $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where('cpu_serie_id','=',$id)->get();
-                  break;
-            }
+               break;
          }
+      }
    }
 
    if (!function_exists('getProductInfo')) {
-
       function getProductInfo($id, $key)
       {
          $product = Product::find($id);
@@ -916,6 +924,25 @@
                return $product['name'];
                break;
          }
+      }
+   }
+   if(!function_exists('filterProduct')){
+      function filterProduct($slug,$filter,$query){
+         $brand=slugtoBrand($slug);
+         $record=PropertiesBySlug($slug);
+         $product=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query,'=',$filter)->get();
+         return [
+            $product,
+            $record,
+            $brand
+         ];
+      }
+   }
+   if(!function_exists('slugtoBrand')){
+      function slugtoBrand($slug){
+
+         return $sql=DB::table('tbl_manufactures')->where('manufacture_of','like',"%$slug%")->get();
+
       }
    }
 
@@ -947,5 +974,19 @@
          }
 
          return ['carts' => $carts, 'total-cost' => $totalCost, 'total-qty' => $totalQty];
+      }
+   }
+
+   if (!function_exists('getProductByOrderId')) {
+      function getProductByOrderId($orderId)
+      {
+         $ordersJoined = DB::table('tbl_customers AS c')
+            ->join('tbl_orders AS o', 'c.id', '=', 'o.customer_id')
+            ->join('tbl_product_orders AS po', 'o.id', 'po.order_id')
+            ->join('tbl_products AS p', 'po.product_id', 'p.id');
+
+         $products = $ordersJoined->where('order_id', '=', $orderId)->get();
+
+         return $products;
       }
    }

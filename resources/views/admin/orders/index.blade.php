@@ -55,7 +55,6 @@
                      <th>Order Day</th>
                      <th>Products</th>
                      <th>Total</th>
-                     <th colspan="2">Action</th>
                   </tr>
                   @foreach($orders as $order)
                      <tr>
@@ -66,17 +65,11 @@
                         <td>{{ $order->address }}</td>
                         <td>{{ Carbon\Carbon::parse($order->order_day)->format('h:i A - F jS, Y') }}</td>
                         <td>
-                           <ul class="my-auto">
-                              @foreach($products as $product)
-                              <li>{{$product->name.' (x'.$product->quantity.')'}}</li>
-                              @endforeach
-                           </ul>
+                           @foreach(getProductByOrderId($order->orderID) as $product)
+                              {{$product->name.' (x'.$product->quantity.')'}} <br>
+                           @endforeach
                         </td>
                         <td>{{ '$'.$order->total }}</td>
-                        <td>
-                           <a href="{{ action('OrderController@edit', ['id' => $order->orderID]) }}" class="btn btn-default"><i class="fa fa-edit"></i></a>
-                           <a href="{{ action('OrderController@destroy', ['id' => $order->orderID]) }}"onclick="return confirm('Are you sure?');" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
-                        </td>
                      </tr>
                   @endforeach
                   </tbody>
