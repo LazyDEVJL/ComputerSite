@@ -157,24 +157,24 @@
    Route::post('/admin/properties/vga-mem/save/', 'PropertiesController@editSaveVGA_mem');
    Route::get('/admin/properties/vga-mem/delete/{id}', 'PropertiesController@delVGA_mem');
 
-  //  Route Frontend //Route Cart
+  //  Route Frontend
    Route::get('/','FrontendController@index')->name('index');
-   Route::get('/cart', 'CartController@showCart')->name('cart');
-   Route::get('/checkout', 'CartController@checkout')->name('checkout');
-   Route::post('/checkout', 'CartController@checkoutSave')->name('checkout-save');
    Route::get('/logout','FrontendController@logout');
    Route::post('/login','FrontendController@login');
    Route::get('/register','FrontendController@register');
    Route::post('/register','FrontendController@saveRegister');
    Route::get('/products','FrontendController@allProduct')->name('products');
+   Route::get('/cart', 'CartController@showCart')->name('cart');
+   Route::get('/cart/checkout', 'CartController@checkout')->name('checkout');
+   Route::post('/cart/checkout', 'CartController@checkoutSave')->name('checkout-save');
+   Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
+   Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
    Route::get('/{slug}','FrontendController@getCategory')->name('get-category');
    Route::get('/brand/{id}','FrontendController@ProductbyBrand');
-   Route::get('/brand/{slug}/{id}','FrontendController@ProductbyoneBrand');
+   Route::get('/brand/{slug}/{id}','FrontendController@ProductByOneBrand');
    Route::get('/details/{slug}','FrontendController@details')->name('details');
    Route::get('/filter/item/{slug}/{filter}','FrontendController@getFilter');
 
-   Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
-   Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
    Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
 
    //    route frontend filter
@@ -194,7 +194,6 @@
    Route::get('/filter/ram-sp/{slug}/{filter}','FrontendController@getFilterRamSp');
    Route::get('/filter/psu-ee/{slug}/{filter}','FrontendController@getFilterPsuEE');
    Route::get('/filter/psu-pw/{slug}/{filter}','FrontendController@getFilterPsuPW');
-
    Route::get('/filter/mainboard-chipset/{slug}/{filter}','FrontendController@getFilterMbChip');
    Route::get('/filter/mainboard-size/{slug}/{filter}','FrontendController@getFilterMbSize');
 

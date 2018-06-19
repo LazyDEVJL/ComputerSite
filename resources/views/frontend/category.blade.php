@@ -12,7 +12,7 @@
                   <h5 class="shop-tittle margin-top-60 margin-bottom-30">brands</h5>
                   <ul class="shop-cate">
                      @foreach($brand as $br)
-                        <li><a href="{{action('FrontendController@ProductbyoneBrand',['slug'=>$slug,'id'=>$br->id])}}">{{$br->name}}</a></li>
+                        <li><a href="{{action('FrontendController@ProductByOneBrand',['slug'=>$slug,'id'=>$br->id])}}">{{$br->name}}</a></li>
                      @endforeach
                   </ul>
 

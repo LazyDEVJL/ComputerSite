@@ -39,10 +39,14 @@
                      <li class="col-sm-6">
                         <div class="media">
                            <!-- Media Image -->
-                           <div class="media-left media-middle"><a href="{{$cart['product']->slug}}"
-                                                                   class="item-img">
-                                 <img class="media-object" src="{{asset($cart['product']->image)}}"
-                                      alt="{{$cart['product']->name}}"> </a></div>
+                           <div class="media-left media-middle">
+                              <div class="item-thumb">
+                                 <a href="{{$cart['product']->slug}}" class="item-img">
+                                    <img class="media-object" src="{{asset($cart['product']->image)}}"
+                                         alt="{{$cart['product']->name}}">
+                                 </a>
+                              </div>
+                           </div>
 
                            <!-- Item Name -->
                            <div class="media-body">

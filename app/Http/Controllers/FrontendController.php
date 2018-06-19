@@ -56,7 +56,7 @@
          ]);
       }
 
-      public function ProductbyoneBrand($slug, $id)
+      public function ProductByOneBrand($slug, $id)
       {
          $carts = getCart()['carts'];
          $total = getCart()['total-cost'];

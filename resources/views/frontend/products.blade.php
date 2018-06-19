@@ -46,11 +46,6 @@
                               <option>Short By</option>
                               <option>Short By</option>
                            </select>
-
-                           <!-- GRID & LIST -->
-                           <a href="#." class="grid-style"><i class="icon-grid"></i></a> <a href="#."
-                                                                                            class="list-style"><i
-                                    class="icon-list"></i></a></div>
                      </div>
                   </div>
                </div>
@@ -68,14 +63,15 @@
                               <div class="overlay " style='background:none'>
                                  <div class="position-center-center">
                                     <div class="inn"><a href="{{asset($product->image)}}" data-lighter><i
-                                                class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a>
-                                       <a href="#."><i class="icon-heart"></i></a></div>
+                                                class="icon-magnifier"></i></a> <a
+                                             href="{{route('details', $product->slug)}}"><i class="icon-basket"></i></a>
+                                    </div>
                                  </div>
                               </div>
                            </div>
                            <!-- Item Name -->
                            <div class="item-name"><a style='font-size:15px'
-                                                     href="{{action('FrontendController@details',['slug'=>$product->slug])}}">{{str_limit($product->name,25)}}</a>
+                                                     href="{{route('details', $product->slug)}}">{{str_limit($product->name,25)}}</a>
                            </div>
                            <!-- Price -->
                            <span class="price"><small>$</small>{{$product->price}}</span></div>

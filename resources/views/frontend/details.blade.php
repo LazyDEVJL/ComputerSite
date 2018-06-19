@@ -16,7 +16,7 @@
                         @foreach($Allimages as $image)
                            <li data-thumb="{{asset($image->link)}}">
                               <img class="img-responsive"
-                                   src="{{asset($image->link)}}" alt=""></li>
+                                   src="{{asset($image->link)}}" alt="{{$CurrentProduct->name}}"></li>
                         @endforeach
                      </ul>
                   </div>
@@ -28,7 +28,9 @@
                   <span class="price"><small>$</small>{{$CurrentProduct->price}}</span>
 
                   <!-- Sale Tags -->
-                  <div class="on-sale"> 10% <span>OFF</span></div>
+                  @if($CurrentProduct->discount != 0 || $CurrentProduct->discount != null)
+                  <div class="on-sale"> {{$CurrentProduct->discount}}% <span>OFF</span></div>
+                  @endif
                   <ul class="item-owner">
                      <li>Category :<span> {{getParentCategory($currentCategoryId)}}</span></li>
                      <li>Manufacture:<span> {{getManufacture($CurrentProduct->manufacture_id)}}</span></li>
@@ -60,10 +62,8 @@
                      </form>
                      <!-- INFOMATION -->
                      <div class="inner-info">
-                        <h6>DELIVERY INFORMATION</h6>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus ligula a
-                           scelerisque
-                           gravida. Nullam laoreet tortor ac maximus alique met, consectetur adipiscing elit. </p>
+                        <h6>Details</h6>
+                        <p>{{$CurrentProduct->detail}}</p>
                         <h6>SHIPPING & RETURNS</h6>
                         <h6>SHARE THIS PRODUCT</h6>
 

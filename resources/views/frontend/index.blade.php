@@ -22,10 +22,13 @@
                <div class="overlay" style='background:none'>
                   <!-- Price -->
                   <span class="price"><small>$</small>{{$product->price}}</span>
-                  <div class="position-center-center"> <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a> </div>
+                  <div class="position-center-center">
+                     <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a>
+                     <a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
+                  </div>
                </div>
                <!-- Item Name -->
-               <div class="item-name"> <a href="{{action('FrontendController@details',['slug'=>$product->slug])}}">{{$product->name}}</a>
+               <div class="item-name"> <a href="{{route('details', ['slug'=>$product->slug])}}">{{$product->name}}</a>
                </div>
             </div>
          @endforeach
@@ -50,12 +53,15 @@
                      <!-- Overlay -->
                      <div class="overlay" style='background:none'>
                         <div class="position-center-center">
-                           <div class="inn"><a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a> <a href="#." ><i class="icon-heart"></i></a></div>
+                           <div class="inn">
+                              <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a>
+                              <a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
+                           </div>
                         </div>
                      </div>
                   </div>
                   <!-- Item Name -->
-                  <div class="item-name"> <a href="{{action('FrontendController@details',['slug'=>$product->slug])}}" style="font-size: 14px!important;">{{str_limit($product->name,25)}}</a>
+                  <div class="item-name"> <a href="{{route('details', ['slug'=>$product->slug])}}" style="font-size: 14px!important;">{{str_limit($product->name,25)}}</a>
                   </div>
                   <!-- Price -->
                   <span class="price"><small>$</small>{{$product->price}}</span> </div>
