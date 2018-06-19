@@ -65,7 +65,7 @@
                            <div class="item-img"><img height='352px' width='270px' class="img-1"
                                                       src="{{asset($product->image)}}" alt="">
                               <!-- Overlay -->
-                              <div class="overlay">
+                              <div class="overlay " style='background:none'>
                                  <div class="position-center-center">
                                     <div class="inn"><a href="{{asset($product->image)}}" data-lighter><i
                                                 class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a>

@@ -19,7 +19,7 @@
                <!-- Images -->
                <img width='478px' height='512px' class="img-1" src="{{$product->image}}" alt="">
                <!-- Overlay  -->
-               <div class="overlay">
+               <div class="overlay" style='background:none'>
                   <!-- Price -->
                   <span class="price"><small>$</small>{{$product->price}}</span>
                   <div class="position-center-center"> <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a> </div>
@@ -48,7 +48,7 @@
                   <!-- Item img -->
                   <div class="item-img"> <img width='270px' height='352px' class="img-1" src="{{$product->image}}" alt="" >
                      <!-- Overlay -->
-                     <div class="overlay">
+                     <div class="overlay" style='background:none'>
                         <div class="position-center-center">
                            <div class="inn"><a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a> <a href="#." ><i class="icon-heart"></i></a></div>
                         </div>

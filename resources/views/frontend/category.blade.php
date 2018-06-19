@@ -175,22 +175,26 @@
                      <div class="col-md-4 product-box">
                         <div class="item">
                            <!-- Item img -->
-                           <div class="item-img"> <img class="img-1" src="{{asset($product->image)}}" alt="" >
+                           <div class="item-img"><img height='352px' width='270px' class="img-1"
+                                                      src="{{asset($product->image)}}" alt="">
                               <!-- Overlay -->
-                              <div class="overlay">
+                              <div class="overlay" style='background:none'>
                                  <div class="position-center-center">
-                                    <div class="inn"><a href="{{asset($product->image)}}" data-lighter><i class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a> <a href="#." ><i class="icon-heart"></i></a></div>
+                                    <div class="inn"><a href="{{asset($product->image)}}" data-lighter><i
+                                                class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a>
+                                       <a href="#."><i class="icon-heart"></i></a></div>
                                  </div>
                               </div>
                            </div>
                            <!-- Item Name -->
-                           <div class="item-name"> <a href="{{action('FrontendController@details',['slug'=>$product->slug])}}">{{$product->name}}</a>
-                              <p>Lorem ipsum dolor sit amet</p>
+                           <div class="item-name"><a style='font-size:15px'
+                                                     href="{{action('FrontendController@details',['slug'=>$product->slug])}}">{{str_limit($product->name,25)}}</a>
                            </div>
                            <!-- Price -->
-                           <span class="price"><small>$</small>{{$product->price}}</span> </div>
+                           <span class="price"><small>$</small>{{$product->price}}</span></div>
                      </div>
-               @endforeach
+                  @endforeach
+               </div>
                <!-- Pagination -->
                   <ul class="pagination">
                      <li class="active"><a href="#">1</a></li>
