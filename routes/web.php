@@ -37,6 +37,7 @@
 
    Auth::routes();
 
+   Route::get('/admin', 'AdminController@showLoginForm')->name('admin-login');
    Route::get('/admin/login', 'AdminController@showLoginForm')->name('admin-login');
    Route::get('/admin/register', 'AdminController@showRegisterForm')->name('admin-register');
    Route::get('/admin/logout', 'AdminController@logout')->name('admin-logout');

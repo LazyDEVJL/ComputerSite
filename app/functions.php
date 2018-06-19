@@ -88,15 +88,15 @@
             case 'general':
                return $rules = [
                   'txt_name' => 'required',
+                  'txt_detail' => 'required',
                   'txt_price' => 'required|gt:0',
                   'txt_slug' => 'required',
                   'sl_manufacture_id' => 'required|integer',
                   'txt_quantity' => 'required|integer',
                   'sl_active' => 'required|integer',
                   'product_thumbnail' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                  'product_img_1' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                  'product_img_2' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                  'product_img_3' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+//                  'product_images' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+//                  'product_images.*' => 'required|image|mimes:jpg,jpeg,png|max:2048',
                   'sl_mainCategory' => 'required|integer',
                   'sl_subCategory' => 'required|integer',
                ];
@@ -105,6 +105,7 @@
             case 'general-edit':
                return $rules = [
                   'txt_name' => 'required',
+                  'txt_detail' => 'required',
                   'txt_price' => 'required|gt:0',
                   'txt_slug' => 'required',
                   'sl_manufacture_id' => 'required|integer',
@@ -233,6 +234,7 @@
             case 'general':
                return $messages = [
                   'txt_name.required' => 'Product\'s name is required',
+                  'txt_detail.required' => 'Product\'s detail is required',
                   'txt_price.required' => 'Product\'s price is required',
                   'txt_price.gt' => 'Product\'s price must be greater than 0đ',
                   'txt_slug.required' => 'Product\'s slug is required',
@@ -244,15 +246,14 @@
                   'product_thumbnail.required' => 'Product\'s thumbnail is required',
                   'product_thumbnail.image' => 'Product\'s thumbnail must be an image',
                   'product_thumbnail.max' => 'Product\'s thumbnail must be smaller than 2MB',
-                  'product_img_1.required' => 'Product\'s first image is required',
-                  'product_img_1.image' => 'Product\'s first image must be an image',
-                  'product_img_1.max' => 'Product\'s first image must be smaller than 2MB',
-                  'product_img_2.required' => 'Product\'s first image is required',
-                  'product_img_2.image' => 'Product\'s first image must be an image',
-                  'product_img_2.max' => 'Product\'s first image must be smaller than 2MB',
-                  'product_img_3.required' => 'Product\'s first image is required',
-                  'product_img_3.image' => 'Product\'s first image must be an image',
-                  'product_img_3.max' => 'Product\'s first image must be smaller than 2MB',
+//                  'product_images.required' => 'Product\'s images are required',
+//                  'product_images.image' => 'Product\'s images must be image',
+//                  'product_images.mimes' => 'Only jpg, jpeg, png are allowed',
+//                  'product_images.max' => 'Maximum allowed size for image is 2MB',
+//                  'product_images.*.required' => 'Product\'s images are required',
+//                  'product_images.*.image' => 'Product\'s images must be an image',
+//                  'product_images.*.mimes' => 'Only jpg, jpeg, png are allowed',
+//                  'product_images.*.max' => 'Maximum allowed size for an image is 2MB',
                   'sl_mainCategory.required' => 'Product\'s main category are not chosen',
                   'sl_mainCategory.integer' => 'Product\'s main category are not chosen',
                   'sl_subCategory.required' => 'Product\'s sub category are not chosen',
@@ -263,6 +264,7 @@
             case 'general-edit':
                return $messages = [
                   'txt_name.required' => 'Product\'s name is required',
+                  'txt_detail.required' => 'Product\'s detail is required',
                   'txt_price.required' => 'Product\'s price is required',
                   'txt_price.gt' => 'Product\'s price must be greater than 0đ',
                   'txt_slug.required' => 'Product\'s slug is required',
@@ -388,31 +390,30 @@
          switch ($key) {
             case 'thumbnail':
                $file = $rq->product_thumbnail;
+               $fileName = $file->getClientOriginalName();
+
+               $file->move(base_path('public/backend/products/images/'), $fileName);
+               $img = 'backend/products/images/' . $fileName;
+               return $img;
                break;
 
-            case 'img1':
-               $file = $rq->product_img_1;
-               break;
-
-            case 'img2':
-               $file = $rq->product_img_2;
-               break;
-
-            case 'img3':
-               $file = $rq->product_img_3;
+            case 'multiple':
+               $files = $rq->product_images;
+               $images = [];
+               foreach($files as $file) {
+                  $fileName = $file->getClientOriginalName();
+                  $file->move(base_path('public/backend/products/images/'), $fileName);
+                  $temp = 'backend/products/images/' . $fileName;
+                  $images[] = $temp;
+               }
+               return $images;
                break;
          }
-
-         $fileName = $file->getClientOriginalName();
-
-         $file->move(base_path('public/backend/products/images/'), $fileName);
-         $img = 'backend/products/images/' . $fileName;
-         return $img;
       }
    }
 
    if (!function_exists('insertProductImages')) {
-      function insertProductImages($img1, $img2, $img3)
+      function insertProductImages($images)
       {
          $productId = DB::table('tbl_products')
             ->select('id')
@@ -420,46 +421,53 @@
             ->first()
             ->id;
 
-         $data = array(
-            array('product_id' => $productId, 'link' => $img1),
-            array('product_id' => $productId, 'link' => $img2),
-            array('product_id' => $productId, 'link' => $img3)
-         );
-
-         $check = ProductImage::insert($data);
+         foreach($images as $image) {
+            $check = DB::table('tbl_product_images')->insert([
+               'product_id' => $productId, 'link' => $image
+            ]);
+         }
 
          return $check;
       }
    }
 
    if (!function_exists('updateProductImages')) {
-      function updateProductImages($img1, $img2, $img3, $currentProductId)
+      function updateProductImages($images, $currentProductId)
       {
-         $data = array(
-            array('product_id' => $currentProductId, 'link' => $img1),
-            array('product_id' => $currentProductId, 'link' => $img2),
-            array('product_id' => $currentProductId, 'link' => $img3)
-         );
-
-         $check = ProductImage::insert($data);
-
-         return $check;
+         foreach($images as $image) {
+            DB::table('tbl_product_images')->insert([
+               'product_id' => $currentProductId, 'link' => $image
+            ]);
+         }
       }
    }
 
    if (!function_exists('editImage')) {
       function editImage($rq, $filePath, $key)
       {
-         $link = is_file(base_path('public/' . $filePath));
+         switch ($key) {
+            case 'thumbnail':
+               $link = is_file(base_path('public/' . $filePath));
 
-         if ($link) {
-            unlink(base_path('public/' . $filePath));
-            $thumbnail = insertImage($rq, $key);
-         } else {
-            $thumbnail = insertImage($rq, $key);
+               if ($link) {
+                  unlink(base_path('public/' . $filePath));
+                  $image = insertImage($rq, 'thumbnail');
+               } else {
+                  $image = insertImage($rq, 'thumbnail');
+               }
+               break;
+
+            case 'multiple':
+               foreach($filePath as $item) {
+                  $link = is_file(base_path('public/' . $item));
+                  if ($link) {
+                     unlink(base_path('public/' . $item));
+                  }
+               }
+               $image = insertImage($rq, 'multiple');
+               break;
          }
-
-         return $thumbnail;
+         return $image;
       }
    }
 
@@ -469,23 +477,23 @@
          if (!isset($newImg)) {
             $img = $currentImg;
          } else {
-            $editFilePath = $currentImg;
             switch ($key) {
                case 'thumbnail':
+                  $editFilePath = $currentImg;
                   $img = editImage($rq, $editFilePath, 'thumbnail');
                   break;
 
-               case 'img1':
-                  $img = editImage($rq, $editFilePath, 'img1');
-                  break;
-
-               case 'img2':
-                  $img = editImage($rq, $editFilePath, 'img2');
-                  break;
-
-               case 'img3':
-                  $img = editImage($rq, $editFilePath, 'img3');
-                  break;
+               case 'multiple':
+                  if ($currentImg == '') {
+                     $img = insertImage($rq, 'multiple');
+                  } else {
+                     $editFilePath = [];
+                     foreach($currentImg as $item) {
+                        $editFilePath[] = $item;
+                     }
+                     $img = editImage($rq, $editFilePath, 'multiple');
+                     break;
+                  }
             }
          }
          return $img;
@@ -629,7 +637,7 @@
 
    if (!function_exists('insertGeneral')) {
 
-      function insertGeneral($name, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId)
+      function insertGeneral($name, $detail, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId)
       {
          $lastInsertID = DB::table('tbl_product_properties')
             ->select('id')
@@ -639,6 +647,7 @@
 
          $newProduct = new Product();
          $newProduct->name = $name;
+         $newProduct->detail = $detail;
          $newProduct->price = $price;
          $newProduct->image = $image;
          $newProduct->description = $description;
@@ -710,13 +719,13 @@
    }
 
    if (!function_exists('updateProduct')) {
-      function updateProduct($rq, $name, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId, $currentProduct, $key)
+      function updateProduct($rq, $name, $detail, $price, $image, $description, $slug, $active, $quantity, $discount = 0, $discountFrom = null, $discountTo = null, $discountedPrice, $manufactureId, $currentProduct, $key)
       {
 
          $currentProduct->update(['case_type_id' => null, 'cpu_serie_id' => null, 'drive_capacity_id' => null, 'mb_chipset_id' => null, 'mb_size_id' => null, 'mnt_refresh_rate_id' => null, 'mnt_response_time_id' => null, 'mnt_resolution_id' => null, 'mnt_screen_size_id' => null, 'mnt_type_id' => null, 'psu_ee_id' => null, 'psu_power_id' => null, 'ram_capacity_id' => null, 'ram_speed_id' => null, 'ram_type_id' => null, 'vga_gpu_id' => null, 'vga_mem_size_id' => null, 'ssd_form_factor_id' => null, 'ssd_interface_id' => null, 'socket_id' => null,
          ]);
 
-         $base = ['p.name' => $name, 'p.price' => $price, 'p.image' => $image, 'p.description' => $description, 'p.slug' => $slug, 'p.active' => $active, 'p.quantity' => $quantity, 'p.discount' => $discount, 'p.discount_from' => $discountFrom, 'p.discount_to' => $discountTo, 'p.discounted_price' => $discountedPrice, 'p.manufacture_id' => $manufactureId];
+         $base = ['p.name' => $name, 'p.detail' => $detail, 'p.price' => $price, 'p.image' => $image, 'p.description' => $description, 'p.slug' => $slug, 'p.active' => $active, 'p.quantity' => $quantity, 'p.discount' => $discount, 'p.discount_from' => $discountFrom, 'p.discount_to' => $discountTo, 'p.discounted_price' => $discountedPrice, 'p.manufacture_id' => $manufactureId];
 
          $currentProduct->update($base);
 

@@ -149,25 +149,27 @@
 
       /**
        * Method to save new product to database
+       * @param Request $rq
+       * @return \Illuminate\Http\RedirectResponse
        */
       public function createSave(Request $rq)
       {
-//         dd($rq->toArray());
+//         dd($rq->all());
          $generalRules = validationRules('general');
          $generalMessages = validationMessages('general');
 
          $generalValidator = Validator::make(
             $rq->only(
-               ['txt_name',
+               [
+                  'txt_name',
+                  'txt_detail',
                   'txt_price',
                   'txt_slug',
                   'sl_manufacture_id',
                   'txt_quantity',
                   'sl_active',
                   'product_thumbnail',
-                  'product_img_1',
-                  'product_img_2',
-                  'product_img_3',
+//                  'product_images',
                   'sl_mainCategory',
                   'sl_subCategory',
                ]), $generalRules, $generalMessages
@@ -178,6 +180,7 @@
          } else {
 
             $name = $rq->post('txt_name');
+            $detail = $rq->post('txt_detail');
             $price = $rq->post('txt_price');
             $slug = $rq->post('txt_slug');
             $manufactureId = $rq->post('sl_manufacture_id');
@@ -228,11 +231,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -272,11 +273,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -317,11 +316,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -362,11 +359,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -405,11 +400,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -450,11 +443,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -494,11 +485,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -538,11 +527,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -591,11 +578,9 @@
 
                      if ($check) {
                         $thumbnail = insertImage($rq, 'thumbnail');
-                        $img1 = insertImage($rq, 'img1');
-                        $img2 = insertImage($rq, 'img2');
-                        $img3 = insertImage($rq, 'img3');
-                        $check = insertGeneral($name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
-                        $check1 = insertProductImages($img1, $img2, $img3);
+                        $images = insertImage($rq, 'multiple');
+                        $check = insertGeneral($name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId);
+                        $check1 = insertProductImages($images);
 
                         if ($check == true && $check1 == true) {
                            $check = insertProductCategories($mainCategoryId, $subCategoryId);
@@ -623,6 +608,8 @@
 
       /**
        * Method to edit a product
+       * @param $id
+       * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
        */
       public function edit($id)
       {
@@ -753,6 +740,8 @@
 
       /**
        * Method to save an edited product
+       * @param Request $rq
+       * @return \Illuminate\Http\RedirectResponse
        */
       public function editSave(Request $rq)
       {
@@ -762,7 +751,9 @@
 
          $generalValidator = Validator::make(
             $rq->only(
-               ['txt_name',
+               [
+                  'txt_name',
+                  'txt_detail',
                   'txt_price',
                   'txt_slug',
                   'sl_manufacture_id',
@@ -788,19 +779,20 @@
 
             $currentThumbnail = $currentProduct->image;
             if (count($currentProductImages) == 0) {
-               $currentImg1 = $currentImg2 = $currentImg3 = '';
+               $currentImages = '';
             } else {
-               $currentImg1 = $currentProductImages[0]->link;
-               $currentImg2 = $currentProductImages[1]->link;
-               $currentImg3 = $currentProductImages[2]->link;
+               $currentImages = [];
+               foreach ($currentProductImages as $currentProductImage) {
+                  $temp = $currentProductImage->link;
+                  $currentImages[] = $temp;
+               }
             }
 
-            $newThumbnail = $rq->product_thumbnail;
-            $newImg1 = $rq->product_img_1;
-            $newImg2 = $rq->product_img_2;
-            $newImg3 = $rq->product_img_3;
+            $newThumbnail = $rq->file('product_thumbnail');
+            $newImages = $rq->file('product_images');
 
             $name = $rq->post('txt_name');
+            $detail = $rq->post('txt_detail');
             $price = $rq->post('txt_price');
             $slug = $rq->post('txt_slug');
             $manufactureId = $rq->post('sl_manufacture_id');
@@ -839,11 +831,7 @@
             $subCategoryId = $rq->post('sl_subCategory');
 
             $thumbnail = hasNewImage($rq, $newThumbnail, $currentThumbnail, 'thumbnail');
-            $img1 = hasNewImage($rq, $newImg1, $currentImg1, 'img1');
-            $img2 = hasNewImage($rq, $newImg2, $currentImg2, 'img2');
-            $img3 = hasNewImage($rq, $newImg3, $currentImg3, 'img3');
-
-//         dd(['img1' => $img1, 'img2' => $img2, 'img3' => $img3]);
+            $images = hasNewImage($rq, $newImages, $currentImages, 'multiple');
 
             switch ($mainCategoryName) {
                case 'Case':
@@ -855,34 +843,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Case');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Case');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -898,34 +881,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'CPU');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'CPU');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -941,34 +919,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Mainboard');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Mainboard');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -984,34 +957,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'RAM');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'RAM');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -1027,34 +995,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'HDD');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'HDD');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -1070,34 +1033,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'SSD');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'SSD');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -1113,34 +1071,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'VGA');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'VGA');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -1156,34 +1109,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'PSU');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'PSU');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
@@ -1205,34 +1153,29 @@
                   if ($validator->fails()) {
                      return redirect()->back()->withInput()->withErrors($validator);
                   } else {
-                     updateProduct($rq, $name, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Monitor');
+                     updateProduct($rq, $name, $detail, $price, $thumbnail, $description, $slug, $active, $quantity, $discount, $discountFrom, $discountTo, $discountedPrice, $manufactureId, $currentProductJoined, 'Monitor');
 
-                     $check = DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+                     DB::table('tbl_product_categories')->where('product_id', $currentProductId)->delete();
+
+                     $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
 
                      if ($check) {
-                        $check = updateProductCategories($mainCategoryId, $subCategoryId, $currentProductId);
-
-                        if ($check) {
+                        if ($currentImages == '') {
+                           updateProductImages($images, $currentProductId);
+                           Session::flash('success', $currentProductName . '\'s been successfully edited');
+                           return redirect('admin/products');
+                        } else {
                            $check = DB::table('tbl_product_images')->where('product_id', $currentProductId)->delete();
 
                            if ($check) {
-                              $check = updateProductImages($img1, $img2, $img3, $currentProductId);
-
-                              if ($check) {
-                                 Session::flash('success', $currentProductName . '\'s been successfully edited');
-                                 return redirect('admin/products');
-                              } else {
-                                 Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
-                                 return redirect()->back()->withInput();
-                              }
+                              updateProductImages($images, $currentProductId);
+                              Session::flash('success', $currentProductName . '\'s been successfully edited');
+                              return redirect('admin/products');
+                           } else {
+                              Session::flash('error', 'There was an error while trying to delete from table tbl_product_images');
+                              return redirect()->back()->withInput();
                            }
-                        } else {
-                           Session::flash('error', 'There was an error while trying to insert into table tbl_product_categories');
-                           return redirect()->back()->withInput();
                         }
-                     } else {
-                        Session::flash('error', 'There was an error while trying to delete from table tbl_product_categories');
-                        return redirect()->back()->withInput();
                      }
                   }
                   break;
