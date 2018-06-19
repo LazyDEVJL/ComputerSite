@@ -1202,11 +1202,11 @@
                ->select('link')
                ->where('product_id', $id);
 
-            $check1 = deleteImage($deleteProductImages->get()[0]->link);
-            $check2 = deleteImage($deleteProductImages->get()[1]->link);
-            $check3 = deleteImage($deleteProductImages->get()[2]->link);
+            foreach($deleteProductImages->get() as $deleteProductImage) {
+               deleteImage($deleteProductImage->link);
+            }
 
-            if ($check == true && $check1 == true && $check2 == true && $check3 == true) {
+            if ($check) {
                $check = $deleteProductImages->delete();
                if ($check) {
                   $deleteProductPropertyId = DB::table('tbl_products')
