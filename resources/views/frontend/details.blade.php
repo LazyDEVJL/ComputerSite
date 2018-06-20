@@ -15,8 +15,8 @@
                      <ul class="slides">
                         @foreach($Allimages as $image)
                            <li data-thumb="{{asset($image->link)}}">
-                              <img class="img-responsive"
-                                   src="{{asset($image->link)}}" alt="{{$CurrentProduct->name}}"></li>
+                              <img class="img-responsive" src="{{asset($image->link)}}" alt="{{$CurrentProduct->name}}">
+                           </li>
                         @endforeach
                      </ul>
                   </div>
@@ -63,8 +63,9 @@
                               <input type="hidden" name="product_id" value="{{$CurrentProduct->id}}">
                               <button class="btn">ADD TO CART</button>
                            </li>
-                           {{--<!-- LIKE -->--}}
-                           {{--<li class="col-xs-6"><a href="#." class="like-us"><i class="icon-heart"></i></a></li>--}}
+                           {{--
+                           <!-- LIKE -->--}} {{--
+                  <li class="col-xs-6"><a href="#." class="like-us"><i class="icon-heart"></i></a></li>--}}
                         </ul>
                      </form>
                      <!-- INFOMATION -->
@@ -119,9 +120,7 @@
                      <!--  Details -->
                      <div class="media-body">
                         <p class="font-playfair">“Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                           eiusmod
-                           tempor incididunt ut
-                           labore et dolore magna aliqua.”</p>
+                           eiusmod tempor incididunt ut labore et dolore magna aliqua.”</p>
                         <h6>TYRION LANNISTER <span class="pull-right">MAY 10, 2016</span></h6>
                      </div>
                   </div>
@@ -138,9 +137,7 @@
                      <!--  Details -->
                      <div class="media-body">
                         <p class="font-playfair">“Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                           eiusmod
-                           tempor incididunt ut
-                           labore et dolore magna aliqua.”</p>
+                           eiusmod tempor incididunt ut labore et dolore magna aliqua.”</p>
                         <h6>TYRION LANNISTER <span class="pull-right">MAY 10, 2016</span></h6>
                      </div>
                   </div>
@@ -167,8 +164,8 @@
                         <li class="col-sm-6">
                            <!-- Rating Stars -->
                            <div class="stars"><span>YOUR RATING</span> <i class="fa fa-star"></i><i
-                                    class="fa fa-star"></i><i
-                                    class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                                    class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                    class="fa fa-star"></i></div>
                         </li>
                         <li class="col-sm-6">
                            <button type="submit" class="btn btn-dark btn-small pull-right no-margin">POST REVIEW
@@ -206,8 +203,7 @@
                   <div class="overlay">
                      <div class="position-center-center">
                         <div class="inn"><a href="images/product-1.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a
-                                 href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
+                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
                         </div>
                      </div>
                   </div>
@@ -227,8 +223,7 @@
                   <div class="overlay">
                      <div class="position-center-center">
                         <div class="inn"><a href="images/product-2.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a
-                                 href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
+                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
                         </div>
                      </div>
                   </div>
@@ -248,8 +243,7 @@
                   <div class="overlay">
                      <div class="position-center-center">
                         <div class="inn"><a href="images/product-3.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a
-                                 href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
+                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
                         </div>
                      </div>
                   </div>
@@ -269,8 +263,7 @@
                   <div class="overlay">
                      <div class="position-center-center">
                         <div class="inn"><a href="images/product-4.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a
-                                 href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
+                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
                         </div>
                      </div>
                   </div>

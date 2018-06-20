@@ -34,7 +34,7 @@
                      <div class="col-md-4 product-box">
                         <div class="item">
                            <!-- Item img -->
-                           <div class="item-img"><img height='352px' width='270px' class="img-1"
+                           <div class="item-img"><img height='200px' width='270px' class="img-1"
                                                       src="{{asset($product->image)}}" alt="">
                               <!-- Overlay -->
                               <div class="overlay " style='background:none'>
@@ -47,8 +47,8 @@
                               </div>
                            </div>
                            <!-- Item Name -->
-                           <div class="item-name"><a style='font-size:15px'
-                                                     href="{{route('details', $product->slug)}}">{{str_limit($product->name,25)}}</a>
+                           <div class="item-name"><a style='font-size:10px'
+                                                     href="{{route('details', $product->slug)}}">{{$product->name}}</a>
                            </div>
                            <!-- Price -->
                            <span class="price">

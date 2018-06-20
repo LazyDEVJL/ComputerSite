@@ -8,6 +8,7 @@
    use App\ProductProperty;
    use Illuminate\Support\Facades\DB;
    use Illuminate\Support\Facades\File;
+   use Illuminate\Support\Facades\Session;
 
    if (!function_exists('getParentCategory')) {
 
@@ -184,10 +185,10 @@
                break;
             case 'checkout':
                return $rules = [
-                 'txt_name' => 'required',
-                 'txt_phone' => 'required',
-                 'txt_email' => 'required',
-                 'txt_address' => 'required',
+                  'txt_name' => 'required',
+                  'txt_phone' => 'required',
+                  'txt_email' => 'required',
+                  'txt_address' => 'required',
                ];
                break;
          }
@@ -400,7 +401,7 @@
             case 'multiple':
                $files = $rq->product_images;
                $images = [];
-               foreach($files as $file) {
+               foreach ($files as $file) {
                   $fileName = $file->getClientOriginalName();
                   $file->move(base_path('public/backend/products/images/'), $fileName);
                   $temp = 'backend/products/images/' . $fileName;
@@ -421,7 +422,7 @@
             ->first()
             ->id;
 
-         foreach($images as $image) {
+         foreach ($images as $image) {
             $check = DB::table('tbl_product_images')->insert([
                'product_id' => $productId, 'link' => $image
             ]);
@@ -434,7 +435,7 @@
    if (!function_exists('updateProductImages')) {
       function updateProductImages($images, $currentProductId)
       {
-         foreach($images as $image) {
+         foreach ($images as $image) {
             DB::table('tbl_product_images')->insert([
                'product_id' => $currentProductId, 'link' => $image
             ]);
@@ -458,7 +459,7 @@
                break;
 
             case 'multiple':
-               foreach($filePath as $item) {
+               foreach ($filePath as $item) {
                   $link = is_file(base_path('public/' . $item));
                   if ($link) {
                      unlink(base_path('public/' . $item));
@@ -488,7 +489,7 @@
                      $img = insertImage($rq, 'multiple');
                   } else {
                      $editFilePath = [];
-                     foreach($currentImg as $item) {
+                     foreach ($currentImg as $item) {
                         $editFilePath[] = $item;
                      }
                      $img = editImage($rq, $editFilePath, 'multiple');
@@ -841,81 +842,83 @@
       }
    }
 
-   if(!function_exists('PropertiesBySlug')){
-         function PropertiesBySlug($slug){
-            switch($slug){
-                  case 'mainboard':
-                  return[
-                        $MBchipset=DB::table('tbl_mb_chipsets')->get(),
-                        $MBsize=DB::table('tbl_mb_sizes')->get(),
-                        $MBsocket=DB::table('tbl_sockets')->get()
-                  ];
-                  break;
+   if (!function_exists('PropertiesBySlug')) {
+      function PropertiesBySlug($slug)
+      {
+         switch ($slug) {
+            case 'mainboard':
+               return [
+                  $MBchipset = DB::table('tbl_mb_chipsets')->get(),
+                  $MBsize = DB::table('tbl_mb_sizes')->get(),
+                  $MBsocket = DB::table('tbl_sockets')->get()
+               ];
+               break;
 
-                  case 'vga':
-                  return[
-                        $vgaGPU=DB::table('tbl_vga_gpus')->get(),
-                        $vgaMem=DB::table('tbl_vga_mem_sizes')->get()
-                  ];
-                  break;
+            case 'vga':
+               return [
+                  $vgaGPU = DB::table('tbl_vga_gpus')->get(),
+                  $vgaMem = DB::table('tbl_vga_mem_sizes')->get()
+               ];
+               break;
 
-                  case 'case':
-                  return
-                        $caseType=DB::table('tbl_case_types')->get();
-                  break;
+            case 'case':
+               return
+                  $caseType = DB::table('tbl_case_types')->get();
+               break;
 
-                  case 'cpu':
-                  return [
-                        $cpu=DB::table('tbl_cpu_series')->get(),
-                        $cpu=DB::table('tbl_sockets')->get()
-                  ];
-                  break;
+            case 'cpu':
+               return [
+                  $cpu = DB::table('tbl_cpu_series')->get(),
+                  $cpu = DB::table('tbl_sockets')->get()
+               ];
+               break;
 
-                  case 'hdd':
-                  return 
-                        $hdd=DB::table('tbl_drive_capacities')->get();
-                  break;
+            case 'hdd':
+               return
+                  $hdd = DB::table('tbl_drive_capacities')->get();
+               break;
 
-                  case 'ssd':
-                  return [
-                        $ssdFormfactor=DB::table('tbl_ssd_form_factors')->get(),
-                        $ssdInterface=DB::table('tbl_ssd_interfaces')->get()
-                  ];
-                  break;
+            case 'ssd':
+               return [
+                  $ssdFormfactor = DB::table('tbl_ssd_form_factors')->get(),
+                  $ssdInterface = DB::table('tbl_ssd_interfaces')->get()
+               ];
+               break;
 
-                  case 'monitor':
-                  return [
-                        $record=DB::table('tbl_mnt_resolutions')->get(),
-                        $record2=DB::table('tbl_mnt_response_times')->get(),
-                        $record3=DB::table('tbl_mnt_screen_sizes')->get(),
-                        $record4=DB::table('tbl_mnt_refresh_rates')->get()
-                        ];
-                  break;
+            case 'monitor':
+               return [
+                  $record = DB::table('tbl_mnt_resolutions')->get(),
+                  $record2 = DB::table('tbl_mnt_response_times')->get(),
+                  $record3 = DB::table('tbl_mnt_screen_sizes')->get(),
+                  $record4 = DB::table('tbl_mnt_refresh_rates')->get()
+               ];
+               break;
 
-                  case 'psu':
-                  return [
-                        $psuEE=DB::table('tbl_psu_ees')->get(),
-                        $psuPW=DB::table('tbl_psu_powers')->get()
-                        ];
-                  break;
+            case 'psu':
+               return [
+                  $psuEE = DB::table('tbl_psu_ees')->get(),
+                  $psuPW = DB::table('tbl_psu_powers')->get()
+               ];
+               break;
 
-                  case 'ram':
-                  return [
-                        $ramCP=DB::table('tbl_ram_capacities')->get(),
-                        $ramMem=DB::table('tbl_ram_speeds')->get()
-                        ];
-                  break;
+            case 'ram':
+               return [
+                  $ramCP = DB::table('tbl_ram_capacities')->get(),
+                  $ramMem = DB::table('tbl_ram_speeds')->get()
+               ];
+               break;
 
-            }
          }
+      }
    }
 
-   if(!function_exists('filterProductbyID')){
-      function filterProductbySlugandID($slug,$id){
-         switch($slug){
+   if (!function_exists('filterProductbyID')) {
+      function filterProductbySlugandID($slug, $id)
+      {
+         switch ($slug) {
             case 'cpu':
                return
-                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where('cpu_serie_id','=',$id)->get();
+                  $sql = DB::table('tbl_products as p')->join('tbl_product_properties as pp', 'p.product_property_id', '=', 'pp.id')->where('cpu_serie_id', '=', $id)->get();
                break;
          }
       }
@@ -935,11 +938,12 @@
          }
       }
    }
-   if(!function_exists('filterProduct')){
-      function filterProduct($slug,$filter,$query){
-         $brand=slugtoBrand($slug);
-         $record=PropertiesBySlug($slug);
-         $product=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query,'=',$filter)->get();
+   if (!function_exists('filterProduct')) {
+      function filterProduct($slug, $filter, $query)
+      {
+         $brand = slugtoBrand($slug);
+         $record = PropertiesBySlug($slug);
+         $product = DB::table('tbl_products as p')->join('tbl_product_properties as pp', 'p.product_property_id', '=', 'pp.id')->where($query, '=', $filter)->get();
          return [
             $product,
             $record,
@@ -947,10 +951,11 @@
          ];
       }
    }
-   if(!function_exists('slugtoBrand')){
-      function slugtoBrand($slug){
+   if (!function_exists('slugtoBrand')) {
+      function slugtoBrand($slug)
+      {
 
-         return $sql=DB::table('tbl_manufactures')->where('manufacture_of','like',"%$slug%")->get();
+         return $sql = DB::table('tbl_manufactures')->where('manufacture_of', 'like', "%$slug%")->get();
 
       }
    }
@@ -962,8 +967,7 @@
 
          $carts = [];
 
-         foreach($cart as $productId => $qty)
-         {
+         foreach ($cart as $productId => $qty) {
             $product = Product::find($productId);
 
             $temp = [
@@ -976,10 +980,13 @@
 
          $totalCost = 0;
          $totalQty = 0;
-         foreach($carts as $cart)
-         {
+         foreach ($carts as $cart) {
             $totalQty += $cart['qty'];
-            $totalCost += $cart['product']->price * $cart['qty'];
+            if ($cart['product']->discount != 0 || $cart['product']->discount != null) {
+               $totalCost += $cart['product']->discounted_price * $cart['qty'];
+            } else {
+               $totalCost += $cart['product']->price * $cart['qty'];
+            }
          }
 
          return ['carts' => $carts, 'total-cost' => $totalCost, 'total-qty' => $totalQty];
@@ -997,5 +1004,45 @@
          $products = $ordersJoined->where('order_id', '=', $orderId)->get();
 
          return $products;
+      }
+   }
+
+   if (!function_exists('insertProductOrders')) {
+      function insertProductOrders($carts, $orderId)
+      {
+         foreach ($carts as $cart) {
+            if($cart['product']->discount != 0 || $cart['product']->discount != null) {
+               $price = $cart['product']->discounted_price;
+            } else {
+               $price = $cart['product']->price;
+            }
+            $check = DB::table('tbl_product_orders')->insert([
+               'order_id' => $orderId,
+               'product_id' => $cart['product']->id,
+               'quantity' => $cart['qty'],
+               'price' => $price
+            ]);
+         }
+
+         return $check;
+      }
+   }
+
+   if (!function_exists('goodIssuing')) {
+      function goodIssuing($orderId)
+      {
+         $boughtProducts = DB::table('tbl_product_orders')
+            ->select('product_id', 'quantity')
+            ->where('order_id', '=', $orderId)
+            ->get();
+
+         foreach ($boughtProducts as $boughtProduct) {
+            $product = DB::table('tbl_products')->where('id', '=', $boughtProduct->product_id);
+            $oldQuantity = $product->first()->quantity;
+            $newQuantity = $oldQuantity - $boughtProduct->quantity;
+            $check = $product->update(['quantity' => $newQuantity]);
+         }
+
+         return $check;
       }
    }

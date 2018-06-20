@@ -29,7 +29,7 @@
 
          session(['cart' => $cart]);
 
-         return redirect('cart')->with('success', 'Item has been added to your cart!');
+         return redirect('/cart')->with('success', 'Item has been added to your cart!');
       }
 
       public function showCart()
@@ -139,16 +139,10 @@
                      ->orderBy('id', 'desc')
                      ->first()
                      ->id;
+                  $check = insertProductOrders($carts, $orderId);
 
-                  foreach ($carts as $cart) {
-                     $check = DB::table('tbl_product_orders')->insert([
-                        'order_id' => $orderId,
-                        'product_id' => $cart['product']->id,
-                        'quantity' => $cart['qty'],
-                        'price' => $cart['product']->price
-                     ]);
-                  }
                   if ($check) {
+                     goodIssuing($orderId);
                      Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
                      session()->forget('cart');
                      return redirect()->route('cart');
@@ -160,7 +154,7 @@
                   Session::flash('error', 'Failed to place order!');
                   return redirect()->back()->withInput();
                }
-            } else {
+            } elseif (count($customer) == 0) {
                $name = $rq->post('txt_name');
                $phone = $rq->post('txt_phone');
                $email = $rq->post('txt_email');
@@ -191,16 +185,10 @@
                         ->orderBy('id', 'desc')
                         ->first()
                         ->id;
+                     $check = insertProductOrders($carts, $orderId);
 
-                     foreach ($carts as $cart) {
-                        $check = DB::table('tbl_product_orders')->insert([
-                           'order_id' => $orderId,
-                           'product_id' => $cart['product']->id,
-                           'quantity' => $cart['qty'],
-                           'price' => $cart['product']->price
-                        ]);
-                     }
                      if ($check) {
+                        goodIssuing($orderId);
                         Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
                         session()->forget('cart');
                         return redirect()->route('cart');

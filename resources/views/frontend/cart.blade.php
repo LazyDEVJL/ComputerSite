@@ -59,7 +59,15 @@
 
                      <!-- PRICE -->
                      <li class="col-sm-2">
-                        <div class="position-center-center"><span class="price"><small>$</small>{{$cart['product']->price}}</span>
+                        <div class="position-center-center"><span class="price">
+                              <small>$</small>
+                              @if($cart['product']->discount != 0 || $cart['product']->discount != null)
+                                 {{$cart['product']->discounted_price}}
+                                 <span style="font-weight: lighter">({{$cart['product']->discount}}% OFF)</span>
+                              @else
+                                 {{$cart['product']->price}}
+                              @endif
+                           </span>
                         </div>
                      </li>
 
@@ -71,15 +79,22 @@
                                  @for($i = 1; $i < 3 + 1; $i++)
                                     <option value="{{$i}}" {{$cart['qty'] == $i ? 'selected' : ''}}>{{$i}}</option>
                                  @endfor
-                              </select>
-                              {{--<input type="text" id="qty_{{$cart['product']->id}}" value="{{$cart['qty']}}" style="font-size: 18px;">--}}
+                              </select> {{--
+              <input type="text" id="qty_{{$cart['product']->id}}" value="{{$cart['qty']}}" style="font-size: 18px;">--}}
                            </div>
                         </div>
                      </li>
 
                      <!-- TOTAL PRICE -->
                      <li class="col-sm-2">
-                        <div class="position-center-center"><span class="price"><small>$</small>{{$cart['product']->price*$cart['qty']}}</span>
+                        <div class="position-center-center"><span class="price">
+                              <small>$</small>
+                              @if($cart['product']->discount != 0 || $cart['product']->discount != null)
+                                 {{$cart['product']->discounted_price*$cart['qty']}}
+                              @else
+                                 {{$cart['product']->price*$cart['qty']}}
+                              @endif
+                           </span>
                         </div>
                      </li>
 
@@ -115,8 +130,13 @@
                   <div class="grand-total">
                      <div class="order-detail">
                         @foreach($carts as $cart)
-                           <p>{{$cart['qty']}} x {{$cart['product']->name}}
-                              <span>${{$cart['product']->price*$cart['qty']}} </span>
+                           <p>
+                              {{$cart['qty']}} x {{$cart['product']->name}}
+                              @if($cart['product']->discount != 0 || $cart['product']->discount != null)
+                                 <span>{{$cart['product']->discounted_price*$cart['qty']}}</span>
+                              @else
+                                 <span>{{$cart['product']->price*$cart['qty']}}</span>
+                              @endif
                            </p>
                      @endforeach
                      <!-- SUB TOTAL -->
@@ -149,7 +169,7 @@
                })
                    .then(function (response) {
                        // console.log(response);
-                       window.location.href = '{{route('cart')}}'
+                       window.location.href = '{{route('cart')}}';
                    })
                    .catch(function (error) {
                        console.log(error);
