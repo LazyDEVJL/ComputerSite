@@ -50,7 +50,6 @@
 
 <!-- Wrap -->
 <div id="wrap">
-
    <!-- header -->
    <header>
       <div class="sticky">
@@ -69,18 +68,11 @@
                <!-- NAV -->
                <div class="collapse navbar-collapse" id="nav-open-btn">
                   <ul class="nav">
-
-
                      <li><a href="{{action('FrontendController@index')}}">Home</a></li>
-
-
                      <li class="dropdown"><a href="{{action('FrontendController@allProduct')}}">Categories</a>
-
                         @include('frontend.menuCate')
                      </li>
                      <li><a href="#">About </a></li>
-
-
                      <li><a href="contact.html"> contact</a></li>
                   </ul>
                </div>
@@ -88,13 +80,13 @@
                <!-- Nav Right -->
                <div class="nav-right">
                   <ul class="navbar-right">
-
-
                   @if (session()->has('login'))
                      <!-- USER INFO -->
-                        <li class="dropdown user-acc"><a href="{{action('FrontendController@register')}}"
-                                                         class="dropdown-toggle" data-toggle="dropdown" role="button"><i
-                                    class="icon-user"></i> </a>
+                        <li class="dropdown user-acc">
+									<a href="{{action('FrontendController@register')}}"
+										class="dropdown-toggle" data-toggle="dropdown" role="button">
+										<i class="icon-user"></i> 
+									</a>
                            <ul class="dropdown-menu">
                               <li>
                                  <h6>Hello,
@@ -163,13 +155,13 @@
                                  @csrf
                                  <li>
                                     <label for="usename">Username</label>
-                                    <input id='usename' class='form-control' name='user' type="text">
+                                    <input id='usename' class='form-control' name='user' type="text" style="border-radius: 0">
                                     <p class="font-italic text-center"
                                        style='color:red'>{{ $errors->first('user') }}</p>
                                  </li>
                                  <li>
                                     <label for="pass">Password</label>
-                                    <input id='pass' class='form-control' name='password' type="password">
+                                    <input id='pass' class='form-control' name='password' type="password" style="border-radius: 0">
                                     <p class="font-italic text-center"
                                        style='color:red'>{{ $errors->first('password') }}</p>
                                  </li>
