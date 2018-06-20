@@ -198,4 +198,3 @@
    Route::get('/filter/mainboard-size/{slug}/{filter}','FrontendController@getFilterMbSize');
 
 
-

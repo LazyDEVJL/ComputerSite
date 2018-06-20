@@ -25,11 +25,18 @@
                <!-- COntent -->
                <div class="col-md-5">
                   <h4>{{$CurrentProduct->name}}</h4>
-                  <span class="price"><small>$</small>{{$CurrentProduct->price}}</span>
+                  <span class="price">
+                     <small>$</small>
+                     @if($CurrentProduct->discount != 0 || $CurrentProduct->discount != null)
+                        {{$CurrentProduct->discounted_price}}
+                     @else
+                        {{$CurrentProduct->price}}
+                     @endif
+                  </span>
 
                   <!-- Sale Tags -->
                   @if($CurrentProduct->discount != 0 || $CurrentProduct->discount != null)
-                  <div class="on-sale"> {{$CurrentProduct->discount}}% <span>OFF</span></div>
+                     <div class="on-sale"> {{$CurrentProduct->discount}}% <span>OFF</span></div>
                   @endif
                   <ul class="item-owner">
                      <li>Category :<span> {{getParentCategory($currentCategoryId)}}</span></li>

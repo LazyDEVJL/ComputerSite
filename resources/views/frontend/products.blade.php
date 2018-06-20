@@ -26,29 +26,6 @@
 
             <!-- Item Content -->
             <div class="col-sm-9">
-               <div class="item-display">
-                  <div class="row">
-                     <div class="col-xs-6"><span class="product-num">Showing 1 - 10 of 30 products</span></div>
-
-                     <!-- Products Select -->
-                     <div class="col-xs-6">
-                        <div class="pull-right">
-
-                           <!-- Short By -->
-                           <select class="selectpicker">
-                              <option>Short By</option>
-                              <option>Short By</option>
-                              <option>Short By</option>
-                           </select>
-                           <!-- Filter By -->
-                           <select class="selectpicker">
-                              <option>Filter By</option>
-                              <option>Short By</option>
-                              <option>Short By</option>
-                           </select>
-                     </div>
-                  </div>
-               </div>
 
                <!-- Popular Item Slide -->
                <div class="papular-block row single-img-demos">
@@ -74,7 +51,15 @@
                                                      href="{{route('details', $product->slug)}}">{{str_limit($product->name,25)}}</a>
                            </div>
                            <!-- Price -->
-                           <span class="price"><small>$</small>{{$product->price}}</span></div>
+                           <span class="price">
+                              <small>$</small>
+                              @if($product->discount != 0 || $product->discount != null)
+                                 {{$product->discounted_price}}
+                              @else
+                                 {{$product->price}}
+                              @endif
+                           </span>
+                        </div>
                      </div>
                   @endforeach
                </div>

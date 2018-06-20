@@ -3,12 +3,10 @@
    <!-- New Arrival -->
    <section class="padding-top-100 padding-bottom-100">
       <div class="container">
-
          <!-- Main Heading -->
          <div class="heading text-center">
             <h4>new arrival</h4>
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus maximus vehicula.
-          Sed feugiat, tellus vel tristique posuere, diam</span> </div>
+         </div>
       </div>
 
       <!-- New Arrival -->
@@ -21,14 +19,21 @@
                <!-- Overlay  -->
                <div class="overlay" style='background:none'>
                   <!-- Price -->
-                  <span class="price"><small>$</small>{{$product->price}}</span>
+                  <span class="price">
+                     <small>$</small>
+                     @if($product->discount != 0 || $product->discount != null)
+                        {{$product->discounted_price}}
+                     @else
+                        {{$product->price}}
+                     @endif
+                  </span>
                   <div class="position-center-center">
                      <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a>
                      <a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
                   </div>
                </div>
                <!-- Item Name -->
-               <div class="item-name"> <a href="{{route('details', ['slug'=>$product->slug])}}">{{$product->name}}</a>
+               <div class="item-name"><a href="{{route('details', ['slug'=>$product->slug])}}">{{$product->name}}</a>
                </div>
             </div>
          @endforeach
@@ -49,7 +54,8 @@
             <!-- Item -->
                <div class="item">
                   <!-- Item img -->
-                  <div class="item-img"> <img width='270px' height='352px' class="img-1" src="{{$product->image}}" alt="" >
+                  <div class="item-img"><img width='270px' height='352px' class="img-1" src="{{$product->image}}"
+                                             alt="">
                      <!-- Overlay -->
                      <div class="overlay" style='background:none'>
                         <div class="position-center-center">
@@ -61,10 +67,19 @@
                      </div>
                   </div>
                   <!-- Item Name -->
-                  <div class="item-name"> <a href="{{route('details', ['slug'=>$product->slug])}}" style="font-size: 14px!important;">{{str_limit($product->name,25)}}</a>
+                  <div class="item-name"><a href="{{route('details', ['slug'=>$product->slug])}}"
+                                            style="font-size: 14px!important;">{{str_limit($product->name,25)}}</a>
                   </div>
                   <!-- Price -->
-                  <span class="price"><small>$</small>{{$product->price}}</span> </div>
+                  <span class="price">
+                     <small>$</small>
+                     @if($product->discount != 0 || $product->discount != null)
+                        {{$product->discounted_price}}
+                     @else
+                        {{$product->price}}
+                     @endif
+                  </span>
+               </div>
             @endforeach
          </div>
       </div>

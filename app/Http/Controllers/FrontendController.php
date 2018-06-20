@@ -20,7 +20,10 @@
       {
          $carts = getCart()['carts'];
          $total = getCart()['total-cost'];
-         $newProduct = DB::table('tbl_products')->limit(8)->get();
+         $newProduct = DB::table('tbl_products')
+            ->orderBy('created_at', 'desc')
+            ->limit(8)
+            ->get();
          $ranProduct = DB::table('tbl_products')->inRandomOrder()->limit(4)->get();
          return view('frontend/index', [
             'newProduct' => $newProduct,
