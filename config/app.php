@@ -125,7 +125,6 @@
          Illuminate\Translation\TranslationServiceProvider::class,
          Illuminate\Validation\ValidationServiceProvider::class,
          Illuminate\View\ViewServiceProvider::class,
-         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
          /*
           * Package Service Providers...
           */
@@ -138,6 +137,7 @@
          App\Providers\EventServiceProvider::class,
          App\Providers\RouteServiceProvider::class,
          App\Providers\ComposerServiceProvider::class,
+         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
       ],
       /*
       |--------------------------------------------------------------------------
