@@ -106,12 +106,6 @@
                            <p>Add new Property</p>
                         </a>
                      </li>
-                     <li class="nav-item">
-                        <a href="{{ action('OrderController@create') }}" class="nav-link">
-                           <i class="fas fa-plus nav-icon" style="font-size: 12px;"></i>
-                           <p>Add new Order</p>
-                        </a>
-                     </li>
                   </ul>
                </li>
                <li class="nav-item">

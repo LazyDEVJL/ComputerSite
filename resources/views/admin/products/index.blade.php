@@ -32,7 +32,7 @@
                <h3 class="card-title col-lg-6 my-auto">Products List</h3>
                <div class="card-tools">
                   <form action="" method="get">
-                     <div class="input-group input-group-sm" style="width:300px">
+                     <div class="input-group input-group-sm" style="min-width:250px">
                         <input type="text" name="q" placeholder="Search by product's name" class="form-control">
                         <div class="input-group-append">
                            <button type="submit" class="btn btn-default">
@@ -89,11 +89,4 @@
       <!-- /.content -->
    </div>
    <!-- /.content-wrapper -->
-
-   <!-- Control Sidebar -->
-   <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-   </aside>
-   <!-- /.control-sidebar -->
-   <!-- ./wrapper -->
 @endsection

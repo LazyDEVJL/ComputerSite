@@ -25,16 +25,7 @@
    <link rel="stylesheet" href="{{asset('owlcarousel/dist/assets/owl.theme.default.css')}}">
 
    <link rel="icon" href="{{asset('backend/dist/img/AdminLTELogo.png')}}">
-
-   <style>
-      .card-title {
-         margin-bottom: 0 !important;
-      }
-
-      .alert {
-         margin-bottom: 0 !important;
-      }
-   </style>
+	<link rel="stylesheet" href="{{asset('backend/dist/css/user.css')}}">
 </head>
 
 @yield('content')
@@ -60,26 +51,5 @@
 <script src="{{asset('owlcarousel/dist/owl.carousel.js')}}"></script>
 <!-- User Script -->
 <script type="module" src="{{ asset('backend/js/user.js') }}"></script>
-@if(url()->current() == 'http://computerstores.local/admin/orders/create')
-<script>
-    //region Add Product Button
-    let wrapper = $(".product-wrap"); //Fields wrapper
-    let add_button = $("#add-product-button"); //Add button ID
-
-    let x = 1; //initlal text box count
-    $(add_button).click(function (e) { //on add input button click
-        e.preventDefault();
-        x++; //text box increment
-        $(wrapper).append('<div class="col-lg-12 form-row mt-3"><div class="col-lg-9 pl-0"><label for="sl_products">Product</label><select id="sl_products" class="form-control" name="sl_products[]"><option value="" selected>Choose..</option>@foreach($products as $product)<option value="{{$product->id}}" {{old('sl_products') == $product->id ? 'selected' : ''}}>{{$product->name}}</option> @endforeach   </select></div><div class="col-lg-2 pl-0 pr-0"> <label for="quantity">Qty</label><input type="number" name="txt_quantity[]" id="quantity" class="form-control pr-0" value="{{old('txt_quantity')}}"></div><div class="col-lg-1"><label for=""></label><a href="#" class="btn btn-danger remove-field mt-2"> <i class="fas fa-trash"></i></a></div></div>'); //add input box
-    });
-
-    $(wrapper).on("click", ".remove-field", function (e) { //user click on remove text
-        e.preventDefault();
-        $(this).parent().parent().remove();
-        x--;
-    });
-    //endregion
-</script>
-@endif
 </body>
 </html>

@@ -20,7 +20,7 @@
 
       <!-- Main content -->
       <section class="content">
-         <div class="card w-75">
+         <div class="card w-lg-75">
             <div class="card-header">
                <h3 class="card-title">Create new Category</h3>
             </div>
@@ -130,11 +130,11 @@
                   </div>
                </div>
                <div class="card-footer row">
-                  <div class="col-lg-6">
+                  <div class="col-8">
                      <input type="submit" value="Create" class="btn btn-primary">
                      <input type="reset" value="Reset" class="btn btn-default ml-2">
                   </div>
-                  <div class="col-lg-6" align="right">
+                  <div class="col-4" align="right">
                      <a href="{{ action('CategoryController@index') }}" class="btn btn-secondary">
                         <i class="fa fa-arrow-alt-circle-left"></i>&nbsp;&nbsp; Back
                      </a>

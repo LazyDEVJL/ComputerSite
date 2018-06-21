@@ -32,7 +32,7 @@
                <h3 class="card-title col-lg-6 my-auto">Categories List</h3>
                <div class="card-tools">
                   <form action="" method="get">
-                     <div class="input-group input-group-sm" style="width:200px">
+                     <div class="input-group input-group-sm" style="min-width:300px">
                         <input type="text" name="q" placeholder="Search by category name" class="form-control">
                         <div class="input-group-append">
                            <button type="submit" class="btn btn-default">
@@ -64,8 +64,8 @@
                         <td>{{ $category->active == 1 ? 'Show' : 'Hide' }}</td>
                         <td>{{ getParentCategory($category->parent_id) }}</td>
                         <td>
-                           <a href="{{ action('CategoryController@edit', ['id' => $category->id]) }}" class="btn btn-default"><i class="fa fa-edit"></i> &nbsp;&nbsp;Edit</a>
-                           <a href="{{ action('CategoryController@destroy', ['id' => $category->id]) }}"onclick="return confirm('Are you sure?');" class="btn btn-danger"><i class="fa fa-trash-alt"></i> &nbsp;&nbsp;Delete</a>
+                           <a href="{{ action('CategoryController@edit', ['id' => $category->id]) }}" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                           <a href="{{ action('CategoryController@destroy', ['id' => $category->id]) }}"onclick="return confirm('Are you sure?');" class="btn btn-danger"><i class="fa fa-trash-alt"></i></a>
                         </td>
                      </tr>
                   @endforeach
@@ -78,10 +78,4 @@
       <!-- /.content -->
    </div>
    <!-- /.content-wrapper -->
-
-   <!-- Control Sidebar -->
-   <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-   </aside>
-   <!-- /.control-sidebar -->
 @endsection

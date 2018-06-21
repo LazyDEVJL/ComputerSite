@@ -11,7 +11,7 @@
                   <ol class="breadcrumb">
                      <li class="breadcrumb-item"><a href="{{ action('PropertiesController@index') }}">Properties</a>
                      </li>
-                     <li class="breadcrumb-item active">Properties Created</li>
+                     <li class="breadcrumb-item active">Create new Property</li>
                   </ol>
                </div>
             </div>

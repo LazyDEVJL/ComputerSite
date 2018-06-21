@@ -36,6 +36,7 @@
    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
    <![endif]-->
+	<link rel="stylesheet" href="{{asset('frontend/owlcarousel/dist/assets/owl.carousel.min.css')}}">
 	<link rel="stylesheet" href="{{asset('frontend/css/user.css')}}">
 </head>
 
@@ -348,6 +349,7 @@
 <script type="text/javascript" src="{{asset('frontend/rs-plugin/js/jquery.tp.min.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
+<script src="{{asset('frontend/owlcarousel/dist/assets/owl.carousel.min.css')}}"></script>
 </body>
 
 </html>

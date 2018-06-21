@@ -20,13 +20,6 @@
       <!-- Main content -->
       <section class="content">
          @include('admin.messages')
-         <div class="row">
-            <div class="col-lg-6">
-               <a href="{{ action('OrderController@create') }}" class="btn btn-primary mb-3">
-                  <i class="fa fa-plus-circle"></i>&nbsp;&nbsp; Create new Order
-               </a>
-            </div>
-         </div>
          <div class="card">
             <div class="card-header row">
                <h3 class="card-title col-lg-6 my-auto">Orders List</h3>

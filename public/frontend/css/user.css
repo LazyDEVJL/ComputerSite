@@ -1,3 +1,18 @@
+.home-banner {
+   height: 400px;
+   width: 100%;
+}
+
+.home-banner #banner-1 {
+   background-color: red;
+}
+.home-banner #banner-2 {
+   background-color: green;
+}
+.home-banner #banner-3 {
+   background-color: blue;
+}
+
 .no-result {
    margin-top: 50px;
    text-align: center;
