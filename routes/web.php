@@ -177,6 +177,8 @@
 
    Route::patch('/cart/{product}', 'CartController@update')->name('cart.update');
 
+       
+
    //    route frontend filter
    Route::get('/filter/mnt_res/{slug}/{filter}','FrontendController@getFilterMntRes');
    Route::get('/filter/mnt_time/{slug}/{filter}','FrontendController@getFilterMntTime');
@@ -196,3 +198,7 @@
    Route::get('/filter/psu-pw/{slug}/{filter}','FrontendController@getFilterPsuPW');
    Route::get('/filter/mainboard-chipset/{slug}/{filter}','FrontendController@getFilterMbChip');
    Route::get('/filter/mainboard-size/{slug}/{filter}','FrontendController@getFilterMbSize');
+
+//    Route Frontend search 
+   Route::post('/search','FrontendController@ProductSearch'); 
+   Route::get('/search-cate/{slug}/{key}','FrontendController@ResultinCate'); 

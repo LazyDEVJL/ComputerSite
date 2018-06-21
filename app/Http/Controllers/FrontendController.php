@@ -28,44 +28,44 @@ use App\Product;
             'newProduct' => $newProduct,
             'ranProduct' => $ranProduct,
             'carts' => $carts,
-            'totalPrice' => $total,
-        ]);
-    }
+            'totalPrice' => $total
+         ]);
+      }
 
-    public function allProduct()
-    {
-        $carts = getCart()['carts'];
-        $total = getCart()['total-cost'];
-        $AllProduct = DB::table('tbl_products')->get();
-        $manufactures = DB::table('tbl_manufactures')->get();
-        return view('frontend/products', [
+      public function allProduct()
+      {
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+         $AllProduct = DB::table('tbl_products')->paginate(9);
+         $manufactures = DB::table('tbl_manufactures')->get();
+         return view('frontend/products', [
             'AllProduct' => $AllProduct,
             'manufactures' => $manufactures,
             'carts' => $carts,
-            'totalPrice' => $total,
-        ]);
-    }
+            'totalPrice' => $total
+         ]);
+      }
 
-    public function ProductbyBrand($id)
-    {
-        $carts = getCart()['carts'];
-        $total = getCart()['total-cost'];
-        $product = DB::table('tbl_products as p')->select('p.*')->join('tbl_manufactures as mn', 'p.manufacture_id', '=', 'mn.id')->where('mn.id', '=', $id)->get();
-        return view('frontend/products', [
+      public function ProductbyBrand($id)
+      {
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+         $product = DB::table('tbl_products as p')->select('p.*')->join('tbl_manufactures as mn', 'p.manufacture_id', '=', 'mn.id')->where('mn.id', '=', $id)->paginate(9);
+         return view('frontend/products', [
             'AllProduct' => $product,
             'carts' => $carts,
-            'totalPrice' => $total,
-        ]);
-    }
+            'totalPrice' => $total
+         ]);
+      }
 
-    public function ProductByOneBrand($slug, $id)
-    {
-        $carts = getCart()['carts'];
-        $total = getCart()['total-cost'];
-        $product = DB::table('tbl_products as p')->select('p.*')->join('tbl_product_categories as pc', 'p.id', '=', 'pc.product_id')->join('tbl_categories as ct', 'pc.category_id', '=', 'ct.id')->join('tbl_manufactures as mn', 'p.manufacture_id', '=', 'mn.id')->where([['mn.id', '=', $id], ['ct.slug', '=', $slug]])->get();
-        $brand = slugtoBrand($slug);
-        $record = PropertiesBySlug($slug);
-        return view('frontend/category', [
+      public function ProductByOneBrand($slug, $id)
+      {
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+         $product = DB::table('tbl_products as p')->select('p.*')->join('tbl_product_categories as pc', 'p.id', '=', 'pc.product_id')->join('tbl_categories as ct', 'pc.category_id', '=', 'ct.id')->join('tbl_manufactures as mn', 'p.manufacture_id', '=', 'mn.id')->where([['mn.id', '=', $id], ['ct.slug', '=', $slug]])->paginate(9);
+         $brand = slugtoBrand($slug);
+         $record = PropertiesBySlug($slug);
+         return view('frontend/category', [
             'CategoryProduct' => $product,
             'brand' => $brand,
             "slug" => $slug,
@@ -93,18 +93,18 @@ use App\Product;
             'currentCategoryId' => $currentCategoryID,
             'Allimages' => $images,
             'carts' => $carts,
-            'totalPrice' => $total,
-        ]);
-    }
+            'totalPrice' => $total
+         ]);
+      }
 
-    public function getCategory($slug)
-    {
-        $carts = getCart()['carts'];
-        $total = getCart()['total-cost'];
-        $brand = slugtoBrand($slug);
-        $record = PropertiesBySlug($slug);
-        $cateProduct = DB::table('tbl_products as p')->select('p.*')->join('tbl_product_categories as pc', 'p.id', '=', 'pc.product_id')->join('tbl_categories as ct', 'pc.category_id', '=', 'ct.id')->where('ct.slug', '=', $slug)->get();
-        return view('frontend/category', [
+      public function getCategory($slug)
+      {
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+         $brand = slugtoBrand($slug);
+         $record = PropertiesBySlug($slug);
+         $cateProduct = DB::table('tbl_products as p')->select('p.*')->join('tbl_product_categories as pc', 'p.id', '=', 'pc.product_id')->join('tbl_categories as ct', 'pc.category_id', '=', 'ct.id')->where('ct.slug', '=', $slug)->paginate(9);
+         return view('frontend/category', [
             'CategoryProduct' => $cateProduct,
             'record' => $record,
             "slug" => $slug,
@@ -472,7 +472,30 @@ use App\Product;
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total,
+            'totalPrice' => $total
+         ]);
+      }
+
+
+
+      public function ProductSearch(Request $rq){
+        $key=$rq->search;
+        $categories=DB::table('tbl_categories as ct')->select('ct.*')->join('tbl_product_categories as pc','ct.id','=','pc.category_id')->join('tbl_products as p','pc.product_id','=','p.id')->groupBy('ct.name')->where([['p.name','like',"%$key%"],['ct.parent_id','=','0']])->get();
+        $result=DB::table('tbl_products')->where('name','like',"%$key%")->paginate(9);
+        return view('frontend/search',[
+            'AllProduct'=>$result,
+            'categories'=>$categories,
+            'key'=>$key
         ]);
-    }
-}
+      }
+
+      public function ResultinCate($slug,$key){
+        $categories=DB::table('tbl_categories as ct')->select('ct.*')->join('tbl_product_categories as pc','ct.id','=','pc.category_id')->join('tbl_products as p','pc.product_id','=','p.id')->groupBy('ct.name')->where([['p.name','like',"%$key%"],['ct.parent_id','=','0']])->get();
+        $product=DB::table('tbl_products as p')->select('p.*')->join('tbl_product_categories as pc','p.id','=','pc.product_id')->join('tbl_categories as ct','pc.category_id','=','ct.id')->where([['p.name','like',"%$key%"],['ct.slug','=',$slug]])->paginate(9);
+        return view('frontend/search',[
+          'AllProduct'=>$product,
+          'categories'=>$categories,
+          'key'=>$key
+          ]);
+      }
+   }
