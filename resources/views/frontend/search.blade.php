@@ -4,11 +4,15 @@
    <section class="shop-page padding-top-100 padding-bottom-100">
       <div class="container">
          <div class="row">
-
+            @if (count($AllProduct) == 0)
+               <p class="no-result">
+                  Sorry! We couldn't find any results for 
+                  <span>"{{$key}}"</span>
+               </p>
+            @else
             <!-- Shop SideBar -->
             <div class="col-sm-3">
                <div class="shop-sidebar">
-
                   <!-- Category -->
                   <h5 class="shop-tittle margin-bottom-30">Result in Categories</h5>
                   <ul class="shop-cate">
@@ -16,23 +20,19 @@
                   <li><a href="{{action('FrontendController@ResultinCate',['slug'=>$ct->slug,'key'=>$key])}}">{{$ct->name}}</a></li>
                   @endforeach
                   </ul>
-
-                 
-
                </div>
             </div>
             <h4>Search Result</h4>
             <!-- Item Content -->
             <div class="col-sm-9">
-
                <!-- Popular Item Slide -->
                <div class="papular-block row single-img-demos">
                @foreach($AllProduct as $product)
                   <!-- Item -->
-                     <div class="col-md-4 product-box">
+                     <div class="col-md-4">
                         <div class="item">
                            <!-- Item img -->
-                           <div class="item-img"><img height='352px' width='270px' class="img-1"
+                           <div class="item-img"><img height='200px' width='270px' class="img-1"
                                                       src="{{asset($product->image)}}" alt="">
                               <!-- Overlay -->
                               <div class="overlay " style='background:none'>
@@ -45,8 +45,8 @@
                               </div>
                            </div>
                            <!-- Item Name -->
-                           <div class="item-name"><a style='font-size:15px'
-                                                     href="{{route('details', $product->slug)}}">{{str_limit($product->name,25)}}</a>
+                           <div class="item-name"><a style='font-size:10px'
+                                                     href="{{route('details', $product->slug)}}">{{$product->name}}</a>
                            </div>
                            <!-- Price -->
                            <span class="price">
@@ -65,6 +65,7 @@
                <!-- Pagination -->
                {{$AllProduct->render()}}
             </div>
+            @endif
          </div>
       </div>
    </section>

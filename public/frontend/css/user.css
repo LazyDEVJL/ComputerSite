@@ -1,0 +1,41 @@
+.no-result {
+   margin-top: 50px;
+   text-align: center;
+   text-transform: none;
+   font-size: 25px;
+   color: #2d3a4b;
+}
+
+.no-result span {
+   font-weight: bold;
+}
+
+@media screen and (max-width: 1024px) {
+   .arrival-block .item img {
+      height: 300px !important;
+   }
+}
+
+@media screen and (max-width: 768px) {
+   .no-result {
+      font-size: 20px;
+   }
+}
+
+@media screen and (max-width: 425px) {
+   .no-result {
+      font-size: 14px;
+   }
+}
+
+@media screen and (max-width: 375px) {
+   .no-result {
+      font-size: 12px;
+   }
+}
+
+@media screen and (max-width: 320px) {
+   .no-result {
+      font-size: 10px;
+   }
+}

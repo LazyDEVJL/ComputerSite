@@ -8,7 +8,6 @@
             <h4>new arrival</h4>
          </div>
       </div>
-
       <!-- New Arrival -->
       <div class="arrival-block single-img-demos">
       @foreach($newProduct as $product)
@@ -29,7 +28,6 @@
                   </span>
                   <div class="position-center-center">
                      <a href="{{$product->image}}" data-lighter><i class="icon-magnifier"></i></a>
-                     <a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
                   </div>
                </div>
                <!-- Item Name -->
@@ -54,7 +52,7 @@
             <!-- Item -->
                <div class="item">
                   <!-- Item img -->
-                  <div class="item-img"><img width='270px' height='352px' class="img-1" src="{{$product->image}}"
+                  <div class="item-img"><img width='270px' height='270px' class="img-1" src="{{$product->image}}"
                                              alt="">
                      <!-- Overlay -->
                      <div class="overlay" style='background:none'>
