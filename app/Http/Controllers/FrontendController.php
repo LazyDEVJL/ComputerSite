@@ -1,8 +1,8 @@
 <?php
 
-   namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
-   use App\Product;
+use App\Product;
 // use Request;
    use Illuminate\Http\Request;
    use Illuminate\Foundation\Http\FormRequest;
@@ -13,19 +13,18 @@
    use Illuminate\Support\Facades\DB;
    use App\Customer;
 
-
    class FrontendController extends Controller
-   {
-      public function index()
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $newProduct = DB::table('tbl_products')
+{
+    public function index()
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $newProduct = DB::table('tbl_products')
             ->orderBy('created_at', 'desc')
             ->limit(8)
             ->get();
-         $ranProduct = DB::table('tbl_products')->inRandomOrder()->limit(4)->get();
-         return view('frontend/index', [
+        $ranProduct = DB::table('tbl_products')->inRandomOrder()->limit(4)->get();
+        return view('frontend/index', [
             'newProduct' => $newProduct,
             'ranProduct' => $ranProduct,
             'carts' => $carts,
@@ -72,24 +71,24 @@
             "slug" => $slug,
             'record' => $record,
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function details($slug)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $product = DB::table('tbl_products as p')->where('p.slug', '=', $slug)->get();
-         $currentProduct = $product[0];
-         $images = DB::table('tbl_product_images as img')->join('tbl_products as p', 'img.product_id', '=', 'p.id')->where('p.slug', '=', $slug)->get();
+    public function details($slug)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $product = DB::table('tbl_products as p')->where('p.slug', '=', $slug)->get();
+        $currentProduct = $product[0];
+        $images = DB::table('tbl_product_images as img')->join('tbl_products as p', 'img.product_id', '=', 'p.id')->where('p.slug', '=', $slug)->get();
 
-         $currentCategoryID = DB::table('tbl_products as p')
+        $currentCategoryID = DB::table('tbl_products as p')
             ->join('tbl_product_categories as pc', 'p.id', '=', 'pc.product_id')
             ->groupBy('p.id')
             ->where('p.id', $product[0]->id)
             ->get()[0]->category_id;
-         return view('frontend/details', [
+        return view('frontend/details', [
             'CurrentProduct' => $currentProduct,
             'currentCategoryId' => $currentCategoryID,
             'Allimages' => $images,
@@ -111,363 +110,363 @@
             "slug" => $slug,
             'brand' => $brand,
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilter($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $brand = slugtoBrand($slug);
-         $record = PropertiesBySlug($slug);
-         $product = filterProductbySlugandID($slug, $filter);
-         return view('frontend/category', [
+    public function getFilter($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $brand = slugtoBrand($slug);
+        $record = PropertiesBySlug($slug);
+        $product = filterProductbySlugandID($slug, $filter);
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $product,
             'record' => $record,
             'brand' => $brand,
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function register()
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         return view('frontend/register', [
+    public function register()
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        return view('frontend/register', [
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function saveRegister(CustomersRequest $rq)
-      {
-         $username = $rq->username;
-         $name = $rq->txt_name;
-         $pass = $rq->txt_pass;
-         $phone = $rq->txt_phone;
-         $email = $rq->txt_email;
-         $address = $rq->txt_address;
-         $customer = new Customer();
-         $customer->name = $name;
-         $customer->email = $email;
-         $customer->phone = $phone;
-         $customer->address = $address;
-         $customer->username = $username;
-         $customer->password = $pass;
-         $check = $customer->save();
-         if ($check) {
+    public function saveRegister(CustomersRequest $rq)
+    {
+        $username = $rq->username;
+        $name = $rq->txt_name;
+        $pass = $rq->txt_pass;
+        $phone = $rq->txt_phone;
+        $email = $rq->txt_email;
+        $address = $rq->txt_address;
+        $customer = new Customer();
+        $customer->name = $name;
+        $customer->email = $email;
+        $customer->phone = $phone;
+        $customer->address = $address;
+        $customer->username = $username;
+        $customer->password = $pass;
+        $check = $customer->save();
+        if ($check) {
             session([
-               'login' => true,
-               'username' => $username,
-               'password' => $pass,
-               'name' => $name,
-               'phone' => $phone,
-               'email' => $email,
-               'address' => $address
+                'login' => true,
+                'username' => $username,
+                'password' => $pass,
+                'name' => $name,
+                'phone' => $phone,
+                'email' => $email,
+                'address' => $address,
             ]);
             return redirect('/');
-         } else {
+        } else {
             return redirect('register');
-         }
-      }
+        }
+    }
 
-      public function logout(Request $rq)
-      {
-         $rq->session()->forget(['login', 'username', 'password', 'name', 'phone', 'email', 'address']);
-         return redirect('/');
-      }
+    public function logout(Request $rq)
+    {
+        $rq->session()->forget(['login', 'username', 'password', 'name', 'phone', 'email', 'address']);
+        return redirect('/');
+    }
 
-      public function login(LoginRequest $rq)
-      {
-         $username = $rq->user;
-         $password = $rq->password;
-         $customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
+    public function login(LoginRequest $rq)
+    {
+        $username = $rq->user;
+        $password = $rq->password;
+        $customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
 
-         $name = $customer[0]->name;
-         $email = $customer[0]->email;
-         $phone = $customer[0]->phone;
-         $address = $customer[0]->address;
+        $name = $customer[0]->name;
+        $email = $customer[0]->email;
+        $phone = $customer[0]->phone;
+        $address = $customer[0]->address;
 
-         if (count($customer) == 1) {
+        if (count($customer) == 1) {
             session([
-               'login' => true,
-               'username' => $username,
-               'password' => $password,
-               'name' => $name,
-               'phone' => $phone,
-               'email' => $email,
-               'address' => $address
+                'login' => true,
+                'username' => $username,
+                'password' => $password,
+                'name' => $name,
+                'phone' => $phone,
+                'email' => $email,
+                'address' => $address,
             ]);
             return redirect('/');
-         } else {
+        } else {
             return redirect('/');
-         }
-      }
+        }
+    }
 
-      public function getFilterMntRes($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mnt_resolution_id');
-         return view('frontend/category', [
+    public function getFilterMntRes($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mnt_resolution_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterMntTime($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mnt_response_time_id');
-         return view('frontend/category', [
+    public function getFilterMntTime($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mnt_response_time_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterMntSize($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mnt_screen_size_id');
-         return view('frontend/category', [
+    public function getFilterMntSize($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mnt_screen_size_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterMntRate($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mnt_refresh_rate_id');
-         return view('frontend/category', [
+    public function getFilterMntRate($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mnt_refresh_rate_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterCpuSeries($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'cpu_serie_id');
-         return view('frontend/category', [
+    public function getFilterCpuSeries($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'cpu_serie_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterCpuSk($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'socket_id');
-         return view('frontend/category', [
+    public function getFilterCpuSk($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'socket_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterCase($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'case_type_id');
-         return view('frontend/category', [
+    public function getFilterCase($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'case_type_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterHDD($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'drive_capacity_id');
-         return view('frontend/category', [
+    public function getFilterHDD($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'drive_capacity_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterVgaGpu($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'vga_gpu_id');
-         return view('frontend/category', [
+    public function getFilterVgaGpu($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'vga_gpu_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterVgaMem($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'vga_mem_size_id');
-         return view('frontend/category', [
+    public function getFilterVgaMem($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'vga_mem_size_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterSsdFF($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'ssd_form_factor_id');
-         return view('frontend/category', [
+    public function getFilterSsdFF($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'ssd_form_factor_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterSsdIF($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'ssd_interface_id');
-         return view('frontend/category', [
+    public function getFilterSsdIF($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'ssd_interface_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterRamCa($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'ram_capacity_id');
-         return view('frontend/category', [
+    public function getFilterRamCa($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'ram_capacity_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterRamSp($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'ram_speed_id');
-         return view('frontend/category', [
+    public function getFilterRamSp($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'ram_speed_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterPsuEE($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'psu_ee_id');
-         return view('frontend/category', [
+    public function getFilterPsuEE($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'psu_ee_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterPsuPW($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'psu_power_id');
-         return view('frontend/category', [
+    public function getFilterPsuPW($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'psu_power_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterMbChip($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mb_chipset_id');
-         return view('frontend/category', [
+    public function getFilterMbChip($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mb_chipset_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
             'brand' => $check[2],
             'carts' => $carts,
-            'totalPrice' => $total
-         ]);
-      }
+            'totalPrice' => $total,
+        ]);
+    }
 
-      public function getFilterMbSize($slug, $filter)
-      {
-         $carts = getCart()['carts'];
-         $total = getCart()['total-cost'];
-         $check = filterProduct($slug, $filter, 'mb_size_id');
-         return view('frontend/category', [
+    public function getFilterMbSize($slug, $filter)
+    {
+        $carts = getCart()['carts'];
+        $total = getCart()['total-cost'];
+        $check = filterProduct($slug, $filter, 'mb_size_id');
+        return view('frontend/category', [
             "slug" => $slug,
             'CategoryProduct' => $check[0],
             'record' => $check[1],
@@ -497,10 +496,6 @@
           'AllProduct'=>$product,
           'categories'=>$categories,
           'key'=>$key
-      ]);
+          ]);
       }
- 
    }
-
-
-   

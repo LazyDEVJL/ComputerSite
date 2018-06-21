@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
    <meta charset="utf-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <meta name="description" content="">
    <meta name="author" content="M_Adnan">
-   <title>ECOSHOP - Multipurpose eCommerce HTML5 Template</title>
+   <link rel="icon" href="{{asset('backend/dist/img/AdminLTELogo.png')}}">
+   <title>{{config('app.name')}}</title>
 
    <!-- SLIDER REVOLUTION 4.x CSS SETTINGS -->
    <link rel="stylesheet" type="text/css" href="rs-plugin/css/settings.css" media="screen"/>
@@ -41,18 +43,19 @@
    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
    <![endif]-->
 </head>
+
 <body>
 
-{{--<!-- LOADER -->--}}
-{{--<div id="loader">--}}
-   {{--<div class="position-center-center">--}}
-      {{--<div class="ldr"></div>--}}
-   {{--</div>--}}
-{{--</div>--}}
+{{--
+<!-- LOADER -->--}} {{--
+  <div id="loader">--}} {{--
+    <div class="position-center-center">--}} {{--
+      <div class="ldr"></div>--}} {{--
+    </div>--}} {{--
+  </div>--}}
 
 <!-- Wrap -->
 <div id="wrap">
-
    <!-- header -->
    <header>
       <div class="sticky">
@@ -71,18 +74,11 @@
                <!-- NAV -->
                <div class="collapse navbar-collapse" id="nav-open-btn">
                   <ul class="nav">
-
-
                      <li><a href="{{action('FrontendController@index')}}">Home</a></li>
-
-
                      <li class="dropdown"><a href="{{action('FrontendController@allProduct')}}">Categories</a>
-
                         @include('frontend.menuCate')
                      </li>
                      <li><a href="#">About </a></li>
-
-
                      <li><a href="contact.html"> contact</a></li>
                   </ul>
                </div>
@@ -90,13 +86,13 @@
                <!-- Nav Right -->
                <div class="nav-right">
                   <ul class="navbar-right">
-
-
                   @if (session()->has('login'))
                      <!-- USER INFO -->
-                        <li class="dropdown user-acc"><a href="{{action('FrontendController@register')}}"
-                                                         class="dropdown-toggle" data-toggle="dropdown" role="button"><i
-                                    class="icon-user"></i> </a>
+                        <li class="dropdown user-acc">
+									<a href="{{action('FrontendController@register')}}"
+										class="dropdown-toggle" data-toggle="dropdown" role="button">
+										<i class="icon-user"></i> 
+									</a>
                            <ul class="dropdown-menu">
                               <li>
                                  <h6>Hello,
@@ -109,9 +105,83 @@
                               <li><a href="{{action('FrontendController@logout')}}">LOG OUT</a></li>
                            </ul>
                         </li>
-                        <li class="dropdown user-basket"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            role="button" aria-haspopup="true" aria-expanded="true"><i
-                                    class="icon-basket-loaded"></i> </a>
+                        <li class="dropdown user-basket">
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                              role="button" aria-haspopup="true" aria-expanded="true">
+                              <i class="icon-basket-loaded"></i>
+                           </a>
+                           <ul class="dropdown-menu">
+                              @foreach($carts as $cart)
+                                 <li>
+                                    <div class="media-left">
+                                       <div class="cart-img">
+                                          <a href="{{$cart['product']->slug}}">
+                                             <img class="media-object img-responsive"
+                                                  src="{{asset($cart['product']->image)}}"
+                                                  alt="{{$cart['product']->name}}">
+                                          </a>
+                                       </div>
+                                    </div>
+                                    <div class="media-body">
+                                       <h6 class="media-heading">{{$cart['product']->name}}</h6>
+                                       <span class="price">
+                                          @if($cart['product']->discount != 0 || $cart['product']->discount != null)
+                                             {{$cart['product']->discounted_price}} USD
+                                          @else
+                                             {{$cart['product']->price}} USD
+                                          @endif
+                                       </span>
+                                       <span class="qty">QTY: {{$cart['qty'] < 10 ? '0' : ''}}{{$cart['qty']}}</span>
+                                    </div>
+                                 </li>
+                              @endforeach
+                              <li>
+                                 <h5 class="text-center">SUBTOTAL: {{$totalPrice}} USD</h5>
+                              </li>
+                              <li class="margin-0">
+                                 <div class="row">
+                                    <div class="col-xs-6"><a href="/cart" class="btn">VIEW CART</a></div>
+                                    <div class="col-xs-6 "><a href="{{route('checkout')}}" class="btn">CHECK OUT</a>
+                                    </div>
+                                 </div>
+                              </li>
+                           </ul>
+                        </li>
+
+                  @else
+                     <!-- USER BASKET -->
+                        <li class="dropdown user-basket">
+                           <a href="{{action('FrontendController@register')}}">Register</a>
+                        </li>
+                        <li class="dropdown user-acc">
+                           <a href="{{action('FrontendController@register')}}" class="dropdown-toggle"
+                              data-toggle="dropdown" role="button">LOGIN</a>
+                           <ul class="dropdown-menu" style="padding: 20px;">
+                              <form action="{{action('FrontendController@login')}}" method='post'>
+                                 @csrf
+                                 <li>
+                                    <label for="usename">Username</label>
+                                    <input id='usename' class='form-control' name='user' type="text" style="border-radius: 0">
+                                    <p class="font-italic text-center"
+                                       style='color:red'>{{ $errors->first('user') }}</p>
+                                 </li>
+                                 <li>
+                                    <label for="pass">Password</label>
+                                    <input id='pass' class='form-control' name='password' type="password" style="border-radius: 0">
+                                    <p class="font-italic text-center"
+                                       style='color:red'>{{ $errors->first('password') }}</p>
+                                 </li>
+                                 <li>
+                                    <button type="submit" class="btn">LOG IN</button>
+                                 </li>
+                              </form>
+                           </ul>
+                        </li>
+                        <li class="dropdown user-basket">
+                           <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                              role="button" aria-haspopup="true" aria-expanded="true">
+                              <i class="icon-basket-loaded"></i>
+                           </a>
                            <ul class="dropdown-menu">
                               @foreach($carts as $cart)
                                  <li>
@@ -141,35 +211,6 @@
                                     </div>
                                  </div>
                               </li>
-                           </ul>
-                        </li>
-
-                  @else
-                     <!-- USER BASKET -->
-                        <li class="dropdown user-basket">
-                           <a href="{{action('FrontendController@register')}}">Register</a>
-                        </li>
-                        <li class="dropdown user-acc"><a href="{{action('FrontendController@register')}}"
-                                                         class="dropdown-toggle" data-toggle="dropdown" role="button">LOGIN</a>
-                           <ul class="dropdown-menu">
-                              <form action="{{action('FrontendController@login')}}" method='post'>
-                                 @csrf
-                                 <li>
-                                    <label for="usename">Username</label>
-                                    <input id='usename' class='form-control' name='user' type="text">
-                                    <p class="font-italic text-center"
-                                       style='color:red'>{{ $errors->first('user') }}</p>
-                                 </li>
-                                 <li>
-                                    <label for="pass">Password</label>
-                                    <input id='pass' class='form-control' name='password' type="password">
-                                    <p class="font-italic text-center"
-                                       style='color:red'>{{ $errors->first('password') }}</p>
-                                 </li>
-                                 <li>
-                                    <button type="submit" class="btn">LOG IN</button>
-                                 </li>
-                              </form>
                            </ul>
                         </li>
                   @endif
@@ -211,8 +252,8 @@
             <div class="heading text-center">
                <h4>about ecoshop</h4>
                <p>Phasellus lacinia fermentum bibendum. Interdum et malesuada fames ac ante ipsumien lacus, eu posuere
-                  odio luctus non. Nulla lacinia,
-                  eros vel fermentum consectetur, risus purus tempc, et iaculis odio dolor in ex. </p>
+                  odio luctus non. Nulla lacinia, eros vel fermentum consectetur, risus purus tempc, et iaculis odio
+                  dolor in ex. </p>
             </div>
 
             <!-- Social Icons -->
@@ -248,7 +289,8 @@
             <div class="about-footer"><img class="margin-bottom-30" src="images/logo-foot.png" alt="">
                <p><i class="icon-pointer"></i> Street No. 12, Newyork 12, <br> MD - 123, USA.</p>
                <p><i class="icon-call-end"></i> 1.800.123.456789</p>
-               <p><i class="icon-envelope"></i> info@ecoshop.com</p>
+               <p><i class="icon-envelope"></i> info
+                  @ecoshop.com</p>
             </div>
          </div>
 
@@ -312,4 +354,5 @@
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
 </body>
+
 </html>

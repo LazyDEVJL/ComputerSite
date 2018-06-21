@@ -11,7 +11,7 @@
    |
    */
 
-  
+
    use Illuminate\Support\Facades\Auth;
    use Illuminate\Support\Facades\Route;
 
@@ -158,17 +158,17 @@
    Route::get('/admin/properties/vga-mem/delete/{id}', 'PropertiesController@delVGA_mem');
 
   //  Route Frontend
+   Route::get('/cart', 'CartController@showCart')->name('cart');
+   Route::get('/cart/checkout', 'CartController@checkout')->name('checkout');
+   Route::post('/cart/checkout', 'CartController@checkoutSave')->name('checkout-save');
+   Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
+   Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
    Route::get('/','FrontendController@index')->name('index');
    Route::get('/logout','FrontendController@logout');
    Route::post('/login','FrontendController@login');
    Route::get('/register','FrontendController@register');
    Route::post('/register','FrontendController@saveRegister');
    Route::get('/products','FrontendController@allProduct')->name('products');
-   Route::get('/cart', 'CartController@showCart')->name('cart');
-   Route::get('/cart/checkout', 'CartController@checkout')->name('checkout');
-   Route::post('/cart/checkout', 'CartController@checkoutSave')->name('checkout-save');
-   Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
-   Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
    Route::get('/{slug}','FrontendController@getCategory')->name('get-category');
    Route::get('/brand/{id}','FrontendController@ProductbyBrand');
    Route::get('/brand/{slug}/{id}','FrontendController@ProductByOneBrand');
@@ -198,9 +198,7 @@
    Route::get('/filter/psu-pw/{slug}/{filter}','FrontendController@getFilterPsuPW');
    Route::get('/filter/mainboard-chipset/{slug}/{filter}','FrontendController@getFilterMbChip');
    Route::get('/filter/mainboard-size/{slug}/{filter}','FrontendController@getFilterMbSize');
-   
-   
-   
+
 //    Route Frontend search 
    Route::post('/search','FrontendController@ProductSearch'); 
    Route::get('/search-cate/{slug}/{key}','FrontendController@ResultinCate'); 
