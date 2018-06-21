@@ -10,20 +10,18 @@
                <div class="shop-sidebar">
 
                   <!-- Category -->
-                  <h5 class="shop-tittle margin-bottom-30">category</h5>
+                  <h5 class="shop-tittle margin-bottom-30">Result in Categories</h5>
                   <ul class="shop-cate">
-                     @include('frontend.sidebarCate')
+                  @foreach($categories as $ct)
+                  <li><a href="{{action('FrontendController@ResultinCate',['slug'=>$ct->slug,'key'=>$key])}}">{{$ct->name}}</a></li>
+                  @endforeach
                   </ul>
 
-                  <!-- BRAND -->
-                  <h5 class="shop-tittle margin-top-60 margin-bottom-30">brands</h5>
-                  <ul class="shop-cate">
-                     @include('frontend.sidebarManu')
-                  </ul>
+                 
 
                </div>
             </div>
-
+            <h4>Search Result</h4>
             <!-- Item Content -->
             <div class="col-sm-9">
 

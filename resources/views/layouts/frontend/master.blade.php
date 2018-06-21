@@ -28,6 +28,12 @@
    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
    <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900' rel='stylesheet' type='text/css'>
 
+   <style>
+      .product-box{
+            height:500px;
+      }
+   </style>
+
    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
    <!--[if lt IE 9]>
@@ -174,10 +180,13 @@
                            <div class="search-overlay"></div>
                            <div class="position-center-center">
                               <div class="search">
-                                 <form>
-                                    <input type="search" placeholder="Search Shop">
+                              <!-- search form -->
+                                 <form action="{{action('FrontendController@ProductSearch')}}" method='post'>
+                                 @csrf
+                                    <input name='search' type="search" placeholder="Search Shop">
                                     <button type="submit"><i class="icon-check"></i></button>
                                  </form>
+
                               </div>
                            </div>
                         </div>

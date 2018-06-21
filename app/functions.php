@@ -915,7 +915,7 @@
          switch($slug){
             case 'cpu':
                return
-                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where('cpu_serie_id','=',$id)->get();
+                  $sql=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where('cpu_serie_id','=',$id)->paginate(9);
                break;
          }
       }
@@ -939,7 +939,7 @@
       function filterProduct($slug,$filter,$query){
          $brand=slugtoBrand($slug);
          $record=PropertiesBySlug($slug);
-         $product=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query,'=',$filter)->get();
+         $product=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query,'=',$filter)->paginate(9);
          return [
             $product,
             $record,
