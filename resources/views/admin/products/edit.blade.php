@@ -280,7 +280,7 @@
                         <label for="current-product-thumbnail">Product's current thumbnail</label>
                         <div id="current-product-thumbnail">
                            <img src="{{asset($currentProduct->image)}}" alt="{{$currentProduct->name}}"
-                                    width="250px">
+                                    width="200px">
                         </div>
                      </div>
                      <div class="col-xl-2 col-md-6">

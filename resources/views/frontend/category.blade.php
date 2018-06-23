@@ -191,8 +191,9 @@
                               <!-- Overlay -->
                               <div class="overlay" style='background:none'>
                                  <div class="position-center-center">
-                                    <div class="inn"><a href="{{asset($product->image)}}" data-lighter><i
-                                                class="icon-magnifier"></i></a> <a href="#."><i class="icon-basket"></i></a>
+                                    <div class="inn">
+													<a href="{{asset($product->image)}}" data-lighter><i class="icon-magnifier"></i></a> 
+													<a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
                                        <a href="#."><i class="icon-heart"></i></a></div>
                                  </div>
                               </div>

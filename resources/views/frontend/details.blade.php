@@ -50,6 +50,7 @@
 
                   <!-- Short By -->
                   <div class="some-info">
+							@if ($CurrentProduct->quantity > 0)
                      <form method="post" action="{{route('add-cart')}}">
                         @csrf
                         <ul class="row margin-top-30">
@@ -68,16 +69,14 @@
                               <input type="hidden" name="product_id" value="{{$CurrentProduct->id}}">
                               <button class="btn">ADD TO CART</button>
                            </li>
-                           {{--
-                           <!-- LIKE -->--}} {{--
-                  <li class="col-xs-6"><a href="#." class="like-us"><i class="icon-heart"></i></a></li>--}}
                         </ul>
                      </form>
+							@endif
                      <!-- INFOMATION -->
                      <div class="inner-info">
                         <h6>Details</h6>
                         <p>{{$CurrentProduct->detail}}</p>
-                        <h6>SHIPPING & RETURNS</h6>
+                        {{-- <h6>SHIPPING & RETURNS</h6>
                         <h6>SHARE THIS PRODUCT</h6>
 
                         <!-- Social Icons -->
@@ -87,7 +86,7 @@
                            <li><a href="#."><i class="icon-social-tumblr"></i></a></li>
                            <li><a href="#."><i class="icon-social-youtube"></i></a></li>
                            <li><a href="#."><i class="icon-social-dribbble"></i></a></li>
-                        </ul>
+                        </ul> --}}
                      </div>
                   </div>
                </div>

@@ -5,7 +5,7 @@
       <div class="container">
          <div class="row">
             @if (count($AllProduct) == 0)
-               <p class="no-result">
+               <p class="search-result">
                   Sorry! We couldn't find any results for 
                   <span>"{{$key}}"</span>
                </p>
@@ -22,7 +22,10 @@
                   </ul>
                </div>
             </div>
-            <h4>Search Result</h4>
+            <p class="search-result">
+               Search Result(s) for 
+               <span>"{{$key}}"</span>
+            </p>
             <!-- Item Content -->
             <div class="col-sm-9">
                <!-- Popular Item Slide -->

@@ -26,15 +26,15 @@
    color: rgb(82, 82, 82); 
 }
 
-.no-result {
-   margin-top: 50px;
+.search-result {
+   margin-bottom: 50px;
    text-align: center;
    text-transform: none;
    font-size: 25px;
    color: #2d3a4b;
 }
 
-.no-result span {
+.search-result span {
    font-weight: bold;
 }
 
