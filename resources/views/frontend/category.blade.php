@@ -4,7 +4,7 @@
       <div class="container">
          <div class="row">
             @if(count($CategoryProduct)==0)
-               <p class="no-result">
+               <p class="search-result">
                   Currently there is no product for this category 
                </p>
             @else
@@ -195,8 +195,8 @@
                               <div class="overlay" style='background:none'>
                                  <div class="position-center-center">
                                     <div class="inn">
-													<a href="{{asset($product->image)}}" data-lighter><i class="icon-magnifier"></i></a> 
-													<a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
+                                          <a href="{{asset($product->image)}}" data-lighter><i class="icon-magnifier"></i></a> 
+                                          <a href="{{route('details', ['slug'=>$product->slug])}}"><i class="icon-basket"></i></a>
                                        <a href="#."><i class="icon-heart"></i></a></div>
                                  </div>
                               </div>
