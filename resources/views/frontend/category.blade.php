@@ -3,7 +3,11 @@
    <section class="shop-page padding-top-100 padding-bottom-100">
       <div class="container">
          <div class="row">
-
+            @if(count($CategoryProduct)==0)
+               <p class="no-result">
+                  Currently there is no product for this category 
+               </p>
+            @else
             <!-- Shop SideBar -->
             <div class="col-sm-3">
                <div class="shop-sidebar">
@@ -176,7 +180,6 @@
 
                </div>
             </div>
-
             <!-- Item Content -->
             <div class="col-sm-9">
                <!-- Popular Item Slide -->
@@ -218,6 +221,7 @@
                <!-- Pagination -->
                {{$CategoryProduct->render()}}
             </div>
+            @endif
          </div>
       </div>
    </section>
