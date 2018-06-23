@@ -33,7 +33,9 @@ class FrontendController extends Controller
 	{
 		$carts = getCart()['carts'];
 		$total = getCart()['total-cost'];
-		$AllProduct = DB::table('tbl_products')->paginate(9);
+		$AllProduct = DB::table('tbl_products')
+			->orderBy('created_at', 'desc')
+			->paginate(9);
 		$manufactures = DB::table('tbl_manufactures')->get();
 		return view('frontend/products', [
 				'AllProduct' => $AllProduct,
