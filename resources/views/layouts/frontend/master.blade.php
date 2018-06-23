@@ -75,7 +75,7 @@
                         @include('frontend.menuCate')
                      </li>
                      <li><a href="#">About </a></li>
-                     <li><a href="contact.html"> contact</a></li>
+                     <li><a href="#"> contact</a></li>
                   </ul>
                </div>
 

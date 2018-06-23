@@ -20,7 +20,7 @@
       <!-- Main content -->
       <section class="content">
          @include('admin.messages')
-         <div class="card w-75">
+         <div class="card">
             <div class="card-header">
                <h3 class="card-title">Edit Product</h3>
             </div>
@@ -30,7 +30,7 @@
                <input type="hidden" name="txt_id" value="{{$currentId}}">
                <div class="card-body">
                   <div class="form-row">
-                     <div class="form-group col-lg-3">
+                     <div class="form-group col-xl-3 col-md-6">
                         <label for="name">Name</label>
                         <input type="text" name="txt_name" id="name"
                                class="form-control {{ $errors->has('txt_name') ? ' is-invalid' : '' }}"
@@ -42,7 +42,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-3">
+                     <div class="form-group col-xl-3 col-md-6">
                         <label for="detail">Detail</label>
                         <input type="text" name="txt_detail" id="detail"
                                class="form-control {{ $errors->has('txt_detail') ? ' is-invalid' : '' }}"
@@ -54,7 +54,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-2">
+                     <div class="form-group col-xl-2 col-md-4">
                         <label for="price">Price</label>
                         <div class="input-group">
                            <div class="input-group-prepend">
@@ -73,7 +73,7 @@
                            @endif
                         </div>
                      </div>
-                     <div class="form-group col-lg-4">
+                     <div class="form-group col-xl-4 col-md-8">
                         <label for="slug">Slug</label>
                         <input type="text" name="txt_slug" id="slug"
                                class="form-control {{ $errors->has('txt_slug') ? ' is-invalid' : '' }}" readonly
@@ -87,7 +87,7 @@
                      </div>
                   </div>
                   <div class="form-row mt2">
-                     <div class="form-group col-lg-2">
+                     <div class="form-group col-xl-2 col-md-4">
                         <label for="manufacture">Manufacture</label>
                         <select class="form-control {{ $errors->has('sl_manufacture_id') ? ' is-invalid' : '' }}"
                                 name="sl_manufacture_id" id="manufacture">
@@ -108,7 +108,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-2">
+                     <div class="form-group col-xl-2 col-md-4">
                         <label for="quantity">Quantity</label>
                         <input type="number"
                                class="form-control {{ $errors->has('txt_quantity') ? ' is-invalid' : '' }}"
@@ -121,7 +121,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form group col-lg-2">
+                     <div class="form group col-xl-2 col-md-4">
                         <label for="">Show/Hide</label>
                         <select id="sl_active" class="form-control {{ $errors->has('sl_active') ? ' is-invalid' : '' }}"
                                 name="sl_active">
@@ -146,7 +146,7 @@
                   </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-2">
+                     <div class="form-group col-xl-2 col-md-6">
                         <label for="discount">Discount</label>
                         <div class="input-group">
                            <input type="number" name="txt_discount" id="discount"
@@ -165,7 +165,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form-group col-lg-4">
+                     <div class="form-group col-xl-4 col-md-6">
                         <label>Discount from - Discount to</label>
                         <div class="input-group">
                            <input type="text"
@@ -186,7 +186,7 @@
                      </div>
                   </div>
                   <div class="form-row mt2">
-                     <div class="form-group col-lg-4">
+                     <div class="form-group col-xl-4 col-md-6">
                         <label>Product's Thumbnail</label>
                         <div class="input-group">
                            <div class="input-group-prepend">
@@ -207,7 +207,7 @@
                            @endif
                         </div>
                      </div>
-                     <div class="form-group col-lg-4">
+                     <div class="form-group col-xl-4 col-md-6">
                         <label for="">Product's Images (All three required)</label>
                         <div class="input-group">
                            <div class="input-group-prepend">
@@ -229,7 +229,7 @@
                            @endif
                         </div>
                      </div>
-                     <div class="form-group col-lg-2">
+                     <div class="form-group col-xl-2 col-md-6">
                         <label for="">Main Categories</label>
                         <select id="sl_mainCategory"
                                 class="form-control {{ $errors->has('sl_mainCategory') ? ' is-invalid' : '' }}"
@@ -252,7 +252,7 @@
                            </span>
                         @endif
                      </div>
-                     <div class="form group col-lg-2">
+                     <div class="form group col-xl-2 col-md-6">
                         <label for="">Sub Categories</label>
                         <select id="sl_subCategory"
                                 class="form-control {{ $errors->has('sl_subCategory') ? ' is-invalid' : '' }}"
@@ -276,13 +276,14 @@
                      </div>
                   </div>
                   <div class="row mt2">
-                     <div class="col-lg-2">
+                     <div class="col-xl-2 col-md-6">
                         <label for="current-product-thumbnail">Product's current thumbnail</label>
                         <div id="current-product-thumbnail">
-                           <img src="{{asset($currentProduct->image)}}" alt="{{$currentProduct->name}}" width="250px">
+                           <img src="{{asset($currentProduct->image)}}" alt="{{$currentProduct->name}}"
+                                    width="250px">
                         </div>
                      </div>
-                     <div class="col-lg-2">
+                     <div class="col-xl-2 col-md-6">
                         <label for="current-product-images">Product's current images</label>
                         <div id="current-product-images" class="owl-carousel owl-theme">
                            @foreach($currentProductImages as $currentProductImage)
@@ -292,7 +293,7 @@
                            @endforeach
                         </div>
                      </div>
-                     <div class="col-lg-8">
+                     <div class="col-xl-8 col-md-12">
                         <label>Product Properties</label>
                         <!-- Custom Tabs -->
                         <div class="card">
@@ -732,10 +733,4 @@
       <!-- /.content -->
    </div>
    <!-- /.content-wrapper -->
-
-   <!-- Control Sidebar -->
-   <aside class="control-sidebar control-sidebar-dark">
-      <!-- Control sidebar content goes here -->
-   </aside>
-
 @endsection

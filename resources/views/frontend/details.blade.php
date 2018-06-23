@@ -41,6 +41,11 @@
                   <ul class="item-owner">
                      <li>Category :<span> {{getParentCategory($currentCategoryId)}}</span></li>
                      <li>Manufacture:<span> {{getManufacture($CurrentProduct->manufacture_id)}}</span></li>
+                     @if ($CurrentProduct->quantity > 0)
+                         <li class="stock" id="in-stock"><i class="fa fa-check"></i> In Stock</li>
+                     @else
+                         <li class="stock" id="out-of-stock"><i class="fa fa-phone"></i> Contact</li>
+                     @endif
                   </ul>
 
                   <!-- Short By -->
