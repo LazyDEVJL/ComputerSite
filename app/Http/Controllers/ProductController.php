@@ -813,7 +813,7 @@
                   'discount_range' => 'required'
                ];
                $message = [
-						'txt_discount.gt' => 'Discount must be positive',
+                  'txt_discount.gt' => 'Discount must be positive',
                   'discount_range.required' => 'Discount range is required'
                ];
                $validator = Validator::make(
