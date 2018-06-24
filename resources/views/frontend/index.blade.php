@@ -43,12 +43,12 @@
 
          <!-- Main Heading -->
          <div class="heading text-center">
-            <h4>popular products</h4>
+            <h4>most buy products</h4>
          </div>
 
          <!-- Popular Item Slide -->
          <div class="papular-block block-slide single-img-demos">
-         @foreach($ranProduct as $product)
+         @foreach($mostBuyProduct as $product)
             <!-- Item -->
                <div class="item">
                   <!-- Item img -->

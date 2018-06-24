@@ -20,10 +20,15 @@ class FrontendController extends Controller
 				->orderBy('created_at', 'desc')
 				->limit(8)
 				->get();
-		$ranProduct = DB::table('tbl_products')->inRandomOrder()->limit(4)->get();
+		$mostBuyProduct = DB::table('tbl_products as p')
+				->join('tbl_product_orders as po', 'p.id', '=', 'po.product_id')
+				->groupBy('p.id')
+				->orderBy(DB::raw('sum(po.quantity)'), 'desc')
+				->limit(8)
+				->get();
 		return view('frontend/index', [
 				'newProduct' => $newProduct,
-				'ranProduct' => $ranProduct,
+				'mostBuyProduct' => $mostBuyProduct,
 				'carts' => $carts,
 				'totalPrice' => $total,
 		]);

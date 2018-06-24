@@ -66,6 +66,12 @@
                         </a>
                      </li>
                      <li class="nav-item">
+                        <a href="{{ route('properties') }}" class="nav-link">
+                           <i class="fas fa-archive nav-icon" style="font-size: 12px;"></i>
+                           <p>Product Properties</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
                         <a href="{{ route('customers') }}" class="nav-link">
                            <i class="fas fa-users nav-icon" style="font-size: 12px;"></i>
                            <p>Customers</p>

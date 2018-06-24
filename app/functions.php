@@ -950,7 +950,18 @@
       {
          $brand=slugtoBrand($slug);
          $record=PropertiesBySlug($slug);
-         $product=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query,'=',$filter)->paginate(9);
+         $initial=DB::table('tbl_products as p')->join('tbl_product_properties as pp','p.product_property_id','=','pp.id')->where($query, $filter);
+
+
+         if ($slug == 'cpu') {
+            $product = $initial->where([
+                  ['mb_chipset_id', null],
+                  ['mb_size_id', null]
+            ])->paginate(9);
+         } else {
+            $product = $initial->paginate(9);
+         }
+
          return [
             $product,
             $record,

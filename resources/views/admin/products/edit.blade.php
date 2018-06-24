@@ -387,7 +387,7 @@
                                        <option value="">-- Choose socket type</option>
                                        @foreach($sockets as $socket)
                                           <option
-                                                value="{{ $socket->id }}" {{old('sl_cpu_socket_id', $currentProductProperties->cpu_serie_id) == $socket->id ? 'selected' : ''}}>
+                                                value="{{ $socket->id }}" {{old('sl_cpu_socket_id', $currentProductProperties->socket_id) == $socket->id ? 'selected' : ''}}>
                                              {{ $socket->socket_type }}
                                           </option>
                                        @endforeach
