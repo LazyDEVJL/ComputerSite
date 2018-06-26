@@ -144,6 +144,7 @@ $(document).ready(function ($) {
     ------------------------------------------------------------------------ */
     jQuery('.search-open').on('click', function () {
         jQuery('.search-inside').fadeIn();
+        jQuery('#search-input').focus();
     });
     jQuery('.search-close').on('click', function () {
         jQuery('.search-inside').fadeOut();

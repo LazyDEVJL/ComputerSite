@@ -25,7 +25,7 @@
                <h3 class="card-title col-lg-6 my-auto">Orders List</h3>
                <div class="card-tools">
                   <form action="" method="get">
-                     <div class="input-group input-group-sm" style="width:200px">
+                     <div class="input-group input-group-sm" style="min-width:300px">
                         <input type="text" name="q" placeholder="Search by customer's name" class="form-control">
                         <div class="input-group-append">
                            <button type="submit" class="btn btn-default">
@@ -40,6 +40,7 @@
                <table class="table table-hover table-valign-middle text-center">
                   <tbody>
                   <tr>
+                     <th>Action</th>
                      <th>ID</th>
                      <th>Name</th>
                      <th>Email</th>
@@ -48,9 +49,24 @@
                      <th>Order Day</th>
                      <th>Products</th>
                      <th>Total</th>
+                     <th>Status</th>
                   </tr>
                   @foreach($orders as $order)
                      <tr>
+                        <td>
+                           <form action="{{route('order-approve', ['id' => $order->orderID])}}" method="POST">
+                              @csrf
+                              <button type="submit" class="btn {{in_array($order->status, [1,2]) ? 'btn-secondary' : 'btn-primary'}} mb-2" {{in_array($order->status, [1,2]) ? 'disabled' : ''}}>
+                                 <i class="fa fa-thumbs-up"></i>
+                              </button>
+                           </form>
+                           <form action="{{route('order-complete', ['id' => $order->orderID])}}" method="POST">
+                              @csrf
+                              <button type="submit" class="btn {{$order->status == 2 ? 'btn-secondary' : 'btn-success'}}" {{in_array($order->status, [0,2]) ? 'disabled' : ''}}>
+                                 <i class="fa fa-check"></i>
+                              </button>
+                           </form>
+                        </td>
                         <td>{{ $order->orderID }}</td>
                         <td>{{ $order->customerName }}</td>
                         <td>{{ $order->email }}</td>
@@ -63,6 +79,15 @@
                            @endforeach
                         </td>
                         <td>{{ '$'.$order->total }}</td>
+                        <td>
+                           @if ($order->status == 0)
+                              <div class="alert alert-danger">Pending..</div>
+                           @elseif ($order->status == 1)
+                              <div class="alert alert-warning">Processing..</div>
+                           @elseif ($order->status == 2)
+                              <div class="alert alert-success">Completed</div>
+                           @endif   
+                        </td>
                      </tr>
                   @endforeach
                   </tbody>

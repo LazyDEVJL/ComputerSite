@@ -246,7 +246,7 @@
                               <!-- search form -->
                                  <form action="{{action('FrontendController@ProductSearch')}}" method='post'>
                                  @csrf
-                                    <input name='search' type="search" placeholder="Search Shop">
+                                    <input name='search' type="search" id="search-input" placeholder="Search Shop">
                                     <button type="submit"><i class="icon-check"></i></button>
                                  </form>
 

@@ -58,11 +58,8 @@
     * Route lists for Orders Management
     */
    Route::get('/admin/orders', 'OrderController@index')->name('orders');
-   Route::get('/admin/orders/create', 'OrderController@create');
-   Route::post('/admin/orders', 'OrderController@createSave');
-   Route::get('/admin/orders/edit/{id}', 'OrderController@edit');
-   Route::post('/admin/orders/edit-save', 'OrderController@editSave');
-   Route::get('/admin/orders/destroy/{id}', 'OrderController@destroy');
+   Route::post('/admin/orders/approve/{id}', 'OrderController@orderApprove')->name('order-approve');
+   Route::post('/admin/orders/complete/{id}', 'OrderController@orderComplete')->name('order-complete');
 
    // Route lists for Properties Management
    Route::get('/admin/properties', 'PropertiesController@index')->name('properties');

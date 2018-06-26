@@ -27,15 +27,33 @@
          if (isset($keywords)) {
             $orders = $ordersJoined
                ->groupBy('o.id')
-               ->select('o.id AS orderID', 'c.name AS customerName', 'email', 'phone', 'address', 'order_day', 'total')
+               ->select('o.id AS orderID', 'c.name AS customerName', 'email', 'phone', 'address', 'order_day', 'total', 'status')
                ->where('c.name', 'like', "%$keywords%")
                ->paginate(10);
          } else {
             $orders = $ordersJoined
                ->groupBy('o.id')
-               ->select('o.id AS orderID', 'c.name AS customerName', 'email', 'phone', 'address', 'order_day', 'total')
+               ->select('o.id AS orderID', 'c.name AS customerName', 'email', 'phone', 'address', 'order_day', 'total', 'status')
                ->paginate(10);
          }
          return view('admin.orders.index', ['orders' => $orders]);
+      }
+
+      public function orderApprove($id)
+      {
+			$currentOrderID = $id;
+			$currentOrder = DB::table('tbl_orders')->where('id', '=', $currentOrderID)->update(['status' => 1]);
+	
+			Session::flash('success', 'Order has successfully been approved');
+			return redirect()->back();
+      }
+
+      public function orderComplete($id)
+      {
+			$currentOrderID = $id;
+			$currentOrder = DB::table('tbl_orders')->where('id', '=', $currentOrderID)->update(['status' => 2]);
+	
+			Session::flash('success', 'Order has successfully been completed');
+			return redirect()->back();
       }
    }
