@@ -23,7 +23,11 @@
 
                </div>
             </div>
-
+            @if(count($AllProduct)==0)
+            <p class="search-result">
+                Currently there is no product for this category 
+            </p>
+            @else
             <!-- Item Content -->
             <div class="col-sm-9">
 
@@ -67,6 +71,7 @@
                <!-- Pagination -->
                {{$AllProduct->render()}}
             </div>
+            @endif
          </div>
       </div>
    </section>

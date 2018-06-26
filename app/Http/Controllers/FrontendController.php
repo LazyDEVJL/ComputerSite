@@ -81,10 +81,24 @@ class FrontendController extends Controller
 
 	public function details($slug)
 	{
-		$carts = getCart()['carts'];
-		$total = getCart()['total-cost'];
 		$product = DB::table('tbl_products as p')->where('p.slug', '=', $slug)->get();
 		$currentProduct = $product[0];
+		$cateSlugArray=DB::table('tbl_categories as ct')
+			->select('ct.slug')
+			->join('tbl_product_categories as pc','ct.id','=','pc.category_id')
+			->join('tbl_products as p','pc.product_id','=','p.id')
+			->where('p.slug','=',$slug)
+			->get();
+		$cateSlug=$cateSlugArray[0]->slug;
+		$relateProduct=DB::table('tbl_categories as ct')
+			->select('p.*')
+			->join('tbl_product_categories as pc','ct.id','=','pc.category_id')
+			->join('tbl_products as p','pc.product_id','=','p.id')
+			->groupBy('p.name')
+			->where([['ct.slug','=',$cateSlug],['p.id','!=',$currentProduct->id]])
+			->get();
+		$carts = getCart()['carts'];
+		$total = getCart()['total-cost'];
 		$images = DB::table('tbl_product_images as img')->join('tbl_products as p', 'img.product_id', '=', 'p.id')->where('p.slug', '=', $slug)->get();
 
 		$currentCategoryID = DB::table('tbl_products as p')
@@ -98,6 +112,7 @@ class FrontendController extends Controller
 				'Allimages' => $images,
 				'carts' => $carts,
 				'totalPrice' => $total,
+				'relateProduct'=>$relateProduct
 		]);
 	}
 

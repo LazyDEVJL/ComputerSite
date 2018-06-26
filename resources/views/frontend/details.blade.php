@@ -14,8 +14,10 @@
                   <div class="images-slider">
                      <ul class="slides">
                         @foreach($Allimages as $image)
-                           <li data-thumb="{{asset($image->link)}}">
+                           <li  data-thumb="{{asset($image->link)}}">
+                            <a href="{{asset($image->link)}}" class='product'>
                               <img class="img-responsive" src="{{asset($image->link)}}" alt="{{$CurrentProduct->name}}">
+                            </a>
                            </li>
                         @endforeach
                      </ul>
@@ -187,98 +189,51 @@
    </section>
 
    <!-- Popular Products -->
+   @if (count($relateProduct) != null)
    <section class="light-gray-bg padding-top-150 padding-bottom-150">
       <div class="container">
 
          <!-- Main Heading -->
          <div class="heading text-center">
-            <h4>YOU MAY LIKE IT</h4>
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus maximus vehicula.
-          Sed feugiat, tellus vel tristique posuere, diam</span></div>
+            <h4>RELATE PRODUCT</h4>
+         </div>
 
          <!-- Popular Item Slide -->
          <div class="papular-block block-slide single-img-demos">
-
+            @foreach($relateProduct as $relate)                
             <!-- Item -->
             <div class="item">
                <!-- Item img -->
-               <div class="item-img"><img class="img-1" src="images/product-1.jpg" alt="">
+               <div class="item-img" style='height:250px'><img class="img-1" src="{{asset($relate->image)}}" alt="">
                   <!-- Overlay -->
-                  <div class="overlay">
+                  <div class="overlay" style='background:none'>
                      <div class="position-center-center">
-                        <div class="inn"><a href="images/product-1.jpg" data-lighter><i class="icon-magnifier"></i></a>
+                        <div class="inn"><a href="{{asset($relate->image)}}" data-lighter><i class="icon-magnifier"></i></a>
                            <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
                         </div>
                      </div>
                   </div>
                </div>
                <!-- Item Name -->
-               <div class="item-name"><a href="#.">stone cup</a>
-                  <p>Lorem ipsum dolor sit amet</p>
+               <div class="item-name" style='height:25px'><a style='font-size:14px' href="{{route('details', ['slug'=>$relate->slug])}}">{{$relate->name}}</a>
                </div>
                <!-- Price -->
-               <span class="price"><small>$</small>299</span></div>
-
-            <!-- Item -->
-            <div class="item">
-               <!-- Item img -->
-               <div class="item-img"><img class="img-1" src="images/product-2.jpg" alt="">
-                  <!-- Overlay -->
-                  <div class="overlay">
-                     <div class="position-center-center">
-                        <div class="inn"><a href="images/product-2.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <!-- Item Name -->
-               <div class="item-name"><a href="#.">gray bag</a>
-                  <p>Lorem ipsum dolor sit amet</p>
-               </div>
-               <!-- Price -->
-               <span class="price"><small>$</small>299</span></div>
-
-            <!-- Item -->
-            <div class="item">
-               <!-- Item img -->
-               <div class="item-img"><img class="img-1" src="images/product-3.jpg" alt="">
-                  <!-- Overlay -->
-                  <div class="overlay">
-                     <div class="position-center-center">
-                        <div class="inn"><a href="images/product-3.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <!-- Item Name -->
-               <div class="item-name"><a href="#.">chiar</a>
-                  <p>Lorem ipsum dolor sit amet</p>
-               </div>
-               <!-- Price -->
-               <span class="price"><small>$</small>299</span></div>
-
-            <!-- Item -->
-            <div class="item">
-               <!-- Item img -->
-               <div class="item-img"><img class="img-1" src="images/product-4.jpg" alt="">
-                  <!-- Overlay -->
-                  <div class="overlay">
-                     <div class="position-center-center">
-                        <div class="inn"><a href="images/product-4.jpg" data-lighter><i class="icon-magnifier"></i></a>
-                           <a href="#."><i class="icon-basket"></i></a> <a href="#."><i class="icon-heart"></i></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <!-- Item Name -->
-               <div class="item-name"><a href="#.">STool</a>
-                  <p>Lorem ipsum dolor sit amet</p>
-               </div>
-               <!-- Price -->
-               <span class="price"><small>$</small>299</span></div>
+               <span class="price"><small>$</small>{{$relate->price}}</span>
+            </div>
+            @endforeach
          </div>
       </div>
    </section>
+   @else 
+   <!-- Main Heading -->
+   <section class="light-gray-bg padding-top-150 padding-bottom-150">
+      <div class="container">
+
+         <!-- Main Heading -->
+         <div class="heading text-center">
+            <h4>WE DONT HAVE ANY RELATE ITEM WITH THIS PRODUCT YET</h4>
+         </div>
+      </div>
+   </section>
+   @endif
 @stop

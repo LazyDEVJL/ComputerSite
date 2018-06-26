@@ -38,6 +38,7 @@
    font-weight: bold;
 }
 
+
 @media screen and (max-width: 1024px) {
    .arrival-block .item img {
       height: 300px !important;
