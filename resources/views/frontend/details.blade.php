@@ -195,7 +195,7 @@
 
          <!-- Main Heading -->
          <div class="heading text-center">
-            <h4>RELATE PRODUCT</h4>
+            <h4>RELATED PRODUCT</h4>
          </div>
 
          <!-- Popular Item Slide -->

@@ -155,27 +155,47 @@
                         <li class="dropdown user-basket">
                            <a href="{{action('FrontendController@register')}}">Register</a>
                         </li>
-                        <li class="dropdown user-acc">
+                        <li class="dropdown user-acc 
+									{{ session()->has('login-error') ? 'open' : '' }}
+									{{ $errors->has('user') ? 'open' : '' }}
+									{{ $errors->has('password') ? 'open' : '' }}
+									">
                            <a href="{{action('FrontendController@register')}}" class="dropdown-toggle"
-                              data-toggle="dropdown" role="button">LOGIN</a>
-                           <ul class="dropdown-menu" style="padding: 20px;">
+                              data-toggle="dropdown" role="button" 
+										{{ session()->has('login-error') ? 'area-expanded=\'true\'' : '' }}
+										{{ $errors->has('user') ? 'area-expanded=\'true\'' : '' }}
+										{{ $errors->has('password') ? 'area-expanded=\'true\'' : '' }}
+										>LOGIN</a>
+                           <ul class="dropdown-menu" style="padding:20px;">
                               <form action="{{action('FrontendController@login')}}" method='post'>
                                  @csrf
                                  <li>
                                     <label for="usename">Username</label>
-                                    <input id='usename' class='form-control' name='user' type="text" style="border-radius: 0">
+                                    <input id='usename' class='form-control' name='user' type="text" style="border-radius: 0; 
+												{{ session()->has('login-error') ? 'border-color:red;' : '' }}
+												{{ $errors->has('user') ? 'border-color:red;' : '' }}
+												">
                                     <p class="font-italic text-center"
-                                       style='color:red'>{{ $errors->first('user') }}</p>
+                                       style='color:red; font-size:12px;'>{{ $errors->first('user') }}</p>
                                  </li>
                                  <li>
                                     <label for="pass">Password</label>
-                                    <input id='pass' class='form-control' name='password' type="password" style="border-radius: 0">
+                                    <input id='pass' class='form-control' name='password' type="password" style="border-radius: 0; 
+												{{ session()->has('login-error') ? 'border-color:red;' : '' }}
+												{{ $errors->has('password') ? 'border-color:red;' : '' }}
+												">
                                     <p class="font-italic text-center"
-                                       style='color:red'>{{ $errors->first('password') }}</p>
+                                       style='color:red; font-size:12px'>{{ $errors->first('password') }}</p>
                                  </li>
                                  <li>
                                     <button type="submit" class="btn">LOG IN</button>
                                  </li>
+											@if(session()->has('login-error'))
+											<li style="margin-top:10px !important;">
+												<p class="font-italic"
+												style='color:red; font-size:12px; margin:0;'>{{ session()->get('login-error') }}</p>
+											</li>
+											@endif
                               </form>
                            </ul>
                         </li>

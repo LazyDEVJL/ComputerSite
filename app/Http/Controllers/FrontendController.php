@@ -204,24 +204,25 @@ class FrontendController extends Controller
 		$password = $rq->password;
 		$customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
 
-		$name = $customer[0]->name;
-		$email = $customer[0]->email;
-		$phone = $customer[0]->phone;
-		$address = $customer[0]->address;
-
 		if (count($customer) == 1) {
-				session([
-					'login' => true,
-					'username' => $username,
-					'password' => $password,
-					'name' => $name,
-					'phone' => $phone,
-					'email' => $email,
-					'address' => $address,
-				]);
-				return redirect('/');
+			$name = $customer[0]->name;
+			$email = $customer[0]->email;
+			$phone = $customer[0]->phone;
+			$address = $customer[0]->address;
+
+			session([
+				'login' => true,
+				'username' => $username,
+				'password' => $password,
+				'name' => $name,
+				'phone' => $phone,
+				'email' => $email,
+				'address' => $address,
+			]);
+			return redirect('/');
 		} else {
-				return redirect('/');
+			Session::flash('login-error','Incorrect username or password');
+			return redirect()->back()->withInput();
 		}
 	}
 
