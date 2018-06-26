@@ -143,9 +143,8 @@
 
                   if ($check) {
                      goodIssuing($orderId);
-                     Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
                      session()->forget('cart');
-                     return redirect()->route('cart');
+                     return redirect()->route('order-success', ['id'=>$orderId]);
                   } else {
                      Session::flash('error', 'Failed to place order!');
                      return redirect()->back()->withInput();
@@ -189,9 +188,8 @@
 
                      if ($check) {
                         goodIssuing($orderId);
-                        Session::flash('success', 'Thank you for shopping with us, your order has been placed! We will ship to you in 3 days.');
                         session()->forget('cart');
-                        return redirect()->route('cart');
+                        return redirect()->route('order-success', ['id'=>$orderId]);
                      } else {
                         Session::flash('error', 'Failed to place order!');
                         return redirect()->back()->withInput();
@@ -206,5 +204,29 @@
                }
             }
          }
+      }
+
+      public function orderSuccess($id)
+      {
+         $orderId = $id;
+         $orderInfo = DB::table('tbl_customers AS c')
+            ->join('tbl_orders AS o', 'c.id', '=', 'o.customer_id')
+            ->join('tbl_product_orders AS po', 'o.id', 'po.order_id')
+            ->join('tbl_products AS p', 'po.product_id', 'p.id')
+            ->select('o.id', 'c.name AS customerName', 'email', 'phone', 'address', 'order_day', 'p.name as pName', 'po.quantity as pQty', 'p.price as pPrice', 'total')
+            ->where('o.id', $orderId)
+            ->get();
+  
+         $carts = getCart()['carts'];
+         $total = getCart()['total-cost'];
+         $qty = getCart()['total-qty'];
+
+         return view('frontend.order-success', [
+            'orderId' => $orderId,
+            'orderInfo'=>$orderInfo,
+            'carts' => $carts,
+            'totalPrice' => $total,
+            'totalQty' => $qty
+         ]);
       }
    }

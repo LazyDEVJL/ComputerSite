@@ -160,6 +160,7 @@
    Route::post('/cart/checkout', 'CartController@checkoutSave')->name('checkout-save');
    Route::post('/cart/add', 'CartController@addCart')->name('add-cart');
    Route::post('/cart/remove-item/', 'CartController@removeItem')->name('remove-item');
+   Route::get('/cart/checkout/order-success/{id}', 'CartController@orderSuccess')->name('order-success');
    Route::get('/','FrontendController@index')->name('index');
    Route::get('/logout','FrontendController@logout');
    Route::post('/login','FrontendController@login');

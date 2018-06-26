@@ -42,7 +42,7 @@
       public function orderApprove($id)
       {
 			$currentOrderID = $id;
-			$currentOrder = DB::table('tbl_orders')->where('id', '=', $currentOrderID)->update(['status' => 1]);
+			$currentOrder = DB::table('tbl_orders')->where('id', $currentOrderID)->update(['status' => 1]);
 	
 			Session::flash('success', 'Order has successfully been approved');
 			return redirect()->back();
@@ -51,7 +51,7 @@
       public function orderComplete($id)
       {
 			$currentOrderID = $id;
-			$currentOrder = DB::table('tbl_orders')->where('id', '=', $currentOrderID)->update(['status' => 2]);
+			$currentOrder = DB::table('tbl_orders')->where('id', $currentOrderID)->update(['status' => 2]);
 	
 			Session::flash('success', 'Order has successfully been completed');
 			return redirect()->back();
