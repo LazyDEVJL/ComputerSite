@@ -22,9 +22,15 @@
    <link href="{{asset('frontend/css/main.css')}}" rel="stylesheet">
    <link href="{{asset('frontend/css/style.css')}}" rel="stylesheet">
    <link href="{{asset('frontend/css/responsive.css')}}" rel="stylesheet">
+   <!-- Classy Zoom -->
+   <link rel="stylesheet" href="{{asset('frontend/css/zoomple.css')}}">   
+   
 
    <!-- JavaScripts -->
    <script src="{{asset('frontend/js/modernizr.js')}}"></script>
+   
+   
+   
 
    <!-- Online Fonts -->
    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
@@ -336,6 +342,7 @@
       </div>
    </footer>
 </div>
+
 <script src="{{asset('frontend/js/jquery-1.11.3.min.js')}}"></script>
 <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('frontend/js/own-menu.js')}}"></script>
@@ -350,6 +357,17 @@
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/js/main.js')}}"></script>
 <script src="{{asset('frontend/owlcarousel/dist/assets/owl.carousel.min.css')}}"></script>
+<script src="{{asset('frontend/js/zoomple.js')}}"></script>
+<script >
+$('.product').zoomple({ 
+            offset : {x:-150,y:-150},
+            bgColor : '#90D5D9',
+            zoomWidth : 300,  
+            zoomHeight : 300,
+            roundedCorners : true
+      });
+</script>
+
 </body>
 
 </html>
