@@ -84,7 +84,7 @@
 											<li>
 												<div class="radio">
 												<input type="radio" name="radio1" id="radio4" value="option4">
-												<label for="radio4"> PAYPAL </label>
+												<label for="radio4"> CREDIT CARD </label>
 												</div>
 											</li>
 										</ul>
