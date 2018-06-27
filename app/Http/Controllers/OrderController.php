@@ -44,7 +44,7 @@
 			$currentOrderID = $id;
 			$currentOrder = DB::table('tbl_orders')->where('id', $currentOrderID)->update(['status' => 1]);
 	
-			Session::flash('success', 'Order has successfully been approved');
+			Session::flash('success', 'Order #'.$id.'has successfully been approved');
 			return redirect()->back();
       }
 
@@ -53,7 +53,7 @@
 			$currentOrderID = $id;
 			$currentOrder = DB::table('tbl_orders')->where('id', $currentOrderID)->update(['status' => 2]);
 	
-			Session::flash('success', 'Order has successfully been completed');
+			Session::flash('success', 'Order #'.$id.'has successfully been completed');
 			return redirect()->back();
       }
    }

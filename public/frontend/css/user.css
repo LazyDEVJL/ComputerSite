@@ -1,13 +1,12 @@
 .home-carousel .item {
    height: 900px;
    width: 100%;
-   display: flex;
-   overflow: hidden;
 }
 
 .home-carousel .item img {
-   flex-grow: 1;
    object-fit: cover;
+   height: 100%;
+   width: 100%;
 }
 
 .stock {
@@ -35,10 +34,19 @@
    font-weight: bold;
 }
 
+@media screen and (max-width: 1440px) {
+   .home-carousel .item {
+      height: 700px;
+   }
+}
 
 @media screen and (max-width: 1024px) {
    .arrival-block .item img {
       height: 300px !important;
+   }
+
+   .home-carousel .item {
+      height: 500px;
    }
 }
 
@@ -51,6 +59,10 @@
 @media screen and (max-width: 425px) {
    .no-result {
       font-size: 14px;
+   }
+
+   .home-carousel .item {
+      height: 150px;
    }
 }
 

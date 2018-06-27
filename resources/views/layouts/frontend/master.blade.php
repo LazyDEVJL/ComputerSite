@@ -85,12 +85,12 @@
 									<a href="{{action('FrontendController@allProduct')}}">Categories</a>
 									@include('frontend.menuCate')
 								</li>
-								<li>
+								{{-- <li>
 									<a href="#">About </a>
 								</li>
 								<li>
 									<a href="#"> contact</a>
-								</li>
+								</li> --}}
 							</ul>
 						</div>
 
