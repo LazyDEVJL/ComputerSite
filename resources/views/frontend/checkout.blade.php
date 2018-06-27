@@ -73,7 +73,7 @@
                               <p class="all-total">TOTAL COST <span> ${{$totalPrice}}</span></p>
                            </div>
                 
-                           <div class="pay-meth">
+                           {{-- <div class="pay-meth">
 										<ul>
 											<li>
 												<div class="radio">
@@ -88,9 +88,9 @@
 												</div>
 											</li>
 										</ul>
-									</div>
+									</div> --}}
                         </div>
-                        <button type="submit" class="btn btn-dark pull-right margin-top-30">PROCESS TO CONFIRMATION</button>
+                        <button type="submit" class="btn btn-dark pull-right margin-top-30">PLACE ORDER</button>
                      </div>
                   </div>
                </div>

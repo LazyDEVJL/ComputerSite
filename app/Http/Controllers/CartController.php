@@ -122,12 +122,13 @@
          } else {
             $username = $rq->post('username');
             $password = $rq->post('password');
+
             $customer = DB::table('tbl_customers')->where([['username', '=', $username], ['password', '=', $password]])->get();
 
             $carts = getCart()['carts'];
             $total = getCart()['total-cost'];
 
-            if (count($customer) == 1) {
+            if (count($customer) == 1 && $username != null && $password != null) {
                $check = DB::table('tbl_orders')->insert([
                   'customer_id' => $customer[0]->id,
                   'total' => $total
@@ -153,7 +154,7 @@
                   Session::flash('error', 'Failed to place order!');
                   return redirect()->back()->withInput();
                }
-            } elseif (count($customer) == 0) {
+            } else {
                $name = $rq->post('txt_name');
                $phone = $rq->post('txt_phone');
                $email = $rq->post('txt_email');
